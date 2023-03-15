@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./staff.component.css', '../../admin/admin.css'],
 })
 export class StaffComponent implements OnInit {
+  loggedInData: any;
   constructor(private cookieService: CookieService) {}
 
   ngOnInit(): void {
-    console.log(JSON.parse(this.cookieService.get('loggedInData')));
+    this.loggedInData = JSON.parse(this.cookieService.get('loggedInData'));
   }
 }

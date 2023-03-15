@@ -29,7 +29,18 @@ export class AppComponent implements OnInit {
   }
 
   logOut() {
-    const token = this.cookieService.get('authToken');
+    const adminToken = this.cookieService.get('authToken');
+    // console.log(!token);
+    if (!adminToken) {
+      const userAuthToken = this.cookieService.get('userAuthToken');
+      // console.log(userAuthToken);
+      this.callLogOut(userAuthToken);
+    } else {
+      this.callLogOut(adminToken);
+    }
+  }
+
+  callLogOut(token: string) {
     this.authService.logout(token).subscribe(
       (res) => {
         this.cookieService.deleteAll();
