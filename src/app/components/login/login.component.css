@@ -1,0 +1,25 @@
+.loginForm {
+  margin-top: 20vh;
+  position: relative;
+}
+
+.form-control {
+  padding: 10px;
+  border: 1px solid grey;
+  border-radius: 0px;
+}
+
+.btn {
+  border-radius: 0px;
+  border: 1px solid;
+}
+
+.form-signin {
+  border: 1px solid lightseagreen;
+  padding: 30px;
+  height: 450px;
+}
+
+form {
+  margin-top: 60px;
+}

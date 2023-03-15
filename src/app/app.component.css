@@ -1,0 +1,12 @@
+i {
+  color: white;
+  font-size: 25px;
+}
+
+nav {
+  background: #313844;
+}
+
+.logo {
+  filter: invert(1);
+}

@@ -1,0 +1,287 @@
+<!-- <input type="checkbox" id="menu-toggle" />
+<div class="sidebar">
+  <div class="side-content">
+    <div class="side-menu">
+      <ul>
+        <li>
+          <a routerLink="/admin">
+            <span class="las la-home"></span>
+            <small>Dashboard</small>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin/department">
+            <span>
+              <i class="fa-solid fa-building-user"></i>
+            </span>
+            <small>Department</small>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin/staff">
+            <span class="las la-user-alt"></span>
+            <small>Staff</small>
+          </a>
+        </li>
+        <li>
+          <a>
+            <span>
+              <i class="fa-solid fa-money-check-dollar"></i>
+            </span>
+            <small>Salary</small>
+          </a>
+        </li>
+        <li>
+          <a>
+            <span>
+              <i class="fa-solid fa-person-walking-arrow-right"></i>
+            </span>
+            <small>Leave Request</small>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div> -->
+<app-sidebar></app-sidebar>
+
+<div class="main-content">
+  <header>
+    <div class="header-content">
+      <div class="mt-3 py-3">
+        <small>Home / Department</small>
+      </div>
+      <div class="header-menu ms-auto py-3 mt-3">
+        <label for="">
+          <span class="las la-search"></span>
+        </label>
+
+        <div class="notify-icon">
+          <span class="las la-envelope"></span>
+          <span class="notify">4</span>
+        </div>
+
+        <div class="notify-icon">
+          <span class="las la-bell"></span>
+          <span class="notify">3</span>
+        </div>
+
+        <label for="menu-toggle">
+          <span class="las la-bars"></span>
+        </label>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="page-content">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">Department</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-secondary"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+            (click)="generateRandomDeptID()"
+          >
+            Add Department
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead class="bg-white">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Department id</th>
+              <th scope="col">Department</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let dept of alldept; let i = index">
+              <td>{{ i + 1 }}</td>
+
+              <td>{{ dept.deptid }}</td>
+              <td>{{ dept.dname }}</td>
+              <td>
+                <div class="btn-group">
+                  <button
+                    class="btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop1"
+                    (click)="editData(dept)"
+                  >
+                    <span
+                      class="las la-pencil-alt text-warning action-icon icon-left"
+                    ></span>
+                  </button>
+                  <button class="btn" (click)="deleteSubmit(dept.deptid)">
+                    <span
+                      class="las la-trash-alt text-danger action-icon icon-right"
+                    ></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Add Department Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          Add department
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form #deptForm="ngForm" (ngSubmit)="deptSubmit()">
+          <div class="form-group">
+            <label for="deptid">Department ID</label>
+            <input
+              type="text"
+              id="deptid"
+              name="deptid"
+              [(ngModel)]="deptData.deptid"
+              disabled="true"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="dname" class="form-label">Department name</label>
+            <input
+              type="text"
+              id="dname"
+              name="dname"
+              [(ngModel)]="deptData.dname"
+              #dname="ngModel"
+              required
+              placeholder="department name"
+              class="form-control"
+            />
+            <div
+              class="alert mt-2 alert-danger"
+              *ngIf="dname.invalid && dname.touched"
+            >
+              Please enter department name!
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              (click)="resetForm()"
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              class="btn btn-info"
+              data-bs-dismiss="modal"
+              [disabled]="!deptForm.valid"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit department model -->
+<div
+  class="modal fade"
+  id="staticBackdrop1"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          Edit department
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form #deptForm="ngForm" (ngSubmit)="updateSubmit()">
+          <div class="form-group">
+            <label for="deptid">Department ID</label>
+            <input
+              type="text"
+              id="deptid"
+              name="deptid"
+              [(ngModel)]="editableDept.deptid"
+              disabled="true"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="dname" class="form-label">Department name</label>
+            <input
+              type="text"
+              id="dname"
+              name="dname"
+              [(ngModel)]="editableDept.dname"
+              required
+              placeholder="department name"
+              class="form-control"
+            />
+            <!-- <div
+              class="alert mt-2 alert-danger"
+              *ngIf="dname.invalid && dname.touched"
+            >
+              Please enter department name!
+            </div> -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+              (click)="callNgOn()"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-info" data-bs-dismiss="modal">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
