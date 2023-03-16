@@ -12,6 +12,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { AdminStaffComponent } from './admin/admin-staff/admin-staff.component';
 import { AdminDepartmentComponent } from './admin/admin-department/admin-department.component';
 import { SidebarComponent } from './admin/sidebar/sidebar.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { SidebarStaffComponent } from './components/sidebar-staff/sidebar-staff.component';
+import { HeaderComponent } from './admin/header/header.component';
+import { HeaderStaffComponent } from './components/header-staff/header-staff.component';
+import { StaffAttendanceComponent } from './components/staff-attendance/staff-attendance.component';
+// import interactionPlugin from '@fullcalendar/interaction';
+// import dayGridPlugin from '@fullcalendar/daygrid';
 
 @NgModule({
   declarations: [
@@ -22,8 +29,18 @@ import { SidebarComponent } from './admin/sidebar/sidebar.component';
     AdminDepartmentComponent,
     SidebarComponent,
     StaffComponent,
+    SidebarStaffComponent,
+    HeaderComponent,
+    HeaderStaffComponent,
+    StaffAttendanceComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    FullCalendarModule,
+  ],
   providers: [CookieService],
   bootstrap: [AppComponent],
 })

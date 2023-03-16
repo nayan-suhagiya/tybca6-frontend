@@ -11,6 +11,7 @@ import * as moment from 'moment';
   styleUrls: ['../admin.css'],
 })
 export class AdminStaffComponent implements OnInit {
+  dpart = 'Staff';
   @ViewChild('staffForm') staffForm: NgForm;
   staffData: Staff = new Staff();
   imageSrc: string;

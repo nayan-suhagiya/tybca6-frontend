@@ -1,5 +1,8 @@
+import { StaffService } from './../../services/staff.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
+import { CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
 
 @Component({
   selector: 'app-staff',
@@ -8,9 +11,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StaffComponent implements OnInit {
   loggedInData: any;
-  constructor(private cookieService: CookieService) {}
+  constructor(
+    private cookieService: CookieService,
+    private staffService: StaffService
+  ) {}
 
   ngOnInit(): void {
-    this.loggedInData = JSON.parse(this.cookieService.get('loggedInData'));
+    this.loggedInData = this.staffService.loggednInData();
   }
 }

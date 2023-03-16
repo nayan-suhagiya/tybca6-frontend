@@ -1,3 +1,4 @@
+import { StaffAttendanceComponent } from './components/staff-attendance/staff-attendance.component';
 import { StaffComponent } from './components/staff/staff.component';
 import { AdminDepartmentComponent } from './admin/admin-department/admin-department.component';
 import { AdminStaffComponent } from './admin/admin-staff/admin-staff.component';
@@ -35,6 +36,12 @@ const routes: Routes = [
   {
     path: 'staff',
     component: StaffComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'staff/attendance',
+    component: StaffAttendanceComponent,
+    canActivate: [AuthGuard],
   },
 ];
 

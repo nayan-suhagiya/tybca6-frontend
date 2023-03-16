@@ -9,6 +9,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['../admin.css'],
 })
 export class AdminDepartmentComponent implements OnInit {
+  dpart = 'Department';
   @ViewChild('deptForm') deptForm: NgForm;
   deptData: Dept = new Dept();
   alldept: any;

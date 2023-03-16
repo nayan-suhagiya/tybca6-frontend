@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class AdminComponent implements OnInit {
   totalDept: number;
   totalStaffMemeber: number;
+  dpart = 'Dashboard';
 
   constructor(
     private deptService: DeptService,
