@@ -53,16 +53,6 @@ export class StaffAttendanceComponent implements OnInit {
         };
         return;
       }
-      // } else {
-      //   this.calendarOptions = {
-      //     initialView: 'dayGridMonth',
-      //     plugins: [dayGridPlugin],
-      //     events: [
-      //       // { title: 'P', date: this.date, color: '#388007' },
-      //       { title: 'A', date: this.date, color: '#dc3545' },
-      //     ],
-      //   };
-      // }
     }
   }
 }

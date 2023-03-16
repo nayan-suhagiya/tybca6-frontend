@@ -11,12 +11,35 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 })
 export class StaffComponent implements OnInit {
   loggedInData: any;
+  present: boolean;
+
   constructor(
     private cookieService: CookieService,
     private staffService: StaffService
   ) {}
 
   ngOnInit(): void {
+    this.present = this.staffService.isCheckedIn();
     this.loggedInData = this.staffService.loggednInData();
+  }
+
+  checkIn() {
+    const empid = this.loggedInData.empid;
+
+    this.staffService.checkIn({ empid }).subscribe(
+      (res) => {
+        // console.log(res);
+        if (res.present) {
+          this.cookieService.set('isCheckedIn', 'true');
+          this.cookieService.set('checkInDetails', JSON.stringify(res));
+          this.ngOnInit();
+        } else {
+          alert('something went wrong!');
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }

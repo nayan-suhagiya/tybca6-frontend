@@ -77,49 +77,4 @@ export class StaffService {
       return false;
     }
   }
-
-  getDataOfCheckInStaff() {
-    const checkInDetails = this.cookieService.get('checkInDetails');
-
-    if (!checkInDetails) {
-      this.calendarOptions = {
-        initialView: 'dayGridMonth',
-        plugins: [dayGridPlugin],
-        events: [
-          // { title: 'P', date: this.date, color: '#388007' },
-          {
-            title: 'A',
-            date: moment(new Date()).format('YYYY-MM-DD'),
-            color: '#dc3545',
-          },
-        ],
-      };
-    } else {
-      this.checkInDetails = JSON.parse(checkInDetails);
-
-      this.date = moment(this.checkInDetails.checkinDate).format('YYYY-MM-DD');
-
-      if (this.checkInDetails.present) {
-        this.calendarOptions = {
-          initialView: 'dayGridMonth',
-          plugins: [dayGridPlugin],
-          events: [
-            { title: 'P', date: this.date, color: '#388007' },
-            // { title: 'A', date: '2023-03-17', color: '#dc3545' },
-          ],
-        };
-        return;
-      }
-      // } else {
-      //   this.calendarOptions = {
-      //     initialView: 'dayGridMonth',
-      //     plugins: [dayGridPlugin],
-      //     events: [
-      //       // { title: 'P', date: this.date, color: '#388007' },
-      //       { title: 'A', date: this.date, color: '#dc3545' },
-      //     ],
-      //   };
-      // }
-    }
-  }
 }

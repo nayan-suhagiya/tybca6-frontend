@@ -15,10 +15,13 @@
               <div class="indicator two" style="width: 100%"></div>
             </div>
           </div>
-          <div routerLink="/staff/attendance" class="text-center link-page">
-            <small
-              >View more! <i class="fa-solid fa-arrow-up-right-from-square"></i
-            ></small>
+          <div class="checkin mb-2 p-1" (click)="checkIn()" *ngIf="!present">
+            <span class="me-2">check in </span>
+            <span class="las la-user-check"></span>
+          </div>
+          <div class="checkin mb-2 p-1" *ngIf="present">
+            <span class="me-2">check out </span>
+            <span class="las la-user-check"></span>
           </div>
         </div>
       </div>
