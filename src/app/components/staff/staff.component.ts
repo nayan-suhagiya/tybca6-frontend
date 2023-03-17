@@ -1,8 +1,7 @@
 import { StaffService } from './../../services/staff.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-staff',
@@ -11,6 +10,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 })
 export class StaffComponent implements OnInit {
   loggedInData: any;
+  // checkin: boolean = false;
+  // checkout: boolean = false;
 
   constructor(
     private cookieService: CookieService,
@@ -24,15 +25,59 @@ export class StaffComponent implements OnInit {
   checkIn() {
     const empid = this.loggedInData.empid;
 
-    this.staffService.checkIn({ empid }).subscribe(
+    this.staffService.checkInTableDetails().subscribe(
       (res) => {
+        res = res.filter((data) => {
+          return data.empid == this.loggedInData.empid;
+        });
         // console.log(res);
-        if (res.present) {
-          // this.cookieService.set('isCheckedIn', 'true');
-          this.cookieService.set('checkInDetails', JSON.stringify(res));
-          this.ngOnInit();
+
+        if (res.length <= 0) {
+          this.staffService.checkIn({ empid }).subscribe(
+            (res) => {
+              // console.log(res);
+              if (res.present) {
+                // this.cookieService.set('isCheckedIn', 'true');
+                alert('checked in!');
+                this.cookieService.set('checkInDetails', JSON.stringify(res));
+                this.ngOnInit();
+              } else {
+                alert('something went wrong!');
+              }
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
         } else {
-          alert('something went wrong!');
+          const today = moment(new Date()).format('YYYY-MM-DD');
+
+          for (let checkin of res) {
+            // console.log(checkin);
+            if (today == moment(checkin.checkin).format('YYYY-MM-DD')) {
+              alert('already checked in!');
+            } else {
+              this.staffService.checkIn({ empid }).subscribe(
+                (res) => {
+                  // console.log(res);
+                  if (res.present) {
+                    // this.cookieService.set('isCheckedIn', 'true');
+                    alert('checked in!');
+                    this.cookieService.set(
+                      'checkInDetails',
+                      JSON.stringify(res)
+                    );
+                    this.ngOnInit();
+                  } else {
+                    alert('something went wrong!');
+                  }
+                },
+                (err) => {
+                  console.log(err);
+                }
+              );
+            }
+          }
         }
       },
       (err) => {
@@ -44,6 +89,63 @@ export class StaffComponent implements OnInit {
   checkOut() {
     const empid = this.loggedInData.empid;
 
+    this.staffService.checkInTableDetails().subscribe(
+      (res) => {
+        res = res.filter((data) => {
+          return data.empid == this.loggedInData.empid;
+        });
+        // console.log(res);
+
+        if (res.length <= 0) {
+          this.staffService.checkOut({ empid }).subscribe(
+            (res) => {
+              // console.log(res);
+              if (res.present == false) {
+                // this.ngOnInit();
+                alert('checked out!');
+              } else {
+                console.log('something went wrong!');
+              }
+            },
+            (err) => {
+              // console.log(err);
+              alert('please first checkin!');
+            }
+          );
+        } else {
+          const today = moment(new Date()).format('YYYY-MM-DD');
+
+          for (let checkin of res) {
+            console.log(checkin);
+
+            if (today == moment(checkin.checkout).format('YYYY-MM-DD')) {
+              alert('already checked out!');
+            } else {
+              this.staffService.checkOut({ empid }).subscribe(
+                (res) => {
+                  // console.log(res);
+                  if (res.present == false) {
+                    // this.ngOnInit();
+                    alert('checked out!');
+                  } else {
+                    console.log('something went wrong!');
+                  }
+                },
+                (err) => {
+                  // console.log(err);
+                  alert('please first checkin!');
+                }
+              );
+            }
+          }
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
+    /*
     this.staffService.checkOut({ empid }).subscribe(
       (res) => {
         // console.log(res);
@@ -57,5 +159,6 @@ export class StaffComponent implements OnInit {
         console.log(err);
       }
     );
+    */
   }
 }

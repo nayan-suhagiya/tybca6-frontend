@@ -33,17 +33,20 @@ export class StaffAttendanceComponent implements OnInit {
     this.staffService.checkInTableDetails().subscribe(
       (res) => {
         // console.log(res);
+
+        res = res.filter((data) => {
+          return data.empid == this.loggedInData.empid;
+        });
+
+        // console.log(res);
+
         for (let i = 0; i < res.length; i++) {
           const date = moment(res[i].checkin).format('YYYY-MM-DD');
-          // const event = {
-          //   title: 'P',
-          //   date: date,
-          //   color: '#388007',
-          // };
           this.events.push({ title: 'P', date: date, color: '#388007' });
         }
         // console.log(this.events);
         this.calendarOptions.events = this.events;
+        return;
       },
       (err) => {
         alert('data not loaded!');

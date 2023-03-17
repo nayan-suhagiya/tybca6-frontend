@@ -58,7 +58,7 @@ export class StaffService {
 
   setStaffHeader() {
     const staffToken = this.cookieService.get('userAuthToken');
-    console.log(staffToken);
+    // console.log(staffToken);
 
     return new HttpHeaders().set('Authorization', 'Bearer ' + staffToken);
   }
