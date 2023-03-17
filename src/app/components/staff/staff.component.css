@@ -17,3 +17,9 @@ header {
 .checkin .las {
   font-size: 25px;
 }
+
+.setCheckBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

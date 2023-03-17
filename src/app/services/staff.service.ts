@@ -68,13 +68,9 @@ export class StaffService {
     });
   }
 
-  isCheckedIn() {
-    const isCheckedIn = this.cookieService.get('isCheckedIn');
-
-    if (isCheckedIn == 'true') {
-      return true;
-    } else {
-      return false;
-    }
+  checkOut(data: any): Observable<any> {
+    return this.http.patch('http://localhost:5000/staff/check-out', data, {
+      headers: this.setStaffHeader(),
+    });
   }
 }

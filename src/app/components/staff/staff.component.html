@@ -15,13 +15,15 @@
               <div class="indicator two" style="width: 100%"></div>
             </div>
           </div>
-          <div class="checkin mb-2 p-1" (click)="checkIn()" *ngIf="!present">
-            <span class="me-2">check in </span>
-            <span class="las la-user-check"></span>
-          </div>
-          <div class="checkin mb-2 p-1" *ngIf="present">
-            <span class="me-2">check out </span>
-            <span class="las la-user-check"></span>
+          <div class="setCheckBtn">
+            <button class="checkin mb-2 p-1 border-0" (click)="checkIn()">
+              <span class="me-2">check in </span>
+              <span class="las la-user-check"></span>
+            </button>
+            <button class="checkin mb-2 p-1 border-0" (click)="checkOut()">
+              <span class="me-2">check out </span>
+              <span class="las la-user-check"></span>
+            </button>
           </div>
         </div>
       </div>
