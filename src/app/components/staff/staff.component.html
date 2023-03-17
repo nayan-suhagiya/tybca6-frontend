@@ -16,11 +16,19 @@
             </div>
           </div>
           <div class="setCheckBtn">
-            <button class="checkin mb-2 p-1 border-0" (click)="checkIn()">
+            <button
+              class="checkin mb-2 p-1 border-0"
+              (click)="checkIn()"
+              [hidden]="checkin"
+            >
               <span class="me-2">check in </span>
               <span class="las la-user-check"></span>
             </button>
-            <button class="checkin mb-2 p-1 border-0" (click)="checkOut()">
+            <button
+              class="checkin mb-2 p-1 border-0"
+              (click)="checkOut()"
+              [hidden]="checkout"
+            >
               <span class="me-2">check out </span>
               <span class="las la-user-check"></span>
             </button>
