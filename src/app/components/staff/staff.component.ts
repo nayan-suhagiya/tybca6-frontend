@@ -12,6 +12,7 @@ export class StaffComponent implements OnInit {
   loggedInData: any;
   checkin;
   checkout;
+  date: string = new Date().toString();
 
   constructor(
     private cookieService: CookieService,
@@ -19,6 +20,9 @@ export class StaffComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    setInterval(() => {
+      this.date = new Date().toString();
+    }, 1000);
     this.loggedInData = this.staffService.loggednInData();
 
     this.staffService.checkInTableDetails().subscribe((res) => {

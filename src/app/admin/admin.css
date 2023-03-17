@@ -8,14 +8,15 @@
 
 .sidebar {
   position: fixed;
-  height: calc(100vh - 71px);
-  width: 165px;
+  height: 100vh;
+  width: 195px;
   left: 0;
   bottom: 0;
   top: auto;
   z-index: 100;
   /* background: #34425a; */
-  background: #212529;
+  /* background: #212529; */
+  background-color: #f1f4f9;
   transition: left 300ms;
 }
 
@@ -98,12 +99,12 @@ side-head span {
 
 .side-menu a {
   display: block;
-  padding: 1.2rem 0rem;
+  padding: 0.4rem 0rem;
   text-decoration: none;
 }
 
 .side-menu a.active {
-  background: #2b384e;
+  background: #f1f4f9;
 }
 
 .side-menu a.active span,
@@ -119,7 +120,8 @@ side-head span {
 
 .side-menu a span,
 .side-menu a small {
-  color: #899dc1;
+  /* color: #899dc1; */
+  color: #000;
 }
 
 .la-bars {
@@ -155,23 +157,23 @@ side-head span {
 } */
 
 .main-content {
-  margin-top: 71px;
-  margin-left: 165px;
-  width: calc(100% - 165px);
+  /* margin-top: 71px; */
+  margin-left: 195px;
+  width: calc(100% - 195px);
   transition: margin-left 300ms;
 }
 
-/* header {
-  position: absolute;
-  right: 0;
+header {
+  /* position: absolute; */
+  /* right: 0;
   top: auto;
-  left: 165px;
-  z-index: 100;
-  height: 60px;
+  left: 190px;
+  z-index: 100; */
+  /* height: 66px; */
   box-shadow: 0px 5px 5px -5px rgb(0 0 0 /10%);
-  background: #fff;
+  background-color: #f1f4f9;
   transition: left 300ms;
-} */
+}
 
 .header-content,
 .header-menu {
@@ -254,8 +256,8 @@ side-head span {
 }
 
 .page-content {
-  padding: 1.3rem 1rem;
-  background: #f1f4f9;
+  padding: 1.8rem 1rem;
+  /* background: #f1f4f9; */
 }
 
 .analytics {
@@ -484,7 +486,7 @@ table tbody tr {
   }
 
   .sidebar {
-    left: -165px;
+    left: -195px;
     z-index: 90;
   }
 
@@ -503,7 +505,7 @@ table tbody tr {
   }
 
   #menu-toggle:checked ~ .sidebar {
-    width: 165px;
+    width: 195px;
   }
 
   #menu-toggle:checked ~ .sidebar .side-header span {
@@ -559,4 +561,21 @@ table tbody tr {
 
 .icon-right {
   padding-left: 5px;
+}
+
+/* .side-menu ul li a {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+} */
+
+.user-icon {
+  font-size: 18px;
+  /* border: 1px solid;
+  padding: 2px 6px;
+  border-radius: 360%; */
+}
+
+.logo {
+  filter: invert(1);
 }

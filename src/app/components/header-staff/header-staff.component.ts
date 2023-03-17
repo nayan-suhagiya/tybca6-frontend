@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AuthService } from './../../services/auth.service';
 import { StaffService } from './../../services/staff.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
@@ -13,8 +15,43 @@ export class HeaderStaffComponent implements OnInit {
 
   constructor(
     private cookieService: CookieService,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (!this.authService.isLogin()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+  }
+
+  isLogin() {
+    return this.authService.isLogin();
+  }
+
+  logOut() {
+    const adminToken = this.cookieService.get('authToken');
+    // console.log(!token);
+    if (!adminToken) {
+      const userAuthToken = this.cookieService.get('userAuthToken');
+      // console.log(userAuthToken);
+      this.callLogOut(userAuthToken);
+    } else {
+      this.callLogOut(adminToken);
+    }
+  }
+
+  callLogOut(token: string) {
+    this.authService.logout(token).subscribe(
+      (res) => {
+        this.cookieService.deleteAll();
+        this.router.navigate(['/login']);
+      },
+      (err) => {
+        console.log('unable to logout', err);
+      }
+    );
+  }
 }

@@ -18,12 +18,15 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    /*
     if (!this.authService.isLogin()) {
       this.router.navigate(['/login']);
       return;
     }
+    */
   }
 
+  /*
   isLogin() {
     return this.authService.isLogin();
   }
@@ -51,4 +54,5 @@ export class AppComponent implements OnInit {
       }
     );
   }
+  */
 }

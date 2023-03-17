@@ -1,5 +1,5 @@
 .loginForm {
-  margin-top: 20vh;
+  margin-top: 13vh;
   position: relative;
 }
 
@@ -21,5 +21,10 @@
 }
 
 form {
-  margin-top: 60px;
+  margin-top: 30px;
+}
+
+.logo {
+  filter: invert(1);
+  margin-bottom: 30px;
 }

@@ -13,9 +13,13 @@
         <span class="notify">4</span>
       </div>
 
-      <div class="notify-icon">
-        <span class="las la-bell"></span>
-        <span class="notify">3</span>
+      <div
+        class="text-primary text-decoration-underline"
+        (click)="logOut()"
+        style="cursor: pointer"
+      >
+        <span class="las la-sign-out-alt" style="font-size: 1.3rem"></span>
+        <span>logout</span>
       </div>
 
       <label for="menu-toggle">

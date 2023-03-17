@@ -6,11 +6,11 @@
       <div class="analytics">
         <div class="card">
           <div class="card-head">
-            <h2>Attendance</h2>
+            <h2>{{ date | date : "mediumDate" }}</h2>
             <span class="las la-users"></span>
           </div>
           <div class="card-progress">
-            <small>checkin and checkout</small>
+            <small>{{ date | date : "mediumTime" }}</small>
             <div class="card-indicator">
               <div class="indicator two" style="width: 100%"></div>
             </div>

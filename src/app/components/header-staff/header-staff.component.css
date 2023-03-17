@@ -1,4 +1,4 @@
-.checkin {
+/* .checkin {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,4 +8,11 @@
 
 .checkin .las {
   font-size: 25px;
+} */
+
+.user-icon {
+  font-size: 18px;
+  border: 1px solid;
+  padding: 4px 6px;
+  border-radius: 360%;
 }

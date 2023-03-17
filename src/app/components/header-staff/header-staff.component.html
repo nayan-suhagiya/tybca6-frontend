@@ -1,7 +1,11 @@
 <header>
   <div class="header-content">
     <div class="mt-3 py-3">
-      <small>Welcome : {{ loggedInData.fname }}</small>
+      <div class="text-primary text-decoration-underline">
+        <!-- <span class="las la-user-circle"></span> -->
+        <span class="user-icon me-2"><i class="fa-regular fa-user"></i></span>
+        <span>Hi {{ loggedInData.fname }}</span>
+      </div>
     </div>
     <div class="header-menu ms-auto py-3 mt-3">
       <label for="">
@@ -13,9 +17,13 @@
         <span class="notify">4</span>
       </div>
 
-      <div class="notify-icon">
-        <span class="las la-bell"></span>
-        <span class="notify">3</span>
+      <div
+        class="text-primary text-decoration-underline"
+        (click)="logOut()"
+        style="cursor: pointer"
+      >
+        <span class="las la-sign-out-alt" style="font-size: 1.3rem"></span>
+        <span>logout</span>
       </div>
 
       <label for="menu-toggle" class="mb-2">
