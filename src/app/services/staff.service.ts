@@ -58,6 +58,7 @@ export class StaffService {
 
   setStaffHeader() {
     const staffToken = this.cookieService.get('userAuthToken');
+    console.log(staffToken);
 
     return new HttpHeaders().set('Authorization', 'Bearer ' + staffToken);
   }
@@ -70,6 +71,12 @@ export class StaffService {
 
   checkOut(data: any): Observable<any> {
     return this.http.patch('http://localhost:5000/staff/check-out', data, {
+      headers: this.setStaffHeader(),
+    });
+  }
+
+  checkInTableDetails(): Observable<any> {
+    return this.http.get('http://localhost:5000/staff/check-details', {
       headers: this.setStaffHeader(),
     });
   }

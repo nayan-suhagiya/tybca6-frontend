@@ -13,15 +13,43 @@ import * as moment from 'moment';
 export class StaffAttendanceComponent implements OnInit {
   loggedInData: any;
   checkInDetails: any;
-  date: string;
+  events: Array<{ title: string; date: string; color: string }> = [];
   calendarOptions: CalendarOptions;
   constructor(
     private cookieService: CookieService,
     private staffService: StaffService
   ) {}
+
+  // console.log(this.events);
   ngOnInit(): void {
     this.loggedInData = this.staffService.loggednInData();
 
+    this.calendarOptions = {
+      initialView: 'dayGridMonth',
+      plugins: [dayGridPlugin],
+      events: [],
+    };
+
+    this.staffService.checkInTableDetails().subscribe(
+      (res) => {
+        // console.log(res);
+        for (let i = 0; i < res.length; i++) {
+          const date = moment(res[i].checkin).format('YYYY-MM-DD');
+          // const event = {
+          //   title: 'P',
+          //   date: date,
+          //   color: '#388007',
+          // };
+          this.events.push({ title: 'P', date: date, color: '#388007' });
+        }
+        // console.log(this.events);
+        this.calendarOptions.events = this.events;
+      },
+      (err) => {
+        alert('data not loaded!');
+      }
+    );
+    /*
     const checkInDetails = this.cookieService.get('checkInDetails');
 
     if (!checkInDetails) {
@@ -54,5 +82,6 @@ export class StaffAttendanceComponent implements OnInit {
         return;
       }
     }
+    */
   }
 }
