@@ -1,5 +1,5 @@
 import { StaffComponent } from './components/staff/staff.component';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +17,8 @@ import { SidebarStaffComponent } from './components/sidebar-staff/sidebar-staff.
 import { HeaderComponent } from './admin/header/header.component';
 import { HeaderStaffComponent } from './components/header-staff/header-staff.component';
 import { StaffAttendanceComponent } from './components/staff-attendance/staff-attendance.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -38,8 +40,12 @@ import { StaffAttendanceComponent } from './components/staff-attendance/staff-at
     FormsModule,
     HttpClientModule,
     FullCalendarModule,
+    NgxSpinnerModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
+    BrowserAnimationsModule,
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

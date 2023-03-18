@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Login } from 'src/app/models/Login';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -18,16 +19,19 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {}
 
   loginSubmit() {
+    this.spinner.show();
     this.authService.login(this.loginData).subscribe(
       (res: any) => {
         this.loginForm.reset();
         if (res.role == 'admin') {
+          this.spinner.hide();
           this.router.navigate(['/admin']);
           this.cookieService.set('isLogin', 'true', {
             expires: new Date(Date.now() + 90000000),
@@ -36,6 +40,7 @@ export class LoginComponent implements OnInit {
             expires: new Date(Date.now() + 90000000),
           });
         } else if (res.role == 'user') {
+          this.spinner.hide();
           this.cookieService.set('loggedInData', JSON.stringify(res));
           this.router.navigate(['/staff']);
           this.cookieService.set('isLogin', 'true', {
@@ -48,6 +53,7 @@ export class LoginComponent implements OnInit {
         }
       },
       (err) => {
+        this.spinner.hide();
         if (err.error.message == undefined) {
           Swal.fire('Warning!', 'Check credentials!', 'warning');
         } else {
