@@ -2,6 +2,7 @@ import { DeptService } from './../../services/dept.service';
 import { NgForm } from '@angular/forms';
 import { Dept } from './../../models/Dept';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-department',
@@ -20,9 +21,7 @@ export class AdminDepartmentComponent implements OnInit {
   ngOnInit(): void {
     this.deptService.getDepartments().subscribe(
       (res) => {
-        // console.log(res);
         this.alldept = res;
-        // console.log(this.alldept.length);
       },
       (err) => {
         console.log(err);
@@ -33,70 +32,70 @@ export class AdminDepartmentComponent implements OnInit {
   deptSubmit() {
     this.deptService.addDepartment(this.deptData).subscribe(
       (res) => {
-        // console.log(res);
         this.deptForm.reset();
         if (res.inserted) {
-          alert('Added!');
+          Swal.fire('Success!', 'Department Added!', 'success');
           this.ngOnInit();
         } else {
-          throw new Error('Unable to insert');
+          Swal.fire('Oops!', 'Unable to add!', 'error');
         }
       },
       (err) => {
-        console.log(err);
+        Swal.fire('Oops!', 'Unable to add!', 'error');
       }
     );
   }
 
   editData(singleDept: Dept) {
-    // console.log(singleDept);
     this.editableDept = singleDept;
-    // console.log(this.editableDept);
   }
 
   updateSubmit() {
-    // console.log(this.deptData);
     this.deptService.updateDepartment(this.editableDept).subscribe(
       (res) => {
-        // console.log(res);
         if (res.updated) {
-          alert('Updated!');
+          Swal.fire('Success!', 'Department Updated!', 'success');
           this.ngOnInit();
         } else {
-          throw new Error('Unable to update');
+          Swal.fire('Oops!', 'Unable to update!', 'error');
         }
       },
       (err) => {
-        console.log(err);
+        Swal.fire('Oops!', 'Unable to update!', 'error');
       }
     );
   }
 
   deleteSubmit(deptid: string) {
-    const conf = confirm(
-      'your staff data also deleted which is belong from this department!'
-    );
-    if (conf == true) {
-      try {
-        this.deptService.deleteDepartment(deptid).subscribe(
-          (res) => {
-            // console.log(res);
-            if (res.deleted) {
-              // alert('deleted');
-              this.ngOnInit();
-            } else {
-              throw new Error('Unable to delete');
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Your staff data also deleted which is belong from this department!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          this.deptService.deleteDepartment(deptid).subscribe(
+            (res) => {
+              if (res.deleted) {
+                this.ngOnInit();
+              } else {
+                Swal.fire('Oops!', 'Unable to delete!', 'error');
+              }
+            },
+            (err) => {
+              Swal.fire('Oops!', 'Unable to delete!', 'error');
             }
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
-        return;
-      } catch (error) {
-        alert('connot deleted!');
+          );
+          return;
+        } catch (error) {
+          Swal.fire('Oops!', 'Unable to delete!', 'error');
+        }
       }
-    }
+    });
   }
 
   generateRandomDeptID() {

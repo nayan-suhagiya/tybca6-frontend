@@ -2,6 +2,7 @@ import { StaffService } from './../../services/staff.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-staff',
@@ -29,11 +30,8 @@ export class StaffComponent implements OnInit {
       res = res.filter((data) => {
         return data.empid == this.loggedInData.empid;
       });
-      // console.log(res);
 
       for (let checkin of res) {
-        // console.log(checkin);
-
         if (
           checkin.checkin !== null &&
           moment(checkin.checkin).format('YYYY-MM-DD') ==
@@ -65,18 +63,16 @@ export class StaffComponent implements OnInit {
         res = res.filter((data) => {
           return data.empid == this.loggedInData.empid;
         });
-        // console.log(res);
 
         if (res.length <= 0) {
           this.staffService.checkIn({ empid }).subscribe(
             (res) => {
-              // console.log(res);
               if (res.present) {
-                alert('checked in!');
+                Swal.fire('Success!', 'Checked IN!', 'success');
                 this.cookieService.set('checkInDetails', JSON.stringify(res));
                 this.ngOnInit();
               } else {
-                alert('something went wrong!');
+                Swal.fire('Warning!', 'Something went wrong!', 'warning');
               }
             },
             (err) => {
@@ -87,22 +83,20 @@ export class StaffComponent implements OnInit {
           const today = moment(new Date()).format('YYYY-MM-DD');
 
           for (let checkin of res) {
-            // console.log(checkin);
             if (today == moment(checkin.checkin).format('YYYY-MM-DD')) {
-              alert('already checked in!');
+              Swal.fire('Warning!', 'Already checked in!', 'warning');
             } else {
               this.staffService.checkIn({ empid }).subscribe(
                 (res) => {
-                  // console.log(res);
                   if (res.present) {
-                    alert('checked in!');
+                    Swal.fire('Success!', 'Checked IN!', 'success');
                     this.cookieService.set(
                       'checkInDetails',
                       JSON.stringify(res)
                     );
                     this.ngOnInit();
                   } else {
-                    alert('something went wrong!');
+                    Swal.fire('Warning!', 'Something went wrong!', 'warning');
                   }
                 },
                 (err) => {
@@ -127,46 +121,39 @@ export class StaffComponent implements OnInit {
         res = res.filter((data) => {
           return data.empid == this.loggedInData.empid;
         });
-        // console.log(res);
 
         if (res.length <= 0) {
           this.staffService.checkOut({ empid }).subscribe(
             (res) => {
-              // console.log(res);
               if (res.present == false) {
                 this.ngOnInit();
-                alert('checked out!');
+                Swal.fire('Success!', 'Checked OUT!', 'success');
               } else {
-                console.log('something went wrong!');
+                Swal.fire('Warning!', 'Something went wrong!', 'warning');
               }
             },
             (err) => {
-              // console.log(err);
-              alert('please first checkin!');
+              Swal.fire('Warning!', 'Please first checkIN!', 'warning');
             }
           );
         } else {
           const today = moment(new Date()).format('YYYY-MM-DD');
 
           for (let checkin of res) {
-            // console.log(checkin);
-
             if (today == moment(checkin.checkout).format('YYYY-MM-DD')) {
-              alert('already checked out!');
+              Swal.fire('Warning!', 'Already checked out!', 'warning');
             } else {
               this.staffService.checkOut({ empid }).subscribe(
                 (res) => {
-                  // console.log(res);
                   if (res.present == false) {
                     this.ngOnInit();
-                    alert('checked out!');
+                    Swal.fire('Success!', 'Checked OUT!', 'success');
                   } else {
-                    console.log('something went wrong!');
+                    Swal.fire('Warning!', 'Something went wrong!', 'warning');
                   }
                 },
                 (err) => {
-                  // console.log(err);
-                  alert('please first checkin!');
+                  Swal.fire('Warning!', 'Please first checkIN!', 'warning');
                 }
               );
             }

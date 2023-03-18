@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Staff } from './../../models/Staff';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-staff',
@@ -29,15 +30,12 @@ export class AdminStaffComponent implements OnInit {
   ngOnInit(): void {
     this.deptService.getDepartments().subscribe(
       (res) => {
-        // console.log(res);
         this.allDeptData = res;
         for (let dept of res) {
-          // console.log(dept);
           if (!this.allDeptName.includes(dept.dname)) {
             this.allDeptName.push(dept.dname);
           }
         }
-        // console.log(this.allDeptName);
       },
       (err) => {
         console.log(err);
@@ -46,8 +44,6 @@ export class AdminStaffComponent implements OnInit {
 
     this.staffService.getStaff().subscribe(
       (res) => {
-        // console.log(res);
-
         for (let i = 0; i < res.length; i++) {
           res[i].dob = moment(res[i].dob).format('YYYY-MM-DD');
           res[i].jdate = moment(res[i].jdate).format('YYYY-MM-DD');
@@ -68,22 +64,21 @@ export class AdminStaffComponent implements OnInit {
 
     this.staffService.addStaff(this.staffData).subscribe(
       (res) => {
-        // console.log(res);
         this.staffForm.reset();
         if (res.inserted) {
-          alert('Added!');
+          Swal.fire('Success!', 'Staff Added!', 'success');
+
           this.ngOnInit();
         }
       },
       (err) => {
-        console.log(err);
+        Swal.fire('Oops!', 'Unable to add!', 'error');
       }
     );
   }
 
   editData(data: Staff) {
     this.editableStaff = data;
-    // console.log(this.editableStaff);
   }
 
   updateSubmit() {
@@ -91,37 +86,42 @@ export class AdminStaffComponent implements OnInit {
       this.editableStaff.email,
       this.editableStaff.mobile
     );
-    // console.log(this.editableStaff);
     this.staffService.updateStaff(this.editableStaff).subscribe(
       (res) => {
         if (res.updated) {
-          alert('updated!');
+          Swal.fire('Success!', 'Staff Update!', 'success');
           this.ngOnInit();
         }
       },
       (err) => {
-        console.log(err);
+        Swal.fire('Oops!', 'Unable to update!', 'error');
       }
     );
   }
 
   deleteData(empid: string) {
-    const conf = confirm('Are you sure?');
-
-    if (conf) {
-      this.staffService.deleteStaff(empid).subscribe(
-        (res) => {
-          // console.log(res);
-          if (res.deleted) {
-            // alert('deleted');
-            this.ngOnInit();
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.staffService.deleteStaff(empid).subscribe(
+          (res) => {
+            if (res.deleted) {
+              this.ngOnInit();
+            }
+          },
+          (err) => {
+            Swal.fire('Oops!', 'Unable to delete!', 'error');
           }
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-    }
+        );
+      }
+    });
   }
 
   generateRandomEmpID() {
@@ -134,29 +134,17 @@ export class AdminStaffComponent implements OnInit {
   }
 
   updateDeptID(dname: string) {
-    // console.log(dname);
-    // console.log(this.allDeptData);
-
     this.staffDept = this.allDeptData.filter((deptdata) => {
-      // console.log(deptdata.dname, deptdata.deptid);
       return dname === deptdata.dname;
     });
-
-    // console.log(this.staffDept);
 
     this.staffData.deptid = this.staffDept[0].deptid;
   }
 
   updateDeptIDEditable(dname: string) {
-    // console.log(dname);
-    // console.log(this.allDeptData);
-
     const deptUpdateData = this.allDeptData.filter((deptdata) => {
-      // console.log(deptdata.dname, deptdata.deptid);
       return dname === deptdata.dname;
     });
-
-    // console.log(deptUpdateData);
 
     this.editableStaff.deptid = deptUpdateData[0].deptid;
   }

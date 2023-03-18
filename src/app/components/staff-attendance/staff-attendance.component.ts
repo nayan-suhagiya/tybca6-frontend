@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-staff-attendance',
@@ -20,7 +21,6 @@ export class StaffAttendanceComponent implements OnInit {
     private staffService: StaffService
   ) {}
 
-  // console.log(this.events);
   ngOnInit(): void {
     this.loggedInData = this.staffService.loggednInData();
 
@@ -32,59 +32,20 @@ export class StaffAttendanceComponent implements OnInit {
 
     this.staffService.checkInTableDetails().subscribe(
       (res) => {
-        // console.log(res);
-
         res = res.filter((data) => {
           return data.empid == this.loggedInData.empid;
         });
-
-        // console.log(res);
 
         for (let i = 0; i < res.length; i++) {
           const date = moment(res[i].checkin).format('YYYY-MM-DD');
           this.events.push({ title: 'P', date: date, color: '#388007' });
         }
-        // console.log(this.events);
         this.calendarOptions.events = this.events;
         return;
       },
       (err) => {
-        alert('data not loaded!');
+        Swal.fire('Error!', 'Data not loaded!', 'error');
       }
     );
-    /*
-    const checkInDetails = this.cookieService.get('checkInDetails');
-
-    if (!checkInDetails) {
-      this.calendarOptions = {
-        initialView: 'dayGridMonth',
-        plugins: [dayGridPlugin],
-        events: [
-          // { title: 'P', date: this.date, color: '#388007' },
-          {
-            title: 'A',
-            date: moment(new Date()).format('YYYY-MM-DD'),
-            color: '#dc3545',
-          },
-        ],
-      };
-    } else {
-      this.checkInDetails = JSON.parse(checkInDetails);
-
-      this.date = moment(this.checkInDetails.checkinDate).format('YYYY-MM-DD');
-
-      if (this.checkInDetails.present) {
-        this.calendarOptions = {
-          initialView: 'dayGridMonth',
-          plugins: [dayGridPlugin],
-          events: [
-            { title: 'P', date: this.date, color: '#388007' },
-            // { title: 'A', date: '2023-03-17', color: '#dc3545' },
-          ],
-        };
-        return;
-      }
-    }
-    */
   }
 }

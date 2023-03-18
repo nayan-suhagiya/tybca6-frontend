@@ -4,6 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Login } from 'src/app/models/Login';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,6 @@ export class LoginComponent implements OnInit {
   loginSubmit() {
     this.authService.login(this.loginData).subscribe(
       (res: any) => {
-        // console.log(res);
         this.loginForm.reset();
         if (res.role == 'admin') {
           this.router.navigate(['/admin']);
@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit {
             expires: new Date(Date.now() + 90000000),
           });
         } else if (res.role == 'user') {
-          // console.log(JSON.stringify(res));
           this.cookieService.set('loggedInData', JSON.stringify(res));
           this.router.navigate(['/staff']);
           this.cookieService.set('isLogin', 'true', {
@@ -49,11 +48,10 @@ export class LoginComponent implements OnInit {
         }
       },
       (err) => {
-        // console.log(err.error.message);
         if (err.error.message == undefined) {
-          alert('Check credentials!');
+          Swal.fire('Warning!', 'Check credentials!', 'warning');
         } else {
-          alert(err.error.message);
+          Swal.fire('Error!', 'Server Error!', 'error');
         }
       }
     );

@@ -4,6 +4,7 @@ import { StaffService } from './../../services/staff.service';
 import { CookieService } from 'ngx-cookie-service';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header-staff',
@@ -33,10 +34,8 @@ export class HeaderStaffComponent implements OnInit {
 
   logOut() {
     const adminToken = this.cookieService.get('authToken');
-    // console.log(!token);
     if (!adminToken) {
       const userAuthToken = this.cookieService.get('userAuthToken');
-      // console.log(userAuthToken);
       this.callLogOut(userAuthToken);
     } else {
       this.callLogOut(adminToken);
@@ -50,7 +49,7 @@ export class HeaderStaffComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       (err) => {
-        console.log('unable to logout', err);
+        Swal.fire('Error!', 'Unable to logout!', 'error');
       }
     );
   }

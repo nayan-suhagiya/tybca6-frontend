@@ -21,10 +21,8 @@ export class AuthService {
   isLogin() {
     let login = this.cookieService.get('isLogin');
     if (login == 'true') {
-      // console.log(login);
       return true;
     } else {
-      // console.log(login);
       return false;
     }
   }
@@ -36,7 +34,5 @@ export class AuthService {
   logout(token: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
     return this.http.get(this.url + '/logout', { headers });
-    // this.cookieService.deleteAll();
-    // this.router.navigate(['/login']);
   }
 }

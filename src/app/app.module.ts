@@ -17,8 +17,6 @@ import { SidebarStaffComponent } from './components/sidebar-staff/sidebar-staff.
 import { HeaderComponent } from './admin/header/header.component';
 import { HeaderStaffComponent } from './components/header-staff/header-staff.component';
 import { StaffAttendanceComponent } from './components/staff-attendance/staff-attendance.component';
-// import interactionPlugin from '@fullcalendar/interaction';
-// import dayGridPlugin from '@fullcalendar/daygrid';
 
 @NgModule({
   declarations: [

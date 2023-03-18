@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from './../../services/auth.service';
@@ -29,10 +30,8 @@ export class HeaderComponent implements OnInit {
 
   logOut() {
     const adminToken = this.cookieService.get('authToken');
-    // console.log(!token);
     if (!adminToken) {
       const userAuthToken = this.cookieService.get('userAuthToken');
-      // console.log(userAuthToken);
       this.callLogOut(userAuthToken);
     } else {
       this.callLogOut(adminToken);
@@ -46,7 +45,7 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       (err) => {
-        console.log('unable to logout', err);
+        Swal.fire('Error!', 'Unnable to logout!', 'error');
       }
     );
   }
