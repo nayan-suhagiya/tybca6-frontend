@@ -44,7 +44,7 @@ export class StaffAttendanceComponent implements OnInit {
         return;
       },
       (err) => {
-        Swal.fire('Error!', 'Data not loaded!', 'error');
+        // Swal.fire('Error!', 'Data not loaded!', 'error');
       }
     );
   }

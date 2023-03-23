@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
 
   loginSubmit() {
     this.spinner.show();
+    this.cookieService.deleteAll();
     this.authService.login(this.loginData).subscribe(
       (res: any) => {
         this.loginForm.reset();
@@ -50,7 +51,6 @@ export class LoginComponent implements OnInit {
           this.cookieService.set('isLogin', 'true', {
             expires: new Date(Date.now() + 90000000),
           });
-          this.cookieService.delete('userAuthToken');
           this.cookieService.set('userAuthToken', res.token, {
             expires: new Date(Date.now() + 90000000),
           });
