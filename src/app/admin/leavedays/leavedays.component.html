@@ -1,0 +1,47 @@
+<app-sidebar></app-sidebar>
+
+<div class="main-content">
+  <app-header [part]="dpart"></app-header>
+  <main>
+    <div class="page-content">
+      <div class="row">
+        <div class="col-sm-5">
+          <h3 class="mb-4 mt-1">Add Leave</h3>
+          <form #addLeaveForm="ngForm" (ngSubmit)="leaveFormSubmit()">
+            <div class="form-group">
+              <input
+                type="date"
+                name="date"
+                [(ngModel)]="addLeaveData.date"
+                class="form-control"
+                #date="ngModel"
+                required
+              />
+              <div
+                class="alert alert-danger mt-2"
+                *ngIf="date.invalid && date.touched"
+              >
+                Please select date!
+              </div>
+            </div>
+            <div class="form-group">
+              <button
+                class="btn btn-info mt-3"
+                type="submit"
+                [disabled]="addLeaveForm.invalid"
+              >
+                Add
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-7">
+          <full-calendar
+            [options]="calendarOptions"
+            class="m-auto"
+          ></full-calendar>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

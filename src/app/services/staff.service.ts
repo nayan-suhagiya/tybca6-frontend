@@ -1,3 +1,4 @@
+import { Leave } from './../admin/leavedays/Leave';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions } from '@fullcalendar/core';
 import * as moment from 'moment';
@@ -48,6 +49,16 @@ export class StaffService {
     return this.http.delete(this.url + '/delete-staff/' + empid, {
       headers: this.setHeader(),
     });
+  }
+
+  addLeave(data: Leave): Observable<any> {
+    return this.http.post(this.url + '/addleave', data, {
+      headers: this.setHeader(),
+    });
+  }
+
+  getAllLeave(): Observable<any> {
+    return this.http.get(this.url + '/getall-leave');
   }
 
   //regular staff

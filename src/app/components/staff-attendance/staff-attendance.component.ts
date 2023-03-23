@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import * as moment from 'moment';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-staff-attendance',
@@ -30,18 +29,53 @@ export class StaffAttendanceComponent implements OnInit {
       events: [],
     };
 
+    this.staffService.getAllLeave().subscribe(
+      (res) => {
+        // console.log(res);
+
+        if (res.length == 0) {
+        } else {
+          res = res.filter((data) => {
+            return (data.leavedate = moment(data.leavedate).format(
+              'YYYY-MM-DD'
+            ));
+          });
+
+          // console.log(res);
+
+          // console.log(res);
+          for (let i = 0; i < res.length; i++) {
+            this.events.push({
+              title: 'O',
+              date: res[i].leavedate,
+              color: '#6c757d',
+            });
+          }
+          // this.calendarOptions.events = this.events;
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
     this.staffService.checkInTableDetails().subscribe(
       (res) => {
-        res = res.filter((data) => {
-          return data.empid == this.loggedInData.empid;
-        });
+        if (res.length == 0) {
+        } else {
+          res = res.filter((data) => {
+            return data.empid == this.loggedInData.empid;
+          });
 
-        for (let i = 0; i < res.length; i++) {
-          const date = moment(res[i].checkin).format('YYYY-MM-DD');
-          this.events.push({ title: 'P', date: date, color: '#388007' });
+          console.log(res);
+          for (let i = 0; i < res.length; i++) {
+            const date = moment(res[i].checkin).format('YYYY-MM-DD');
+            this.events.push({ title: 'P', date: date, color: '#388007' });
+            // console.log(this.events);
+          }
+          this.calendarOptions.events = this.events;
+          return;
         }
-        this.calendarOptions.events = this.events;
-        return;
       },
       (err) => {
         // Swal.fire('Error!', 'Data not loaded!', 'error');

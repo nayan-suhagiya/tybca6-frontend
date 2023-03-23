@@ -19,6 +19,7 @@ import { HeaderStaffComponent } from './components/header-staff/header-staff.com
 import { StaffAttendanceComponent } from './components/staff-attendance/staff-attendance.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LeavedaysComponent } from './admin/leavedays/leavedays.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HeaderComponent,
     HeaderStaffComponent,
     StaffAttendanceComponent,
+    LeavedaysComponent,
   ],
   imports: [
     BrowserModule,

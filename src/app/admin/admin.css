@@ -210,7 +210,7 @@ header {
 
 .notify-icon span:last-child {
   position: absolute;
-  background: #22baa0;
+  background: #dc3545;
   height: 16px;
   width: 16px;
   display: flex;
