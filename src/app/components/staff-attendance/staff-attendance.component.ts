@@ -67,7 +67,7 @@ export class StaffAttendanceComponent implements OnInit {
             return data.empid == this.loggedInData.empid;
           });
 
-          console.log(res);
+          // console.log(res);
           for (let i = 0; i < res.length; i++) {
             const date = moment(res[i].checkin).format('YYYY-MM-DD');
             this.events.push({ title: 'P', date: date, color: '#388007' });
