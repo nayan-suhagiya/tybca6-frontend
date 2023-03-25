@@ -26,6 +26,14 @@ export class StaffComponent implements OnInit {
     }, 1000);
     this.loggedInData = this.staffService.loggednInData();
 
+    const day = this.date.split(' ')[0];
+
+    if (day == 'Sat' || day == 'Sun') {
+      this.checkin = true;
+      this.checkout = true;
+      return;
+    }
+
     this.staffService.checkInTableDetails().subscribe((res) => {
       res = res.filter((data) => {
         return data.empid == this.loggedInData.empid;

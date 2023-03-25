@@ -57,6 +57,12 @@ export class StaffService {
     });
   }
 
+  removeLeave(date: any): Observable<any> {
+    return this.http.delete(this.url + '/removeleave/' + date, {
+      headers: this.setHeader(),
+    });
+  }
+
   getAllLeave(): Observable<any> {
     return this.http.get(this.url + '/getall-leave');
   }

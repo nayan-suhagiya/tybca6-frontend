@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { StaffService } from './../../services/staff.service';
 import { NgForm } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -64,6 +65,7 @@ export class LeavedaysComponent implements OnInit {
       (res) => {
         // console.log(res);
         if (res.added) {
+          Swal.fire('Success!', 'Added!', 'success');
           this.ngOnInit();
         }
       },
@@ -72,5 +74,22 @@ export class LeavedaysComponent implements OnInit {
       }
     );
     this.addLeaveForm.reset();
+  }
+
+  removeLeave() {
+    this.staffService.removeLeave(this.addLeaveData.date).subscribe(
+      (res) => {
+        // console.log(res);
+        if (res.deleted) {
+          this.ngOnInit();
+          Swal.fire('Success!', 'Deleted!', 'success');
+        } else {
+          Swal.fire('Warning!', 'There is no off day!', 'warning');
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }

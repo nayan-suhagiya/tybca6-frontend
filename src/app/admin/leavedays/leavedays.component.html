@@ -32,6 +32,14 @@
               >
                 Add
               </button>
+              <button
+                class="btn btn-info mt-3 ms-4"
+                type="button"
+                [disabled]="addLeaveForm.invalid"
+                (click)="removeLeave()"
+              >
+                Remove
+              </button>
             </div>
           </form>
         </div>
