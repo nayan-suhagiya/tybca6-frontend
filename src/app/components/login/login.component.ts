@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
       (res: any) => {
         this.loginForm.reset();
         if (res.role == 'admin') {
+          this.cookieService.deleteAll();
           setTimeout(() => {
             this.spinner.hide();
           }, 3000);
@@ -43,6 +44,7 @@ export class LoginComponent implements OnInit {
             expires: new Date(Date.now() + 90000000),
           });
         } else if (res.role == 'user') {
+          this.cookieService.deleteAll();
           setTimeout(() => {
             this.spinner.hide();
           }, 3000);
