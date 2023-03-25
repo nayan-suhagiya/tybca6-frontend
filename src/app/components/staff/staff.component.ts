@@ -25,6 +25,7 @@ export class StaffComponent implements OnInit {
       this.date = new Date().toString();
     }, 1000);
     this.loggedInData = this.staffService.loggednInData();
+    console.log(this.loggedInData);
 
     const day = this.date.split(' ')[0];
 
