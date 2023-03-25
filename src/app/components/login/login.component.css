@@ -25,6 +25,6 @@ form {
 }
 
 .logo {
-  filter: invert(1);
+  /* filter: invert(1); */
   margin-bottom: 30px;
 }

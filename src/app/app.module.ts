@@ -20,6 +20,7 @@ import { StaffAttendanceComponent } from './components/staff-attendance/staff-at
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LeavedaysComponent } from './admin/leavedays/leavedays.component';
+import { StaffLeaveComponent } from './components/staff-leave/staff-leave.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LeavedaysComponent } from './admin/leavedays/leavedays.component';
     HeaderStaffComponent,
     StaffAttendanceComponent,
     LeavedaysComponent,
+    StaffLeaveComponent,
   ],
   imports: [
     BrowserModule,

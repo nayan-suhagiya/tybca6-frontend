@@ -6,11 +6,11 @@
       <div class="analytics">
         <div class="card">
           <div class="card-head">
-            <h2>{{ date | date : "mediumDate" }}</h2>
-            <span class="las la-users"></span>
+            <h2>{{ date | date : "mediumTime" }}</h2>
+            <span class="las la-user-clock"></span>
           </div>
           <div class="card-progress">
-            <small>{{ date | date : "mediumTime" }}</small>
+            <small>{{ date | date : "mediumDate" }}</small>
             <div class="card-indicator">
               <div class="indicator two" style="width: 100%"></div>
             </div>
@@ -32,6 +32,25 @@
               <span class="me-2">check out </span>
               <span class="las la-user-check"></span>
             </button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>0</h2>
+            <span class="las la-arrow-circle-right"></span>
+          </div>
+          <div class="card-progress">
+            <small>Your Leave</small>
+            <div class="card-indicator">
+              <div class="indicator four" style="width: 100%"></div>
+            </div>
+          </div>
+          <div class="text-center link-page" routerLink="/staff/leave">
+            <small
+              >Apply Leave!
+              <i class="fa-solid fa-arrow-up-right-from-square"></i
+            ></small>
           </div>
         </div>
       </div>

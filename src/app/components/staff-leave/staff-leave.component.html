@@ -1,0 +1,202 @@
+<app-sidebar-staff></app-sidebar-staff>
+<div class="main-content">
+  <app-header-staff [loggedInData]="loggedInData"></app-header-staff>
+  <main>
+    <div class="page-content">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">Leave</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-secondary"
+            data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop"
+          >
+            Apply Leave
+          </button>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead class="bg-white">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Reason</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
+              <th scope="col">Status</th>
+              <th scope="col">Description</th>
+              <th scope="col">Applied On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>test reason</td>
+              <td>2022-12-12</td>
+              <td>2023-01-02</td>
+              <td><span class="bg-primary p-1 text-white">pending</span></td>
+              <td>Test Description</td>
+              <td>2022-12-12</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>test reason</td>
+              <td>2022-12-12</td>
+              <td>2023-01-02</td>
+              <td><span class="bg-success p-1 text-white">approved</span></td>
+              <td>Test Description</td>
+              <td>2022-12-12</td>
+            </tr>
+            <!-- <tr *ngFor="let dept of alldept; let i = index">
+              <td>{{ i + 1 }}</td>
+
+              <td>{{ dept.deptid }}</td>
+              <td>{{ dept.dname }}</td>
+              <td>
+                <div class="btn-group">
+                  <button
+                    class="btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#staticBackdrop1"
+
+                  >
+                    <span
+                      class="las la-pencil-alt text-warning action-icon icon-left"
+                    ></span>
+                  </button>
+                  <button class="btn" >
+                    <span
+                      class="las la-trash-alt text-danger action-icon icon-right"
+                    ></span>
+                  </button>
+                </div>
+              </td>
+            </tr> -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Add Leave Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Apply Leave</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form #leaveForm="ngForm" (ngSubmit)="leaveFormSubmit()">
+          <div class="form-group">
+            <label for="reason">Reason</label>
+            <input
+              type="text"
+              id="reason"
+              name="reason"
+              [(ngModel)]="leaveData.reason"
+              #reason="ngModel"
+              required
+              class="form-control"
+            />
+            <div
+              class="alert alert-danger mt-2"
+              *ngIf="reason.invalid && reason.touched"
+            >
+              Please enter valid reason!
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="from">Leave From</label>
+            <input
+              type="date"
+              id="from"
+              name="from"
+              [(ngModel)]="leaveData.from"
+              #from="ngModel"
+              required
+              class="form-control"
+            />
+            <div
+              class="alert alert-danger mt-2"
+              *ngIf="from.invalid && from.touched"
+            >
+              Please select from date!
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="to" class="form-label">Leave To</label>
+            <input
+              type="date"
+              id="to"
+              name="to"
+              [(ngModel)]="leaveData.to"
+              #to="ngModel"
+              required
+              class="form-control"
+            />
+            <div
+              class="alert alert-danger mt-2"
+              *ngIf="to.invalid && to.touched"
+            >
+              Please select to date!
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              [(ngModel)]="leaveData.description"
+              #description="ngModel"
+              required
+              class="form-control"
+            />
+            <div
+              class="alert alert-danger mt-2"
+              *ngIf="description.invalid && description.touched"
+            >
+              Please enter valid description!
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="submit"
+              class="btn btn-info"
+              data-bs-dismiss="modal"
+              [disabled]="!leaveForm.valid"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
