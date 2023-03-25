@@ -33,49 +33,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>test reason</td>
-              <td>2022-12-12</td>
-              <td>2023-01-02</td>
-              <td><span class="bg-primary p-1 text-white">pending</span></td>
-              <td>Test Description</td>
-              <td>2022-12-12</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>test reason</td>
-              <td>2022-12-12</td>
-              <td>2023-01-02</td>
-              <td><span class="bg-success p-1 text-white">approved</span></td>
-              <td>Test Description</td>
-              <td>2022-12-12</td>
-            </tr>
-            <!-- <tr *ngFor="let dept of alldept; let i = index">
+            <tr *ngFor="let data of allLeaveData; let i = index">
               <td>{{ i + 1 }}</td>
-
-              <td>{{ dept.deptid }}</td>
-              <td>{{ dept.dname }}</td>
+              <td>{{ data.reason }}</td>
+              <td>{{ data.fromdate }}</td>
+              <td>{{ data.todate }}</td>
               <td>
-                <div class="btn-group">
-                  <button
-                    class="btn"
-                    data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop1"
-
-                  >
-                    <span
-                      class="las la-pencil-alt text-warning action-icon icon-left"
-                    ></span>
-                  </button>
-                  <button class="btn" >
-                    <span
-                      class="las la-trash-alt text-danger action-icon icon-right"
-                    ></span>
-                  </button>
-                </div>
+                <span class="bg-primary p-1 text-white">{{ data.status }}</span>
               </td>
-            </tr> -->
+              <td>{{ data.description }}</td>
+              <td>{{ data.appliedon }}</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -125,37 +93,37 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="from">Leave From</label>
+            <label for="fromdate">Leave From</label>
             <input
               type="date"
-              id="from"
-              name="from"
-              [(ngModel)]="leaveData.from"
-              #from="ngModel"
+              id="fromdate"
+              name="fromdate"
+              [(ngModel)]="leaveData.fromdate"
+              #fromdatedate="ngModel"
               required
               class="form-control"
             />
             <div
               class="alert alert-danger mt-2"
-              *ngIf="from.invalid && from.touched"
+              *ngIf="fromdatedate.invalid && fromdatedate.touched"
             >
               Please select from date!
             </div>
           </div>
           <div class="form-group">
-            <label for="to" class="form-label">Leave To</label>
+            <label for="todate" class="form-label">Leave To</label>
             <input
               type="date"
-              id="to"
-              name="to"
-              [(ngModel)]="leaveData.to"
-              #to="ngModel"
+              id="todate"
+              name="todate"
+              [(ngModel)]="leaveData.todate"
+              #todate="ngModel"
               required
               class="form-control"
             />
             <div
               class="alert alert-danger mt-2"
-              *ngIf="to.invalid && to.touched"
+              *ngIf="todate.invalid && todate.touched"
             >
               Please select to date!
             </div>

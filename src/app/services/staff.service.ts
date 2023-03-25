@@ -1,3 +1,4 @@
+import { StaffLeave } from './../components/staff-leave/StaffLeave';
 import { Leave } from './../admin/leavedays/Leave';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions } from '@fullcalendar/core';
@@ -95,5 +96,18 @@ export class StaffService {
     return this.http.get('http://localhost:5000/staff/check-details', {
       headers: this.setStaffHeader(),
     });
+  }
+
+  applyLeave(data: StaffLeave): Observable<any> {
+    return this.http.post('http://localhost:5000/staff/apply-leave', data, {
+      headers: this.setStaffHeader(),
+    });
+  }
+
+  getAppliedLeave(empid: string): Observable<any> {
+    return this.http.get(
+      'http://localhost:5000/staff/get-applied-leave/' + empid,
+      { headers: this.setStaffHeader() }
+    );
   }
 }
