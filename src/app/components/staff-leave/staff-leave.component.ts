@@ -18,15 +18,25 @@ export class StaffLeaveComponent implements OnInit {
   pendingLeaveDatalength: number;
   approvedOrdRejectedData: any;
   approvedOrdRejectedDatalength: number;
+  date: string = new Date().toString();
+  offDay: boolean = false;
 
   constructor(private staffService: StaffService) {}
 
   ngOnInit(): void {
+    const today = new Date();
+
+    const day = this.date.split(' ')[0];
+
+    if (day == 'Sat' || day == 'Sun') {
+      this.offDay = true;
+    }
+
     this.loggedInData = this.staffService.loggednInData();
 
     this.staffService.getAppliedLeave(this.loggedInData.empid).subscribe(
       (res) => {
-        console.log(res);
+        // console.log(res);
 
         if (res.length !== 0) {
           this.pendingLeaveData = res.filter((data) => {
