@@ -17,14 +17,16 @@
         <span class="notify">4</span>
       </div> -->
 
-      <div
-        class="text-primary text-decoration-underline"
+      <button
+        type="button"
+        routerLink="/admin/leavedays"
+        class="btn btn-sm btn-outline-secondary me-2"
         (click)="logOut()"
-        style="cursor: pointer"
+        style="display: flex; border: 1px solid #9da4b9"
       >
         <span class="las la-sign-out-alt" style="font-size: 1.3rem"></span>
-        <span>logout</span>
-      </div>
+        <span> Logout</span>
+      </button>
 
       <label for="menu-toggle" class="mb-2">
         <span class="las la-bars ms-3 mt-2"></span>

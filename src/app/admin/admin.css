@@ -569,6 +569,22 @@ thead {
   background-color: #f1f4f9;
 }
 
+.contact-icon i {
+  font-size: 25px;
+  color: #6c757d;
+}
+
+.contact-icon i:hover {
+  font-size: 25px;
+  color: #000;
+}
+
+.contact-icon {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 /* .logo {
   filter: invert(1);
 } */
