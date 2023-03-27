@@ -8,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['../admin.css'],
 })
 export class AdminComponent implements OnInit {
+  dpart = 'Dashboard';
   totalDept: number;
   totalStaffMemeber: number;
-  dpart = 'Dashboard';
+  totalLeaveRequest: number;
 
   constructor(
     private deptService: DeptService,
@@ -30,6 +31,16 @@ export class AdminComponent implements OnInit {
     this.staffService.getStaff().subscribe(
       (res) => {
         this.totalStaffMemeber = res.length;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
+    this.staffService.getPendingLeave().subscribe(
+      (res) => {
+        // console.log(res);
+        this.totalLeaveRequest = res.length;
       },
       (err) => {
         console.log(err);

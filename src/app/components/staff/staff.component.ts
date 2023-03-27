@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class StaffComponent implements OnInit {
   loggedInData: any;
+  totalLeaveRequest: number;
   checkin;
   checkout;
   date: string = new Date().toString();
@@ -25,6 +26,16 @@ export class StaffComponent implements OnInit {
       this.date = new Date().toString();
     }, 1000);
     this.loggedInData = this.staffService.loggednInData();
+
+    this.staffService.getAppliedLeave(this.loggedInData.empid).subscribe(
+      (res) => {
+        // console.log(res);
+        this.totalLeaveRequest = res.length;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
 
     const day = this.date.split(' ')[0];
 
@@ -77,7 +88,9 @@ export class StaffComponent implements OnInit {
             (res) => {
               if (res.present) {
                 Swal.fire('Success!', 'Checked IN!', 'success');
-                this.cookieService.set('checkInDetails', JSON.stringify(res));
+                this.cookieService.set('checkInDetails', JSON.stringify(res), {
+                  expires: new Date(Date.now() + 90000000),
+                });
                 this.ngOnInit();
               } else {
                 Swal.fire('Warning!', 'Something went wrong!', 'warning');
@@ -100,7 +113,10 @@ export class StaffComponent implements OnInit {
                     Swal.fire('Success!', 'Checked IN!', 'success');
                     this.cookieService.set(
                       'checkInDetails',
-                      JSON.stringify(res)
+                      JSON.stringify(res),
+                      {
+                        expires: new Date(Date.now() + 90000000),
+                      }
                     );
                     this.ngOnInit();
                   } else {

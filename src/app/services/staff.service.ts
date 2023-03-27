@@ -68,6 +68,30 @@ export class StaffService {
     return this.http.get(this.url + '/getall-leave');
   }
 
+  getPendingLeave(): Observable<any> {
+    return this.http.get(this.url + '/getpending-staffleave', {
+      headers: this.setHeader(),
+    });
+  }
+
+  getApproveOrRejectLeave(): Observable<any> {
+    return this.http.get(this.url + '/getapproveorreject-staffleave', {
+      headers: this.setHeader(),
+    });
+  }
+
+  approveLeave(data: any): Observable<any> {
+    return this.http.patch(this.url + '/approve-staffleave', data, {
+      headers: this.setHeader(),
+    });
+  }
+
+  rejectLeave(data: any): Observable<any> {
+    return this.http.patch(this.url + '/reject-staffleave', data, {
+      headers: this.setHeader(),
+    });
+  }
+
   //regular staff
 
   loggednInData() {

@@ -14,7 +14,10 @@ export class StaffLeaveComponent implements OnInit {
   @ViewChild('leaveForm') leaveForm: NgForm;
   loggedInData: any;
   leaveData: StaffLeave = new StaffLeave();
-  allLeaveData: any;
+  pendingLeaveData: any;
+  pendingLeaveDatalength: number;
+  approvedOrdRejectedData: any;
+  approvedOrdRejectedDatalength: number;
 
   constructor(private staffService: StaffService) {}
 
@@ -23,12 +26,25 @@ export class StaffLeaveComponent implements OnInit {
 
     this.staffService.getAppliedLeave(this.loggedInData.empid).subscribe(
       (res) => {
-        // console.log(res);
+        console.log(res);
 
-        if (res.length == 0) {
+        if (res.length !== 0) {
+          this.pendingLeaveData = res.filter((data) => {
+            return data.status == 'Pending';
+          });
+
+          this.approvedOrdRejectedData = res.filter((data) => {
+            return data.status == 'Approved' || data.status == 'Rejected';
+          });
+
+          this.pendingLeaveDatalength = this.pendingLeaveData.length;
+          this.approvedOrdRejectedDatalength =
+            this.approvedOrdRejectedData.length;
+          // console.log(this.pendingLeaveData);
+          // console.log(this.approvedOrdRejectedData);
         } else {
-          // console.log(res);
-          this.allLeaveData = res;
+          this.pendingLeaveDatalength = 0;
+          this.approvedOrdRejectedDatalength = 0;
         }
       },
       (err) => {

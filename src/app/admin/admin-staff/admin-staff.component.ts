@@ -44,10 +44,10 @@ export class AdminStaffComponent implements OnInit {
 
     this.staffService.getStaff().subscribe(
       (res) => {
-        for (let i = 0; i < res.length; i++) {
-          res[i].dob = moment(res[i].dob).format('YYYY-MM-DD');
-          res[i].jdate = moment(res[i].jdate).format('YYYY-MM-DD');
-        }
+        // for (let i = 0; i < res.length; i++) {
+        //   res[i].dob = moment(res[i].dob).format('YYYY-MM-DD');
+        //   res[i].jdate = moment(res[i].jdate).format('YYYY-MM-DD');
+        // }
         this.allStaffData = res;
       },
       (err) => {

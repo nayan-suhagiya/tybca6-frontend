@@ -1,0 +1,127 @@
+<app-sidebar></app-sidebar>
+
+<div class="main-content">
+  <app-header [part]="dpart"></app-header>
+  <main>
+    <div class="page-content">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">Leave Request</h1>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Emp ID</th>
+              <th scope="col">Staff name</th>
+              <th scope="col">Department name</th>
+              <th scope="col">Reason</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
+              <th scope="col">Description</th>
+              <th scope="col">Applied On</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of pendingLeaveData; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ data.empid }}</td>
+              <td>{{ data.fname }}</td>
+              <td>{{ data.dname }}</td>
+              <td>{{ data.reason }}</td>
+              <td>{{ data.fromdate | date : "mediumDate" }}</td>
+              <td>{{ data.todate | date : "mediumDate" }}</td>
+              <td>{{ data.description }}</td>
+              <td>{{ data.appliedon | date : "mediumDate" }}</td>
+              <td>
+                <div class="btn-group">
+                  <button
+                    title="Approve?"
+                    class="btn"
+                    (click)="approveClick(data)"
+                  >
+                    <i
+                      class="las la-check-double text-warning action-icon icon-right"
+                    ></i>
+                  </button>
+                  <button
+                    title="Reject?"
+                    class="btn"
+                    (click)="rejectClick(data)"
+                  >
+                    <i
+                      class="las la-times text-danger action-icon icon-left"
+                    ></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-danger text-center" *ngIf="pendingLeaveDatalength == 0">
+          No pending request found!
+        </p>
+      </div>
+
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">Leave History</h1>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Emp ID</th>
+              <th scope="col">Staff name</th>
+              <th scope="col">Department name</th>
+              <th scope="col">Reason</th>
+              <th scope="col">From</th>
+              <th scope="col">To</th>
+              <th scope="col">Description</th>
+              <th scope="col">Applied On</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of approveOrRejectData; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ data.empid }}</td>
+              <td>{{ data.fname }}</td>
+              <td>{{ data.dname }}</td>
+              <td>{{ data.reason }}</td>
+              <td>{{ data.fromdate | date : "mediumDate" }}</td>
+              <td>{{ data.todate | date : "mediumDate" }}</td>
+              <td>{{ data.description }}</td>
+              <td>{{ data.appliedon | date : "mediumDate" }}</td>
+              <td>
+                <span
+                  *ngIf="data.status == 'Approved'"
+                  class="bg-success p-1 text-white"
+                  >{{ data.status }}</span
+                >
+                <span
+                  *ngIf="data.status == 'Rejected'"
+                  class="bg-danger p-1 text-white"
+                  >{{ data.status }}</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p
+          class="text-danger text-center"
+          *ngIf="approveOrRejectDatalength == 0"
+        >
+          No leave history found!
+        </p>
+      </div>
+    </div>
+  </main>
+</div>

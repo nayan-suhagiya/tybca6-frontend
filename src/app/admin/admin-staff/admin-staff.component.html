@@ -66,24 +66,24 @@
         </div>
       </div>
       <div class="table-responsive">
-        <table class="table table-striped table-responsive table-sm">
-          <thead class="bg-white">
+        <table class="table">
+          <thead>
             <tr>
-              <th>#</th>
-              <th>Empid</th>
-              <th col="1">Name</th>
-              <th col="1">Gender</th>
-              <th col="1">Department</th>
-              <th col="1">Email</th>
-              <th col="1">Mobile</th>
-              <th col="1">Birth Date</th>
-              <th col="1">Joining Date</th>
-              <th col="1">City</th>
-              <th col="1">State</th>
-              <th col="1">Address</th>
-              <th col="1">DeptID</th>
-              <th col="1">PASSWORD</th>
-              <th col="1">Actions</th>
+              <th scope="col">#</th>
+              <th scope="col">Empid</th>
+              <th scope="col">Name</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Department</th>
+              <th scope="col">Email</th>
+              <th scope="col">Mobile</th>
+              <th scope="col">BirthDate</th>
+              <th scope="col">JoiningDate</th>
+              <th scope="col">City</th>
+              <!-- <th scope="col">State</th> -->
+              <th scope="col">Address</th>
+              <!-- <th scope="col">DeptID</th> -->
+              <th scope="col">Password</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -95,12 +95,12 @@
               <td>{{ data.dname }}</td>
               <td>{{ data.email }}</td>
               <td>{{ data.mobile }}</td>
-              <td>{{ data.dob }}</td>
-              <td>{{ data.jdate }}</td>
+              <td>{{ data.dob | date : "mediumDate" }}</td>
+              <td>{{ data.jdate | date : "mediumDate" }}</td>
               <td>{{ data.city }}</td>
-              <td>{{ data.state }}</td>
+              <!-- <td>{{ data.state }}</td> -->
               <td>{{ data.address }}</td>
-              <td>{{ data.deptid }}</td>
+              <!-- <td>{{ data.deptid }}</td> -->
               <td>{{ data.password }}</td>
               <td>
                 <div class="btn-group">

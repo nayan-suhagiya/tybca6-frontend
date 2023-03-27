@@ -48,7 +48,9 @@ export class LoginComponent implements OnInit {
           setTimeout(() => {
             this.spinner.hide();
           }, 3000);
-          this.cookieService.set('loggedInData', JSON.stringify(res));
+          this.cookieService.set('loggedInData', JSON.stringify(res), {
+            expires: new Date(Date.now() + 90000000),
+          });
           this.router.navigate(['/staff']);
           this.cookieService.set('isLogin', 'true', {
             expires: new Date(Date.now() + 90000000),

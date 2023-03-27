@@ -1,3 +1,4 @@
+import { AdminLeaveComponent } from './admin/admin-leave/admin-leave.component';
 import { StaffLeaveComponent } from './components/staff-leave/staff-leave.component';
 import { LeavedaysComponent } from './admin/leavedays/leavedays.component';
 import { StaffAttendanceComponent } from './components/staff-attendance/staff-attendance.component';
@@ -38,6 +39,11 @@ const routes: Routes = [
   {
     path: 'admin/leavedays',
     component: LeavedaysComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin/staffleave',
+    component: AdminLeaveComponent,
     canActivate: [AuthGuard],
   },
   {
