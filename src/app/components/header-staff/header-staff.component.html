@@ -1,10 +1,16 @@
 <header style="border-bottom: 1px solid lightgrey">
   <div class="header-content">
     <div class="mt-3 py-3">
-      <div class="text-decoration-underline">
-        <!-- <span class="las la-user-circle"></span> -->
-        <span class="user-icon me-2"><i class="las la-user-tie"></i></span>
-        <span>Hi {{ loggedInData.fname }}</span>
+      <div
+        class="text-decoration-underline"
+        routerLink="/staff/profile"
+        style="cursor: pointer"
+        title="view profile!"
+      >
+        <span class="user-icon me-2 text-primary"
+          ><i class="las la-user-tie"></i
+        ></span>
+        <span class="text-secondary">Hi {{ loggedInData.fname }}</span>
       </div>
     </div>
     <div class="header-menu ms-auto py-3 mt-3">

@@ -1,7 +1,7 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { StaffService } from './../../services/staff.service';
-import { CookieService } from 'ngx-cookie-service';
+
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
@@ -15,7 +15,6 @@ export class HeaderStaffComponent implements OnInit {
   @Input() loggedInData: any;
 
   constructor(
-    private cookieService: CookieService,
     private staffService: StaffService,
     private authService: AuthService,
     private router: Router
@@ -33,9 +32,9 @@ export class HeaderStaffComponent implements OnInit {
   }
 
   logOut() {
-    const adminToken = this.cookieService.get('authToken');
+    const adminToken = sessionStorage.getItem('authToken');
     if (!adminToken) {
-      const userAuthToken = this.cookieService.get('userAuthToken');
+      const userAuthToken = sessionStorage.getItem('userAuthToken');
       this.callLogOut(userAuthToken);
     } else {
       this.callLogOut(adminToken);
@@ -45,7 +44,7 @@ export class HeaderStaffComponent implements OnInit {
   callLogOut(token: string) {
     this.authService.logout(token).subscribe(
       (res) => {
-        this.cookieService.deleteAll();
+        sessionStorage.clear();
         this.router.navigate(['/login']);
       },
       (err) => {

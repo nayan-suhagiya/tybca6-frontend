@@ -1,9 +1,7 @@
 import { StaffLeave } from './../components/staff-leave/StaffLeave';
 import { Leave } from './../admin/leavedays/Leave';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { CalendarOptions } from '@fullcalendar/core';
-import * as moment from 'moment';
-import { CookieService } from 'ngx-cookie-service';
+
 import { Observable } from 'rxjs';
 import { Staff } from './../models/Staff';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -18,10 +16,10 @@ export class StaffService {
   date: string;
   calendarOptions: CalendarOptions;
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+  constructor(private http: HttpClient) {}
 
   setHeader() {
-    const token = this.cookieService.get('authToken');
+    const token = sessionStorage.getItem('authToken');
 
     return new HttpHeaders().set('Authorization', 'Bearer ' + token);
   }
@@ -95,11 +93,11 @@ export class StaffService {
   //regular staff
 
   loggednInData() {
-    return JSON.parse(this.cookieService.get('loggedInData'));
+    return JSON.parse(sessionStorage.getItem('loggedInData'));
   }
 
   setStaffHeader() {
-    const staffToken = this.cookieService.get('userAuthToken');
+    const staffToken = sessionStorage.getItem('userAuthToken');
 
     return new HttpHeaders().set('Authorization', 'Bearer ' + staffToken);
   }

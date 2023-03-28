@@ -1,5 +1,5 @@
 import { StaffService } from './../../services/staff.service';
-import { CookieService } from 'ngx-cookie-service';
+
 import { Component, OnInit } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -15,10 +15,7 @@ export class StaffAttendanceComponent implements OnInit {
   checkInDetails: any;
   events: Array<{ title: string; date: string; color: string }> = [];
   calendarOptions: CalendarOptions;
-  constructor(
-    private cookieService: CookieService,
-    private staffService: StaffService
-  ) {}
+  constructor(private staffService: StaffService) {}
 
   ngOnInit(): void {
     this.loggedInData = this.staffService.loggednInData();

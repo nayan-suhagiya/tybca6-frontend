@@ -1,6 +1,5 @@
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from './../../services/auth.service';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -11,11 +10,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   @Input() part = '';
-  constructor(
-    private authService: AuthService,
-    private cookieService: CookieService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     if (!this.authService.isLogin()) {
@@ -29,9 +24,9 @@ export class HeaderComponent implements OnInit {
   }
 
   logOut() {
-    const adminToken = this.cookieService.get('authToken');
+    const adminToken = sessionStorage.getItem('authToken');
     if (!adminToken) {
-      const userAuthToken = this.cookieService.get('userAuthToken');
+      const userAuthToken = sessionStorage.getItem('userAuthToken');
       this.callLogOut(userAuthToken);
     } else {
       this.callLogOut(adminToken);
@@ -41,7 +36,7 @@ export class HeaderComponent implements OnInit {
   callLogOut(token: string) {
     this.authService.logout(token).subscribe(
       (res) => {
-        this.cookieService.deleteAll();
+        sessionStorage.clear();
         this.router.navigate(['/login']);
       },
       (err) => {

@@ -79,7 +79,7 @@
               <th scope="col">BirthDate</th>
               <th scope="col">JoiningDate</th>
               <th scope="col">City</th>
-              <!-- <th scope="col">State</th> -->
+              <th scope="col">State</th>
               <th scope="col">Address</th>
               <!-- <th scope="col">DeptID</th> -->
               <th scope="col">Password</th>
@@ -98,7 +98,7 @@
               <td>{{ data.dob | date : "mediumDate" }}</td>
               <td>{{ data.jdate | date : "mediumDate" }}</td>
               <td>{{ data.city }}</td>
-              <!-- <td>{{ data.state }}</td> -->
+              <td>{{ data.state }}</td>
               <td>{{ data.address }}</td>
               <!-- <td>{{ data.deptid }}</td> -->
               <td>{{ data.password }}</td>
@@ -548,6 +548,7 @@
               class="form-control"
               id="dob"
               [(ngModel)]="editableStaff.dob"
+              [value]="editableStaff.dob"
               name="dob"
               #dob="ngModel"
               required

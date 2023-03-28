@@ -8,7 +8,6 @@ import { AdminComponent } from './admin/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
 import { AdminStaffComponent } from './admin/admin-staff/admin-staff.component';
 import { AdminDepartmentComponent } from './admin/admin-department/admin-department.component';
 import { SidebarComponent } from './admin/sidebar/sidebar.component';
@@ -22,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LeavedaysComponent } from './admin/leavedays/leavedays.component';
 import { StaffLeaveComponent } from './components/staff-leave/staff-leave.component';
 import { AdminLeaveComponent } from './admin/admin-leave/admin-leave.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +39,7 @@ import { AdminLeaveComponent } from './admin/admin-leave/admin-leave.component';
     LeavedaysComponent,
     StaffLeaveComponent,
     AdminLeaveComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +51,7 @@ import { AdminLeaveComponent } from './admin/admin-leave/admin-leave.component';
     NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
     BrowserAnimationsModule,
   ],
-  providers: [CookieService],
+  providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

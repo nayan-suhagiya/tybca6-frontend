@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+
 import { Login } from './../models/Login';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -14,12 +14,12 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private cookieService: CookieService,
+
     private router: Router
   ) {}
 
   isLogin() {
-    let login = this.cookieService.get('isLogin');
+    let login = sessionStorage.getItem('isLogin');
     if (login == 'true') {
       return true;
     } else {

@@ -1,4 +1,3 @@
-import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { Dept } from './../models/Dept';
 import { Injectable } from '@angular/core';
@@ -11,10 +10,10 @@ import { Observable } from 'rxjs';
 export class DeptService {
   url: string = 'http://localhost:5000/admin';
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+  constructor(private http: HttpClient) {}
 
   setHeader() {
-    const token = this.cookieService.get('authToken');
+    const token = sessionStorage.getItem('authToken');
 
     return new HttpHeaders().set('Authorization', 'Bearer ' + token);
   }

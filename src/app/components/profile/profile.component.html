@@ -1,0 +1,63 @@
+<app-sidebar-staff></app-sidebar-staff>
+<div class="main-content">
+  <app-header-staff [loggedInData]="loggedInData"></app-header-staff>
+  <main>
+    <div class="page-content">
+      <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+        <div class="card p-4">
+          <div
+            class="image d-flex flex-column justify-content-center align-items-center"
+          >
+            <button
+              class="btn btn-secondary ratio"
+              style="border-radius: 360px"
+            >
+              <img
+                src="https://i.pinimg.com/originals/6b/aa/98/6baa98cc1c3f4d76e989701746e322dd.png"
+                height="65"
+                width="65"
+                style="border-radius: 360px"
+              />
+            </button>
+            <span class="name mt-3">{{ loggedInData.fname }}</span>
+            <span class="idd">{{ loggedInData.email }}</span>
+
+            <div class="text text-center mt-3">
+              <span>
+                <i class="las la-phone-volume me-1"></i>
+                {{ loggedInData.mobile }}
+              </span>
+              <br />
+              <span class="idd1">
+                <i class="las la-id-badge" style="font-size: 25px"></i>
+                {{ loggedInData.empid }}</span
+              >
+            </div>
+            <div class="text text-center mt-3">
+              <i class="las la-map-marked-alt" style="font-size: 25px"></i>
+              <span>
+                {{ loggedInData.address }}
+              </span>
+            </div>
+            <div class="px-2 rounded mt-4 date">
+              <span class="join text-dark">
+                <i class="las la-birthday-cake"></i>
+                {{ loggedInData.dob | date : "mediumDate" }}
+              </span>
+            </div>
+            <div class="px-2 rounded mt-2 date">
+              <span class="join text-dark">
+                <small class="me-1">Joined!</small>
+                <i class="las la-signature me-1"></i>
+                {{ loggedInData.jdate | date : "mediumDate" }}
+              </span>
+            </div>
+            <div class="d-flex mt-4">
+              <button class="btn1 btn-outline-secondary">Edit Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

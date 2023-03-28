@@ -1,4 +1,5 @@
-import { CookieService } from 'ngx-cookie-service';
+import { StaffService } from './../../services/staff.service';
+
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -19,45 +20,34 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cookieService: CookieService,
-    private spinner: NgxSpinnerService
+
+    private spinner: NgxSpinnerService,
+    private staffService: StaffService
   ) {}
 
   ngOnInit(): void {}
 
   loginSubmit() {
     this.spinner.show();
-    this.cookieService.deleteAll();
+    sessionStorage.clear();
     this.authService.login(this.loginData).subscribe(
       (res: any) => {
         this.loginForm.reset();
         if (res.role == 'admin') {
-          this.cookieService.deleteAll();
           setTimeout(() => {
             this.spinner.hide();
           }, 3000);
           this.router.navigate(['/admin']);
-          this.cookieService.set('isLogin', 'true', {
-            expires: new Date(Date.now() + 90000000),
-          });
-          this.cookieService.set('authToken', res.token, {
-            expires: new Date(Date.now() + 90000000),
-          });
+          sessionStorage.setItem('isLogin', 'true');
+          sessionStorage.setItem('authToken', res.token);
         } else if (res.role == 'user') {
-          this.cookieService.deleteAll();
           setTimeout(() => {
             this.spinner.hide();
           }, 3000);
-          this.cookieService.set('loggedInData', JSON.stringify(res), {
-            expires: new Date(Date.now() + 90000000),
-          });
           this.router.navigate(['/staff']);
-          this.cookieService.set('isLogin', 'true', {
-            expires: new Date(Date.now() + 90000000),
-          });
-          this.cookieService.set('userAuthToken', res.token, {
-            expires: new Date(Date.now() + 90000000),
-          });
+          sessionStorage.setItem('loggedInData', JSON.stringify(res));
+          sessionStorage.setItem('isLogin', 'true');
+          sessionStorage.setItem('userAuthToken', res.token);
         }
       },
       (err) => {

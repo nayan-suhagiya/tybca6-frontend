@@ -1,5 +1,4 @@
 import { AuthService } from './services/auth.service';
-import { CookieService } from 'ngx-cookie-service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -11,11 +10,7 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'office-management-system';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private cookieService: CookieService
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 }

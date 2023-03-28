@@ -1,5 +1,5 @@
 import { StaffService } from './../../services/staff.service';
-import { CookieService } from 'ngx-cookie-service';
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
@@ -16,10 +16,7 @@ export class StaffComponent implements OnInit {
   checkout;
   date: string = new Date().toString();
 
-  constructor(
-    private cookieService: CookieService,
-    private staffService: StaffService
-  ) {}
+  constructor(private staffService: StaffService) {}
 
   ngOnInit(): void {
     setInterval(() => {
@@ -79,18 +76,19 @@ export class StaffComponent implements OnInit {
 
     this.staffService.checkInTableDetails().subscribe(
       (res) => {
+        // console.log(res);
         res = res.filter((data) => {
           return data.empid == this.loggedInData.empid;
         });
+
+        // console.log(res);
 
         if (res.length <= 0) {
           this.staffService.checkIn({ empid }).subscribe(
             (res) => {
               if (res.present) {
                 Swal.fire('Success!', 'Checked IN!', 'success');
-                this.cookieService.set('checkInDetails', JSON.stringify(res), {
-                  expires: new Date(Date.now() + 90000000),
-                });
+                sessionStorage.setItem('checkInDetails', JSON.stringify(res));
                 this.ngOnInit();
               } else {
                 Swal.fire('Warning!', 'Something went wrong!', 'warning');
@@ -101,34 +99,20 @@ export class StaffComponent implements OnInit {
             }
           );
         } else {
-          const today = moment(new Date()).format('YYYY-MM-DD');
-
-          for (let checkin of res) {
-            if (today == moment(checkin.checkin).format('YYYY-MM-DD')) {
-              Swal.fire('Warning!', 'Already checked in!', 'warning');
-            } else {
-              this.staffService.checkIn({ empid }).subscribe(
-                (res) => {
-                  if (res.present) {
-                    Swal.fire('Success!', 'Checked IN!', 'success');
-                    this.cookieService.set(
-                      'checkInDetails',
-                      JSON.stringify(res),
-                      {
-                        expires: new Date(Date.now() + 90000000),
-                      }
-                    );
-                    this.ngOnInit();
-                  } else {
-                    Swal.fire('Warning!', 'Something went wrong!', 'warning');
-                  }
-                },
-                (err) => {
-                  console.log(err);
-                }
-              );
+          this.staffService.checkIn({ empid }).subscribe(
+            (res) => {
+              if (res.present) {
+                Swal.fire('Success!', 'Checked IN!', 'success');
+                sessionStorage.setItem('checkInDetails', JSON.stringify(res));
+                this.ngOnInit();
+              } else {
+                Swal.fire('Warning!', 'Something went wrong!', 'warning');
+              }
+            },
+            (err) => {
+              console.log(err);
             }
-          }
+          );
         }
       },
       (err) => {
