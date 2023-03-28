@@ -3,13 +3,13 @@
   <app-header-staff [loggedInData]="loggedInData"></app-header-staff>
   <main>
     <div class="page-content">
-      <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
-        <div class="card p-4">
+      <div class="container mt-1 p-3 d-flex justify-content-center">
+        <div class="card main-card p-4">
           <div
             class="image d-flex flex-column justify-content-center align-items-center"
           >
             <button
-              class="btn btn-secondary ratio"
+              class="btn btn-secondary ratio btn-1"
               style="border-radius: 360px"
             >
               <img
@@ -22,42 +22,203 @@
             <span class="name mt-3">{{ loggedInData.fname }}</span>
             <span class="idd">{{ loggedInData.email }}</span>
 
-            <div class="text text-center mt-3">
+            <div class="text text-center mt-1">
               <span>
                 <i class="las la-phone-volume me-1"></i>
                 {{ loggedInData.mobile }}
               </span>
-              <br />
               <span class="idd1">
                 <i class="las la-id-badge" style="font-size: 25px"></i>
                 {{ loggedInData.empid }}</span
               >
+              <hr />
             </div>
-            <div class="text text-center mt-3">
-              <i class="las la-map-marked-alt" style="font-size: 25px"></i>
+
+            <div class="text text-center">
+              <i class="las la-map-marker-alt" style="font-size: 25px"></i>
               <span>
                 {{ loggedInData.address }}
               </span>
             </div>
-            <div class="px-2 rounded mt-4 date">
+            <div class="text text-center">
+              <span>
+                <i class="las la-city me-1" style="font-size: 25px"></i>
+                {{ loggedInData.city }}
+              </span>
+              <span class="idd1">
+                <i class="las la-map-marked-alt" style="font-size: 25px"></i>
+                {{ loggedInData.state }}</span
+              >
+              <hr />
+            </div>
+
+            <div class="px-2 rounded date">
               <span class="join text-dark">
                 <i class="las la-birthday-cake"></i>
                 {{ loggedInData.dob | date : "mediumDate" }}
               </span>
             </div>
-            <div class="px-2 rounded mt-2 date">
+            <div class="px-2 rounded mt-1 date">
               <span class="join text-dark">
                 <small class="me-1">Joined!</small>
                 <i class="las la-signature me-1"></i>
                 {{ loggedInData.jdate | date : "mediumDate" }}
               </span>
             </div>
+
             <div class="d-flex mt-4">
-              <button class="btn1 btn-outline-secondary">Edit Profile</button>
+              <button
+                class="btn1 btn-outline-secondary"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                Edit Profile
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </main>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form #profileUpdateForm="ngForm" (ngSubmit)="updateProfile()">
+          <div class="form-group">
+            <label for="fname">Full Name </label>
+            <input
+              type="text"
+              class="form-control"
+              id="fname"
+              placeholder="Surname Firstname Middlename"
+              [(ngModel)]="loggedInData.fname"
+              name="fname"
+              #fname="ngModel"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email </label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="test@gmail.com"
+              pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+              [(ngModel)]="loggedInData.email"
+              name="email"
+              #email="ngModel"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="mobile">Mobile </label>
+            <input
+              type="text"
+              class="form-control"
+              id="mobile"
+              placeholder="99***87*31"
+              name="mobile"
+              pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
+              [(ngModel)]="loggedInData.mobile"
+              #mobile="ngModel"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="dob">DOB </label>
+            <input
+              type="date"
+              class="form-control"
+              id="dob"
+              [(ngModel)]="loggedInData.dob"
+              [value]="loggedInData.dob"
+              name="dob"
+              #dob="ngModel"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="city">City </label>
+            <input
+              type="text"
+              class="form-control"
+              id="city"
+              placeholder="city"
+              [(ngModel)]="loggedInData.city"
+              name="city"
+              #city="ngModel"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="state">State </label>
+            <input
+              type="text"
+              class="form-control"
+              id="state"
+              placeholder="state"
+              [(ngModel)]="loggedInData.state"
+              name="state"
+              #state="ngModel"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address </label>
+            <input
+              type="text"
+              class="form-control"
+              id="address"
+              [(ngModel)]="loggedInData.address"
+              placeholder="123,street,area name,pincode"
+              name="address"
+              #address="ngModel"
+              required
+            />
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="submit" class="btn btn-info" data-bs-dismiss="modal">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

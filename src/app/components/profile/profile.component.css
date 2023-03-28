@@ -1,9 +1,4 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
-.card {
+.main-card {
   width: 350px;
   background-color: #efefef;
   border: 1px solid black;
@@ -19,7 +14,7 @@
   transform: scale(1.5);
 } */
 
-.btn {
+.btn-1 {
   height: 140px;
   width: 140px;
 }
@@ -36,17 +31,6 @@
 
 .idd1 {
   font-size: 13px;
-}
-
-.number {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.follow {
-  font-size: 12px;
-  font-weight: 500;
-  color: #444444;
 }
 
 .btn1 {

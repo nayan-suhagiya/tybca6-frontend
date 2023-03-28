@@ -32,6 +32,12 @@ export class StaffService {
     });
   }
 
+  getSpecificStaff(empid: string): Observable<any> {
+    return this.http.get(this.url + '/get-staff/' + empid, {
+      headers: this.setStaffHeader(),
+    });
+  }
+
   addStaff(data: Staff): Observable<any> {
     return this.http.post(this.url + '/add-staff', data, {
       headers: this.setHeader(),
@@ -131,5 +137,11 @@ export class StaffService {
       'http://localhost:5000/staff/get-applied-leave/' + empid,
       { headers: this.setStaffHeader() }
     );
+  }
+
+  updateProfile(data: Staff): Observable<any> {
+    return this.http.patch(this.url + '/update-staff', data, {
+      headers: this.setStaffHeader(),
+    });
   }
 }
