@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
             this.spinner.hide();
           }, 3000);
           this.router.navigate(['/admin']);
-          sessionStorage.setItem('isLogin', 'true');
+          sessionStorage.setItem('isAdminLogin', 'true');
           sessionStorage.setItem('authToken', res.token);
         } else if (res.role == 'user') {
           setTimeout(() => {
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
           }, 3000);
           this.router.navigate(['/staff']);
           sessionStorage.setItem('loggedInData', JSON.stringify(res));
-          sessionStorage.setItem('isLogin', 'true');
+          sessionStorage.setItem('isStaffLogin', 'true');
           sessionStorage.setItem('userAuthToken', res.token);
         }
       },

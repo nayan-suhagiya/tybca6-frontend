@@ -21,14 +21,14 @@ export class HeaderStaffComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.authService.isLogin()) {
+    if (!this.authService.isStaffLogin()) {
       this.router.navigate(['/login']);
       return;
     }
   }
 
   isLogin() {
-    return this.authService.isLogin();
+    return this.authService.isStaffLogin();
   }
 
   logOut() {

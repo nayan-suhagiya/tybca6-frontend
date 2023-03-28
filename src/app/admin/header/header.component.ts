@@ -13,14 +13,14 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    if (!this.authService.isLogin()) {
+    if (!this.authService.isAdminLogin()) {
       this.router.navigate(['/login']);
       return;
     }
   }
 
   isLogin() {
-    return this.authService.isLogin();
+    return this.authService.isAdminLogin();
   }
 
   logOut() {

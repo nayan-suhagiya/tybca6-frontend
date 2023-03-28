@@ -18,9 +18,20 @@ export class AuthService {
     private router: Router
   ) {}
 
-  isLogin() {
-    let login = sessionStorage.getItem('isLogin');
-    if (login == 'true') {
+  isAdminLogin() {
+    let isAdminLogin = sessionStorage.getItem('isAdminLogin');
+
+    if (isAdminLogin == 'true') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isStaffLogin() {
+    let isStaffLogin = sessionStorage.getItem('isStaffLogin');
+
+    if (isStaffLogin == 'true') {
       return true;
     } else {
       return false;

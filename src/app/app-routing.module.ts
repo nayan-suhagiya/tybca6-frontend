@@ -1,3 +1,4 @@
+import { StaffGuard } from './guard/staff.guard';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AdminLeaveComponent } from './admin/admin-leave/admin-leave.component';
 import { StaffLeaveComponent } from './components/staff-leave/staff-leave.component';
@@ -15,8 +16,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/login',
-    pathMatch: 'full',
+    component: LoginComponent,
   },
   {
     path: 'login',
@@ -50,22 +50,22 @@ const routes: Routes = [
   {
     path: 'staff',
     component: StaffComponent,
-    canActivate: [AuthGuard],
+    canActivate: [StaffGuard],
   },
   {
     path: 'staff/attendance',
     component: StaffAttendanceComponent,
-    canActivate: [AuthGuard],
+    canActivate: [StaffGuard],
   },
   {
     path: 'staff/leave',
     component: StaffLeaveComponent,
-    canActivate: [AuthGuard],
+    canActivate: [StaffGuard],
   },
   {
     path: 'staff/profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard],
+    canActivate: [StaffGuard],
   },
 ];
 

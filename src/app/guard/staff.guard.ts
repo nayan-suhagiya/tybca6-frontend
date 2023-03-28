@@ -1,4 +1,3 @@
-import { AuthService } from './../services/auth.service';
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -7,11 +6,12 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class StaffGuard implements CanActivate {
   constructor(private authService: AuthService) {}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -21,6 +21,6 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authService.isAdminLogin();
+    return this.authService.isStaffLogin();
   }
 }
