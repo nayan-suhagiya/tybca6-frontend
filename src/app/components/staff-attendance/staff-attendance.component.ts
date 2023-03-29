@@ -30,8 +30,7 @@ export class StaffAttendanceComponent implements OnInit {
       (res) => {
         // console.log(res);
 
-        if (res.length == 0) {
-        } else {
+        if (res.length != 0) {
           res = res.filter((data) => {
             return (data.leavedate = moment(data.leavedate).format(
               'YYYY-MM-DD'
@@ -48,6 +47,7 @@ export class StaffAttendanceComponent implements OnInit {
               color: '#6c757d',
             });
           }
+
           // this.calendarOptions.events = this.events;
         }
       },
@@ -59,6 +59,7 @@ export class StaffAttendanceComponent implements OnInit {
     this.staffService.checkInTableDetails().subscribe(
       (res) => {
         if (res.length == 0) {
+          this.calendarOptions.events = this.events;
         } else {
           res = res.filter((data) => {
             return data.empid == this.loggedInData.empid;

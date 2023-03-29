@@ -12,7 +12,6 @@ import { Injectable } from '@angular/core';
 })
 export class StaffService {
   url: string = 'http://localhost:5000/admin';
-  checkInDetails: any;
   date: string;
   calendarOptions: CalendarOptions;
 
@@ -100,6 +99,10 @@ export class StaffService {
 
   loggednInData() {
     return JSON.parse(sessionStorage.getItem('loggedInData'));
+  }
+
+  checkedInData() {
+    return JSON.parse(sessionStorage.getItem('checkInDetails'));
   }
 
   setStaffHeader() {

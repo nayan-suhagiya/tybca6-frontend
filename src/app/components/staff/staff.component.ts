@@ -47,6 +47,15 @@ export class StaffComponent implements OnInit {
         return data.empid == this.loggedInData.empid;
       });
 
+      res = res.filter((data) => {
+        return (
+          moment(new Date()).format('YYYY-MM-DD') ==
+          moment(data.checkin).format('YYYY-MM-DD')
+        );
+      });
+
+      console.log(res);
+
       for (let checkin of res) {
         if (
           checkin.checkin !== null &&
@@ -123,6 +132,7 @@ export class StaffComponent implements OnInit {
 
   checkOut() {
     const empid = this.loggedInData.empid;
+    const date = moment(new Date()).format('YYYY-MM-DD');
 
     this.staffService.checkInTableDetails().subscribe(
       (res) => {
@@ -131,7 +141,7 @@ export class StaffComponent implements OnInit {
         });
 
         if (res.length <= 0) {
-          this.staffService.checkOut({ empid }).subscribe(
+          this.staffService.checkOut({ empid, date }).subscribe(
             (res) => {
               if (res.present == false) {
                 this.ngOnInit();
@@ -151,7 +161,7 @@ export class StaffComponent implements OnInit {
             if (today == moment(checkin.checkout).format('YYYY-MM-DD')) {
               Swal.fire('Warning!', 'Already checked out!', 'warning');
             } else {
-              this.staffService.checkOut({ empid }).subscribe(
+              this.staffService.checkOut({ empid, date }).subscribe(
                 (res) => {
                   if (res.present == false) {
                     this.ngOnInit();
