@@ -1,6 +1,5 @@
 import { StaffLeave } from './../components/staff-leave/StaffLeave';
 import { Leave } from './../admin/leavedays/Leave';
-import { CalendarOptions } from '@fullcalendar/core';
 
 import { Observable } from 'rxjs';
 import { Staff } from './../models/Staff';
@@ -13,7 +12,6 @@ import { Injectable } from '@angular/core';
 export class StaffService {
   url: string = 'http://localhost:5000/admin';
   date: string;
-  calendarOptions: CalendarOptions;
 
   constructor(private http: HttpClient) {}
 
@@ -138,6 +136,13 @@ export class StaffService {
   getAppliedLeave(empid: string): Observable<any> {
     return this.http.get(
       'http://localhost:5000/staff/get-applied-leave/' + empid,
+      { headers: this.setStaffHeader() }
+    );
+  }
+
+  getApprovedLeave(empid: string): Observable<any> {
+    return this.http.get(
+      'http://localhost:5000/staff/get-approved-leave/' + empid,
       { headers: this.setStaffHeader() }
     );
   }

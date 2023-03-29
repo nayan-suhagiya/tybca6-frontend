@@ -42,6 +42,27 @@ export class StaffComponent implements OnInit {
       return;
     }
 
+    this.staffService.getApprovedLeave(this.loggedInData.empid).subscribe(
+      (res) => {
+        if (res.length != 0) {
+          const fromdate = moment(res.fromdate).format('YYYY-MM-DD');
+          const todate = moment(res.todate).format('YYYY-MM-DD');
+          const today = moment(new Date()).format('YYYY-MM-DD');
+
+          if (fromdate == today) {
+            this.checkin = true;
+            this.checkout = true;
+          } else {
+            this.checkin = false;
+            this.checkout = false;
+          }
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
     this.staffService.checkInTableDetails().subscribe((res) => {
       res = res.filter((data) => {
         return data.empid == this.loggedInData.empid;
@@ -54,7 +75,7 @@ export class StaffComponent implements OnInit {
         );
       });
 
-      console.log(res);
+      // console.log(res);
 
       for (let checkin of res) {
         if (

@@ -26,6 +26,7 @@ export class LeavedaysComponent implements OnInit {
       initialView: 'dayGridMonth',
       plugins: [dayGridPlugin],
       events: [],
+      firstDay: 6,
     };
 
     this.events = [];

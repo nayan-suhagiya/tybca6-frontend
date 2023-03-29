@@ -50,8 +50,6 @@ export class StaffLeaveComponent implements OnInit {
           this.pendingLeaveDatalength = this.pendingLeaveData.length;
           this.approvedOrdRejectedDatalength =
             this.approvedOrdRejectedData.length;
-          // console.log(this.pendingLeaveData);
-          // console.log(this.approvedOrdRejectedData);
         } else {
           this.pendingLeaveDatalength = 0;
           this.approvedOrdRejectedDatalength = 0;
@@ -64,6 +62,11 @@ export class StaffLeaveComponent implements OnInit {
   }
 
   leaveFormSubmit() {
+    if (this.leaveData.fromdate > this.leaveData.todate) {
+      Swal.fire('Error!', 'Please select valid date!', 'error');
+      return;
+    }
+
     this.leaveData.fname = this.loggedInData.fname;
     this.leaveData.dname = this.loggedInData.dname;
     this.leaveData.empid = this.loggedInData.empid;
@@ -75,6 +78,11 @@ export class StaffLeaveComponent implements OnInit {
     this.staffService.applyLeave(this.leaveData).subscribe(
       (res) => {
         // console.log(res);
+
+        if (res.offday) {
+          Swal.fire('Warning!', 'There is off day!', 'warning');
+          return;
+        }
 
         if (res.added) {
           Swal.fire('Success!', 'Leave applied successfully!', 'success');

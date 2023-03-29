@@ -24,7 +24,57 @@ export class StaffAttendanceComponent implements OnInit {
       initialView: 'dayGridMonth',
       plugins: [dayGridPlugin],
       events: [],
+      firstDay: 1,
     };
+
+    this.staffService.getApprovedLeave(this.loggedInData.empid).subscribe(
+      (res) => {
+        // console.log(res);
+        if (res.length != 0) {
+          for (let i = 0; i < res.length; i++) {
+            const fromdate = moment(res[i].fromdate).format('YYYY-MM-DD');
+            const todate = moment(res[i].todate).format('YYYY-MM-DD');
+            if (fromdate == todate) {
+              this.events.push({
+                title: 'A',
+                date: fromdate,
+                color: '#dc3545',
+              });
+            } else {
+              const dateArr = fromdate.split('-');
+              const startdate = Number(fromdate.split('-')[2]);
+              const enddate = Number(todate.split('-')[2]);
+
+              for (let i = startdate; i <= enddate; i++) {
+                // console.log(i);
+                if (i <= 9) {
+                  const leaveDate = dateArr[0] + '-' + dateArr[1] + '-0' + i;
+
+                  // console.log(leaveDate);
+                  this.events.push({
+                    title: 'A',
+                    date: leaveDate,
+                    color: '#dc3545',
+                  });
+                } else {
+                  const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
+
+                  // console.log(leaveDate);
+                  this.events.push({
+                    title: 'A',
+                    date: leaveDate,
+                    color: '#dc3545',
+                  });
+                }
+              }
+            }
+          }
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
 
     this.staffService.getAllLeave().subscribe(
       (res) => {
