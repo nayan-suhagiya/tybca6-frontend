@@ -44,17 +44,51 @@ export class StaffComponent implements OnInit {
 
     this.staffService.getApprovedLeave(this.loggedInData.empid).subscribe(
       (res) => {
+        // console.log(res);
         if (res.length != 0) {
-          const fromdate = moment(res.fromdate).format('YYYY-MM-DD');
-          const todate = moment(res.todate).format('YYYY-MM-DD');
-          const today = moment(new Date()).format('YYYY-MM-DD');
+          for (let i = 0; i < res.length; i++) {
+            const today = moment(new Date()).format('YYYY-MM-DD');
+            const fromdate = moment(res[i].fromdate).format('YYYY-MM-DD');
+            const todate = moment(res[i].todate).format('YYYY-MM-DD');
+            // console.log(fromdate == todate);
+            if (today == fromdate && today == todate) {
+              this.checkin = true;
+              this.checkout = true;
+            } else if (fromdate == todate) {
+              if (today == fromdate || today == todate) {
+                this.checkin = true;
+                this.checkout = true;
+              } else {
+                this.checkin = false;
+                this.checkout = false;
+              }
+            } else {
+              const dateArr = fromdate.split('-');
+              const startdate = Number(fromdate.split('-')[2]);
+              const enddate = Number(todate.split('-')[2]);
 
-          if (fromdate == today) {
-            this.checkin = true;
-            this.checkout = true;
-          } else {
-            this.checkin = false;
-            this.checkout = false;
+              for (let i = startdate; i <= enddate; i++) {
+                // console.log(i);
+                const today = moment(new Date()).format('YYYY-MM-DD');
+                if (i <= 9) {
+                  const leaveDate = dateArr[0] + '-' + dateArr[1] + '-0' + i;
+
+                  if (today == leaveDate) {
+                    this.checkin = true;
+                    this.checkout = true;
+                  }
+                  // console.log(leaveDate);
+                } else {
+                  const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
+
+                  if (today == leaveDate) {
+                    this.checkin = true;
+                    this.checkout = true;
+                  }
+                  // console.log(leaveDate);
+                }
+              }
+            }
           }
         }
       },
