@@ -12,8 +12,8 @@ import Swal from 'sweetalert2';
 export class StaffComponent implements OnInit {
   loggedInData: any;
   totalLeaveRequest: number;
-  checkin;
-  checkout;
+  checkin: boolean = false;
+  checkout: boolean = false;
   date: string = new Date().toString();
 
   constructor(private staffService: StaffService) {}

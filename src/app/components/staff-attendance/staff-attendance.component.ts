@@ -13,12 +13,39 @@ import * as moment from 'moment';
 export class StaffAttendanceComponent implements OnInit {
   loggedInData: any;
   checkInDetails: any;
+  allMonthDay: any = [];
   events: Array<{ title: string; date: string; color: string }> = [];
   calendarOptions: CalendarOptions;
   constructor(private staffService: StaffService) {}
 
   ngOnInit(): void {
     this.loggedInData = this.staffService.loggednInData();
+
+    const date = new Date();
+    const y = date.getFullYear();
+    const m = date.getMonth();
+    const firstDay = moment(new Date(y, m, 1)).format('YYYY-MM-DD');
+    const lastDay = moment(new Date(y, m + 1, 0)).format('YYYY-MM-DD');
+
+    // console.log(firstDay, '\n', lastDay);
+
+    const dateArr = firstDay.split('-');
+    const startdate = Number(firstDay.split('-')[2]);
+    const enddate = Number(lastDay.split('-')[2]);
+
+    // console.log(dateArr);
+    // console.log(startdate, enddate);
+
+    for (let i = startdate; i <= enddate; i++) {
+      // console.log(i);
+      if (i <= 9) {
+        const date = dateArr[0] + '-' + dateArr[1] + '-0' + i;
+        this.allMonthDay.push(date);
+      } else {
+        const date = dateArr[0] + '-' + dateArr[1] + '-' + i;
+        this.allMonthDay.push(date);
+      }
+    }
 
     this.calendarOptions = {
       initialView: 'dayGridMonth',
@@ -36,9 +63,9 @@ export class StaffAttendanceComponent implements OnInit {
             const todate = moment(res[i].todate).format('YYYY-MM-DD');
             if (fromdate == todate) {
               this.events.push({
-                title: 'A',
+                title: 'Leave',
                 date: fromdate,
-                color: '#dc3545',
+                color: '#96c521',
               });
             } else {
               const dateArr = fromdate.split('-');
@@ -52,18 +79,18 @@ export class StaffAttendanceComponent implements OnInit {
 
                   // console.log(leaveDate);
                   this.events.push({
-                    title: 'A',
+                    title: 'Leave',
                     date: leaveDate,
-                    color: '#dc3545',
+                    color: '#96c521',
                   });
                 } else {
                   const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
 
                   // console.log(leaveDate);
                   this.events.push({
-                    title: 'A',
+                    title: 'Leave',
                     date: leaveDate,
-                    color: '#dc3545',
+                    color: '#96c521',
                   });
                 }
               }
@@ -119,10 +146,30 @@ export class StaffAttendanceComponent implements OnInit {
           for (let i = 0; i < res.length; i++) {
             const date = moment(res[i].checkin).format('YYYY-MM-DD');
             this.events.push({ title: 'P', date: date, color: '#388007' });
+
             // console.log(this.events);
           }
+
+          for (let i of this.events) {
+            // console.log(i.date);
+            this.allMonthDay = this.allMonthDay.filter((data) => {
+              return data != i.date;
+            });
+          }
+
+          // console.log(this.allMonthDay);
+          for (let date of this.allMonthDay) {
+            const today = moment(new Date()).format('YYYY-MM-DD');
+
+            if (date < today) {
+              this.events.push({
+                title: 'A',
+                date: date,
+                color: '#dc3545',
+              });
+            }
+          }
           this.calendarOptions.events = this.events;
-          return;
         }
       },
       (err) => {
