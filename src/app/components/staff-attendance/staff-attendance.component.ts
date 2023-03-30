@@ -94,7 +94,7 @@ export class StaffAttendanceComponent implements OnInit {
             this.events.push({
               title: 'O',
               date: res[i].leavedate,
-              color: '#6c757d',
+              color: '#ABADAF',
             });
           }
 
