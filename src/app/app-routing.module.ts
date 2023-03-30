@@ -1,3 +1,4 @@
+import { AdminAttendanceComponent } from './admin/admin-attendance/admin-attendance.component';
 import { StaffGuard } from './guard/staff.guard';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AdminLeaveComponent } from './admin/admin-leave/admin-leave.component';
@@ -45,6 +46,11 @@ const routes: Routes = [
   {
     path: 'admin/staffleave',
     component: AdminLeaveComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin/attendance',
+    component: AdminAttendanceComponent,
     canActivate: [AuthGuard],
   },
   {

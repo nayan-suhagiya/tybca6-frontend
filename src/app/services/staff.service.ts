@@ -11,6 +11,9 @@ import { Injectable } from '@angular/core';
 })
 export class StaffService {
   url: string = 'http://localhost:5000/admin';
+  urlstaff: string = 'http://localhost:5000/staff';
+  // url: string = 'http://192.168.0.172:5000/admin';
+  // urlstaff: string = 'http://192.168.0.172:5000/staff';
   date: string;
 
   constructor(private http: HttpClient) {}
@@ -32,6 +35,12 @@ export class StaffService {
   getSpecificStaff(empid: string): Observable<any> {
     return this.http.get(this.url + '/get-staff/' + empid, {
       headers: this.setStaffHeader(),
+    });
+  }
+
+  getStaffUsingDname(dname: string): Observable<any> {
+    return this.http.get(this.url + `/get-staff-dname/${dname}`, {
+      headers: this.setHeader(),
     });
   }
 
@@ -110,46 +119,56 @@ export class StaffService {
   }
 
   checkIn(data: any): Observable<any> {
-    return this.http.post('http://localhost:5000/staff/check-in', data, {
+    return this.http.post(this.urlstaff + '/check-in', data, {
       headers: this.setStaffHeader(),
     });
   }
 
   checkOut(data: any): Observable<any> {
-    return this.http.patch('http://localhost:5000/staff/check-out', data, {
+    return this.http.patch(this.urlstaff + '/check-out', data, {
       headers: this.setStaffHeader(),
     });
   }
 
   checkInTableDetails(): Observable<any> {
-    return this.http.get('http://localhost:5000/staff/check-details', {
+    return this.http.get(this.urlstaff + '/check-details', {
       headers: this.setStaffHeader(),
     });
   }
 
   applyLeave(data: StaffLeave): Observable<any> {
-    return this.http.post('http://localhost:5000/staff/apply-leave', data, {
+    return this.http.post(this.urlstaff + '/apply-leave', data, {
       headers: this.setStaffHeader(),
     });
   }
 
   getAppliedLeave(empid: string): Observable<any> {
-    return this.http.get(
-      'http://localhost:5000/staff/get-applied-leave/' + empid,
-      { headers: this.setStaffHeader() }
-    );
+    return this.http.get(this.urlstaff + '/get-applied-leave/' + empid, {
+      headers: this.setStaffHeader(),
+    });
   }
 
   getApprovedLeave(empid: string): Observable<any> {
-    return this.http.get(
-      'http://localhost:5000/staff/get-approved-leave/' + empid,
-      { headers: this.setStaffHeader() }
-    );
+    return this.http.get(this.urlstaff + '/get-approved-leave/' + empid, {
+      headers: this.setStaffHeader(),
+    });
   }
 
   updateProfile(data: Staff): Observable<any> {
     return this.http.patch(this.url + '/update-staff', data, {
       headers: this.setStaffHeader(),
+    });
+  }
+
+  getApprovedLeaveForAdmin(empid: string): Observable<any> {
+    return this.http.get(+this.urlstaff + '/get-approved-leave/' + empid, {
+      headers: this.setHeader(),
+    });
+  }
+
+  checkInTableDetailsForAdmin(): Observable<any> {
+    return this.http.get(this.urlstaff + '/check-details', {
+      headers: this.setHeader(),
     });
   }
 }

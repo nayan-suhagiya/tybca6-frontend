@@ -1,0 +1,51 @@
+<app-sidebar></app-sidebar>
+
+<div class="main-content">
+  <app-header [part]="dpart"></app-header>
+  <main>
+    <div class="page-content">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">Staff Attendance Details</h1>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="dname">Select Department </label>
+            <select
+              id="dname"
+              name="dname"
+              class="form-control"
+              (change)="getStaffData($event)"
+            >
+              <option value="">...</option>
+              <option [value]="dname" *ngFor="let dname of allDeptName">
+                {{ dname }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6" *ngIf="staffNameLength != 0">
+          <div class="form-group">
+            <label for="fname">Select Staff Name </label>
+            <select
+              id="fname"
+              name="fname"
+              class="form-control"
+              (change)="filterStaff($event)"
+            >
+              <option value="">...</option>
+              <option [value]="fname" *ngFor="let fname of staffName">
+                {{ fname }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-8 m-auto mt-3" *ngIf="staffNameLength != 0">
+          <full-calendar [options]="calendarOptions"></full-calendar>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

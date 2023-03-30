@@ -22,6 +22,7 @@ import { LeavedaysComponent } from './admin/leavedays/leavedays.component';
 import { StaffLeaveComponent } from './components/staff-leave/staff-leave.component';
 import { AdminLeaveComponent } from './admin/admin-leave/admin-leave.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AdminAttendanceComponent } from './admin/admin-attendance/admin-attendance.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ProfileComponent } from './components/profile/profile.component';
     StaffLeaveComponent,
     AdminLeaveComponent,
     ProfileComponent,
+    AdminAttendanceComponent,
   ],
   imports: [
     BrowserModule,

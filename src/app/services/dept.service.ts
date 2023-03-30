@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class DeptService {
   url: string = 'http://localhost:5000/admin';
+  // url: string = 'http://192.168.0.172:5000/admin';
 
   constructor(private http: HttpClient) {}
 

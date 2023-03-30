@@ -11,6 +11,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class AuthService {
   url: string = 'http://localhost:5000';
+  // url: string = 'http://192.168.0.172:5000';
 
   constructor(
     private http: HttpClient,
