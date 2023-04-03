@@ -19,7 +19,7 @@
             <button
               class="checkin mb-2 p-1 border-0"
               (click)="checkIn()"
-              [hidden]="checkin"
+              *ngIf="!checkin"
             >
               <span class="me-2">check in </span>
               <span class="las la-user-check"></span>
@@ -27,7 +27,7 @@
             <button
               class="checkin mb-2 p-1 border-0"
               (click)="checkOut()"
-              [hidden]="checkout"
+              *ngIf="!checkout"
             >
               <span class="me-2">check out </span>
               <span class="las la-user-check"></span>
