@@ -84,6 +84,9 @@ export class StaffComponent implements OnInit {
                   if (today == leaveDate) {
                     this.checkin = true;
                     this.checkout = true;
+                  } else {
+                    this.checkin = false;
+                    this.checkout = false;
                   }
                   // console.log(leaveDate);
                 }
@@ -97,12 +100,12 @@ export class StaffComponent implements OnInit {
       }
     );
 
-    this.staffService.checkInTableDetails().subscribe((res) => {
-      res = res.filter((data) => {
+    this.staffService.checkInTableDetails().subscribe(async (res) => {
+      res = await res.filter((data) => {
         return data.empid == this.loggedInData.empid;
       });
 
-      res = res.filter((data) => {
+      const data = await res.filter((data) => {
         return (
           moment(new Date()).format('YYYY-MM-DD') ==
           moment(data.checkin).format('YYYY-MM-DD')
@@ -111,27 +114,27 @@ export class StaffComponent implements OnInit {
 
       // console.log(res);
 
-      for (let checkin of res) {
-        if (
-          checkin.checkin !== null &&
-          moment(checkin.checkin).format('YYYY-MM-DD') ==
-            moment(new Date()).format('YYYY-MM-DD')
-        ) {
-          this.checkin = true;
-        } else {
-          this.checkin = false;
-        }
-
-        if (
-          checkin.checkout !== null &&
-          moment(checkin.checkin).format('YYYY-MM-DD') ==
-            moment(new Date()).format('YYYY-MM-DD')
-        ) {
-          this.checkout = true;
-        } else {
-          this.checkout = false;
-        }
+      // for (let checkin of res) {
+      if (
+        moment(data[0].checkin).format('YYYY-MM-DD') ==
+          moment(new Date()).format('YYYY-MM-DD') &&
+        data[0].checkin !== null
+      ) {
+        this.checkin = true;
+      } else {
+        this.checkin = false;
       }
+
+      if (
+        moment(data[0].checkout).format('YYYY-MM-DD') ==
+          moment(new Date()).format('YYYY-MM-DD') &&
+        data[0].checkout !== null
+      ) {
+        this.checkout = true;
+      } else {
+        this.checkout = false;
+      }
+      // }
     });
   }
 
@@ -153,7 +156,8 @@ export class StaffComponent implements OnInit {
               if (res.present) {
                 Swal.fire('Success!', 'Checked IN!', 'success');
                 sessionStorage.setItem('checkInDetails', JSON.stringify(res));
-                this.ngOnInit();
+                // this.ngOnInit();
+                this.checkin = true;
               } else {
                 Swal.fire('Warning!', 'Something went wrong!', 'warning');
               }
@@ -169,6 +173,7 @@ export class StaffComponent implements OnInit {
                 Swal.fire('Success!', 'Checked IN!', 'success');
                 sessionStorage.setItem('checkInDetails', JSON.stringify(res));
                 this.ngOnInit();
+                this.checkin = true;
               } else {
                 Swal.fire('Warning!', 'Something went wrong!', 'warning');
               }
@@ -199,7 +204,8 @@ export class StaffComponent implements OnInit {
           this.staffService.checkOut({ empid, date }).subscribe(
             (res) => {
               if (res.present == false) {
-                this.ngOnInit();
+                // this.ngOnInit();
+                this.checkout = true;
                 Swal.fire('Success!', 'Checked OUT!', 'success');
               } else {
                 Swal.fire('Warning!', 'Something went wrong!', 'warning');
@@ -219,7 +225,8 @@ export class StaffComponent implements OnInit {
               this.staffService.checkOut({ empid, date }).subscribe(
                 (res) => {
                   if (res.present == false) {
-                    this.ngOnInit();
+                    // this.ngOnInit();
+                    this.checkout = true;
                     Swal.fire('Success!', 'Checked OUT!', 'success');
                   } else {
                     Swal.fire('Warning!', 'Something went wrong!', 'warning');

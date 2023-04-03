@@ -14,17 +14,18 @@ export class ProfileComponent implements OnInit {
   constructor(private staffService: StaffService) {}
 
   ngOnInit(): void {
-    this.userdata = this.staffService.loggednInData();
+    // this.userdata = this.staffService.loggednInData();
 
-    this.staffService.getSpecificStaff(this.userdata.empid).subscribe(
-      (res) => {
-        // console.log(res);
-        this.loggedInData = res;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    // this.staffService.getSpecificStaff(this.userdata.empid).subscribe(
+    //   (res) => {
+    //     // console.log(res);
+    //     this.loggedInData = res;
+    //   },
+    //   (err) => {
+    //     console.log(err);
+    //   }
+    // );
+    this.loggedInData = this.staffService.loggednInData();
   }
 
   updateProfile() {
@@ -35,7 +36,10 @@ export class ProfileComponent implements OnInit {
     this.staffService.updateProfile(this.loggedInData).subscribe(
       (res) => {
         if (res.updated) {
-          this.ngOnInit();
+          sessionStorage.setItem(
+            'loggedInData',
+            JSON.stringify(this.loggedInData)
+          );
           Swal.fire('Success!', 'Your Profile Updated!', 'success');
           this.ngOnInit();
         }
