@@ -42,8 +42,15 @@
             </select>
           </div>
         </div>
-        <div class="col-sm-8 m-auto mt-3" *ngIf="staffNameLength != 0">
+        <div class="col-sm-8 m-auto mt-3" *ngIf="calendarShow">
           <full-calendar [options]="calendarOptions"></full-calendar>
+        </div>
+        <div class="col-sm-12" *ngIf="staffNameLength == 0">
+          <p class="text-danger text-center mt-2">
+            Please select department!
+            <span class="text-secondary text-decoration-underline">or</span> No
+            staff found in the department!
+          </p>
         </div>
       </div>
     </div>

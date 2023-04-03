@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { StaffService } from './../../services/staff.service';
@@ -21,10 +22,12 @@ export class AdminAttendanceComponent implements OnInit {
   allMonthDay: any = [];
   events: Array<{ title: string; date: string; color: string }> = [];
   calendarOptions: CalendarOptions;
+  calendarShow: boolean = false;
 
   constructor(
     private deptService: DeptService,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -52,8 +55,17 @@ export class AdminAttendanceComponent implements OnInit {
 
   getStaffData(event) {
     this.staffName = [];
+    this.calendarOptions.events = [];
     this.staffNameLength = 0;
-    // console.log(event.target.value);
+    this.calendarShow = false;
+
+    if (event.target.value == '') {
+      this.staffName = [];
+      this.calendarOptions.events = [];
+      this.staffNameLength = 0;
+      return;
+    }
+
     this.staffService.getStaffUsingDname(event.target.value).subscribe(
       (res) => {
         // console.log(res);
@@ -73,11 +85,20 @@ export class AdminAttendanceComponent implements OnInit {
   }
 
   filterStaff(event) {
-    this.staffData = this.staffData.filter((data) => {
+    const staff = this.staffData.filter((data) => {
       return data.fname == event.target.value;
     });
 
-    console.log(this.staffData);
+    // console.log(staff);
+
+    if (staff.length == 0) {
+      this.spinner.hide();
+      this.calendarShow = false;
+      return;
+    }
+
+    this.calendarShow = true;
+    this.spinner.show();
     this.events = [];
     this.allMonthDay = [];
 
@@ -107,63 +128,55 @@ export class AdminAttendanceComponent implements OnInit {
       }
     }
 
-    this.calendarOptions = {
-      initialView: 'dayGridMonth',
-      plugins: [dayGridPlugin],
-      events: [],
-      firstDay: 1,
-    };
+    this.staffService.getApprovedLeaveForAdmin(staff[0].empid).subscribe(
+      (res) => {
+        // console.log(res);
+        if (res.length != 0) {
+          for (let i = 0; i < res.length; i++) {
+            const fromdate = moment(res[i].fromdate).format('YYYY-MM-DD');
+            const todate = moment(res[i].todate).format('YYYY-MM-DD');
+            if (fromdate == todate) {
+              this.events.push({
+                title: 'Leave',
+                date: fromdate,
+                color: '#96c521',
+              });
+            } else {
+              const dateArr = fromdate.split('-');
+              const startdate = Number(fromdate.split('-')[2]);
+              const enddate = Number(todate.split('-')[2]);
 
-    this.staffService
-      .getApprovedLeaveForAdmin(this.staffData[0].empid)
-      .subscribe(
-        (res) => {
-          // console.log(res);
-          if (res.length != 0) {
-            for (let i = 0; i < res.length; i++) {
-              const fromdate = moment(res[i].fromdate).format('YYYY-MM-DD');
-              const todate = moment(res[i].todate).format('YYYY-MM-DD');
-              if (fromdate == todate) {
-                this.events.push({
-                  title: 'Leave',
-                  date: fromdate,
-                  color: '#96c521',
-                });
-              } else {
-                const dateArr = fromdate.split('-');
-                const startdate = Number(fromdate.split('-')[2]);
-                const enddate = Number(todate.split('-')[2]);
+              for (let i = startdate; i <= enddate; i++) {
+                // console.log(i);
+                if (i <= 9) {
+                  const leaveDate = dateArr[0] + '-' + dateArr[1] + '-0' + i;
 
-                for (let i = startdate; i <= enddate; i++) {
-                  // console.log(i);
-                  if (i <= 9) {
-                    const leaveDate = dateArr[0] + '-' + dateArr[1] + '-0' + i;
+                  // console.log(leaveDate);
+                  this.events.push({
+                    title: 'Leave',
+                    date: leaveDate,
+                    color: '#96c521',
+                  });
+                } else {
+                  const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
 
-                    // console.log(leaveDate);
-                    this.events.push({
-                      title: 'Leave',
-                      date: leaveDate,
-                      color: '#96c521',
-                    });
-                  } else {
-                    const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
-
-                    // console.log(leaveDate);
-                    this.events.push({
-                      title: 'Leave',
-                      date: leaveDate,
-                      color: '#96c521',
-                    });
-                  }
+                  // console.log(leaveDate);
+                  this.events.push({
+                    title: 'Leave',
+                    date: leaveDate,
+                    color: '#96c521',
+                  });
                 }
               }
             }
           }
-        },
-        (err) => {
-          console.log(err);
         }
-      );
+      },
+      (err) => {
+        console.log(err);
+        this.spinner.hide();
+      }
+    );
 
     this.staffService.getAllLeave().subscribe(
       (res) => {
@@ -192,6 +205,7 @@ export class AdminAttendanceComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
 
@@ -201,7 +215,7 @@ export class AdminAttendanceComponent implements OnInit {
           this.calendarOptions.events = this.events;
         } else {
           res = res.filter((data) => {
-            return data.empid == this.staffData[0].empid;
+            return data.empid == staff[0].empid;
           });
 
           // console.log(res);
@@ -220,21 +234,54 @@ export class AdminAttendanceComponent implements OnInit {
           }
 
           // console.log(this.allMonthDay);
-          for (let date of this.allMonthDay) {
-            const today = moment(new Date()).format('YYYY-MM-DD');
 
-            if (date < today) {
-              this.events.push({
-                title: 'A',
-                date: date,
-                color: '#dc3545',
-              });
+          this.staffService.getAbsentDataForAdmin(staff[0].empid).subscribe(
+            (res) => {
+              // console.log(res);
+
+              for (let i = 0; i < res.length; i++) {
+                // console.log(res[i].date);
+
+                for (let data of res[i].date) {
+                  const date = moment(data).format('YYYY-MM-DD');
+                  // console.log(date);
+                  const today = moment(new Date()).format('YYYY-MM-DD');
+
+                  if (date < today) {
+                    this.events.push({
+                      title: 'A',
+                      date: date,
+                      color: '#dc3545',
+                    });
+                  }
+                }
+              }
+              this.calendarOptions.events = this.events;
+              this.spinner.hide();
+            },
+            (err) => {
+              console.log(err);
+              this.spinner.hide();
             }
-          }
-          this.calendarOptions.events = this.events;
+          );
+
+          // for (let date of this.allMonthDay) {
+          //   const today = moment(new Date()).format('YYYY-MM-DD');
+
+          //   if (date < today) {
+          //     this.events.push({
+          //       title: 'A',
+          //       date: date,
+          //       color: '#dc3545',
+          //     });
+          //   }
+          //   this.calendarOptions.events = this.events;
+          // }
         }
       },
       (err) => {
+        this.spinner.hide();
+
         // Swal.fire('Error!', 'Data not loaded!', 'error');
       }
     );

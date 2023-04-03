@@ -161,13 +161,19 @@ export class StaffService {
   }
 
   getApprovedLeaveForAdmin(empid: string): Observable<any> {
-    return this.http.get(+this.urlstaff + '/get-approved-leave/' + empid, {
+    return this.http.get(this.urlstaff + '/get-approved-leave/' + empid, {
       headers: this.setHeader(),
     });
   }
 
   checkInTableDetailsForAdmin(): Observable<any> {
     return this.http.get(this.urlstaff + '/check-details', {
+      headers: this.setHeader(),
+    });
+  }
+
+  getAbsentDataForAdmin(empid: string): Observable<any> {
+    return this.http.get(this.urlstaff + '/get-absent/' + empid, {
       headers: this.setHeader(),
     });
   }
