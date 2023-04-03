@@ -20,9 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-
-    private spinner: NgxSpinnerService,
-    private staffService: StaffService
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {}
@@ -34,20 +32,16 @@ export class LoginComponent implements OnInit {
       (res: any) => {
         this.loginForm.reset();
         if (res.role == 'admin') {
-          setTimeout(() => {
-            this.spinner.hide();
-          }, 3000);
           this.router.navigate(['/admin']);
           sessionStorage.setItem('isAdminLogin', 'true');
           sessionStorage.setItem('authToken', res.token);
+          this.spinner.hide();
         } else if (res.role == 'user') {
-          setTimeout(() => {
-            this.spinner.hide();
-          }, 3000);
           this.router.navigate(['/staff']);
           sessionStorage.setItem('loggedInData', JSON.stringify(res));
           sessionStorage.setItem('isStaffLogin', 'true');
           sessionStorage.setItem('userAuthToken', res.token);
+          this.spinner.hide();
         }
       },
       (err) => {

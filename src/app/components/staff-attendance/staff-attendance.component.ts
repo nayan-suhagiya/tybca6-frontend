@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { StaffService } from './../../services/staff.service';
 
 import { Component, OnInit } from '@angular/core';
@@ -16,10 +17,14 @@ export class StaffAttendanceComponent implements OnInit {
   allMonthDay: any = [];
   events: Array<{ title: string; date: string; color: string }> = [];
   calendarOptions: CalendarOptions;
-  constructor(private staffService: StaffService) {}
+  constructor(
+    private staffService: StaffService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
     this.loggedInData = this.staffService.loggednInData();
+    this.spinner.show();
 
     const date = new Date();
     const y = date.getFullYear();
@@ -100,6 +105,7 @@ export class StaffAttendanceComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
 
@@ -130,6 +136,7 @@ export class StaffAttendanceComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
 
@@ -158,6 +165,56 @@ export class StaffAttendanceComponent implements OnInit {
           }
 
           // console.log(this.allMonthDay);
+
+          this.staffService
+            .addAbsentData({
+              empid: this.loggedInData.empid,
+              date: this.allMonthDay,
+              month: m + 1,
+              year: y,
+            })
+            .subscribe(
+              (res) => {
+                // console.log(res);
+                this.staffService
+                  .getAbsentData(this.loggedInData.empid)
+                  .subscribe(
+                    (res) => {
+                      // console.log(res);
+
+                      for (let i = 0; i < res.length; i++) {
+                        // console.log(res[i].date);
+
+                        for (let data of res[i].date) {
+                          const date = moment(data).format('YYYY-MM-DD');
+                          // console.log(date);
+                          const today = moment(new Date()).format('YYYY-MM-DD');
+
+                          if (date < today) {
+                            this.events.push({
+                              title: 'A',
+                              date: date,
+                              color: '#dc3545',
+                            });
+                          }
+                        }
+                      }
+                      this.calendarOptions.events = this.events;
+                      this.spinner.hide();
+                    },
+                    (err) => {
+                      console.log(err);
+                      this.spinner.hide();
+                    }
+                  );
+              },
+              (err) => {
+                console.log(err);
+                this.spinner.hide();
+              }
+            );
+
+          /*
           for (let date of this.allMonthDay) {
             const today = moment(new Date()).format('YYYY-MM-DD');
 
@@ -168,11 +225,14 @@ export class StaffAttendanceComponent implements OnInit {
                 color: '#dc3545',
               });
             }
+            this.calendarOptions.events = this.events;
           }
-          this.calendarOptions.events = this.events;
+          */
         }
       },
       (err) => {
+        this.spinner.hide();
+
         // Swal.fire('Error!', 'Data not loaded!', 'error');
       }
     );

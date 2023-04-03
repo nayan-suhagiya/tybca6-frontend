@@ -171,4 +171,16 @@ export class StaffService {
       headers: this.setHeader(),
     });
   }
+
+  addAbsentData(data: any): Observable<any> {
+    return this.http.post(this.urlstaff + '/add-absent', data, {
+      headers: this.setStaffHeader(),
+    });
+  }
+
+  getAbsentData(empid: string): Observable<any> {
+    return this.http.get(this.urlstaff + '/get-absent/' + empid, {
+      headers: this.setStaffHeader(),
+    });
+  }
 }
