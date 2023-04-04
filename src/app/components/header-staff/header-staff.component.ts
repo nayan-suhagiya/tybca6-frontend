@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 import { HostListener } from '@angular/core';
@@ -19,7 +20,8 @@ export class HeaderStaffComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    @Inject(DOCUMENT) private document: any
+    @Inject(DOCUMENT) private document: any,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -64,13 +66,16 @@ export class HeaderStaffComponent implements OnInit {
   }
 
   callLogOut(token: string) {
+    this.spinner.show();
     this.authService.logout(token).subscribe(
       (res) => {
         sessionStorage.clear();
+        this.spinner.hide();
         this.router.navigate(['/login']);
       },
       (err) => {
-        Swal.fire('Error!', 'Unable to logout!', 'error');
+        this.spinner.hide();
+        // Swal.fire('Error!', 'Unable to logout!', 'error');
       }
     );
   }

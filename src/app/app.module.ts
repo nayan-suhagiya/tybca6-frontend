@@ -50,7 +50,6 @@ import { AdminAttendanceComponent } from './admin/admin-attendance/admin-attenda
     HttpClientModule,
     FullCalendarModule,
     NgxSpinnerModule,
-    NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
     BrowserAnimationsModule,
   ],
   providers: [],

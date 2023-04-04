@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
@@ -18,7 +19,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    @Inject(DOCUMENT) private document: any
+    @Inject(DOCUMENT) private document: any,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -59,13 +61,16 @@ export class HeaderComponent implements OnInit {
   }
 
   callLogOut(token: string) {
+    this.spinner.show();
     this.authService.logout(token).subscribe(
       (res) => {
         sessionStorage.clear();
+        this.spinner.hide();
         this.router.navigate(['/login']);
       },
       (err) => {
-        Swal.fire('Error!', 'Unnable to logout!', 'error');
+        this.spinner.hide();
+        // Swal.fire('Error!', 'Unnable to logout!', 'error');
       }
     );
   }

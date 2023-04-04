@@ -51,12 +51,12 @@ export class LoginComponent implements OnInit {
       (err) => {
         setTimeout(() => {
           this.spinner.hide();
+          if (err.error.message == undefined) {
+            Swal.fire('Warning!', 'Check credentials!', 'warning');
+          } else {
+            Swal.fire('Error!', 'Server Error!', 'error');
+          }
         }, 3000);
-        if (err.error.message == undefined) {
-          Swal.fire('Warning!', 'Check credentials!', 'warning');
-        } else {
-          Swal.fire('Error!', 'Server Error!', 'error');
-        }
       }
     );
   }

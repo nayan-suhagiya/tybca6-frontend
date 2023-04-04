@@ -81,28 +81,42 @@ export class StaffLeaveComponent implements OnInit {
     this.leaveData.status = 'Pending';
     this.leaveData.appliedOn = moment(new Date()).format('YYYY-MM-DD');
     // console.log(this.leaveData);
+    // console.log(this.approvedOrdRejectedData);
 
-    this.staffService.applyLeave(this.leaveData).subscribe(
-      (res) => {
-        // console.log(res);
+    const filteredApprovedData = this.approvedOrdRejectedData.filter((data) => {
+      return (
+        moment(this.leaveData.fromdate).format('YYYY-MM-DD') ==
+        moment(data.fromdate).format('YYYY-MM-DD')
+      );
+    });
 
-        if (res.offday) {
-          Swal.fire('Warning!', 'There is off day!', 'warning');
-          return;
+    // console.log(filteredApprovedData);
+
+    if (filteredApprovedData.length !== 0) {
+      Swal.fire('Error!', 'You already applied leave for that day!', 'error');
+    } else {
+      this.staffService.applyLeave(this.leaveData).subscribe(
+        (res) => {
+          // console.log(res);
+
+          if (res.offday) {
+            Swal.fire('Warning!', 'There is off day!', 'warning');
+            return;
+          }
+
+          if (res.added) {
+            Swal.fire('Success!', 'Leave applied successfully!', 'success');
+            this.leaveForm.reset();
+            this.ngOnInit();
+          } else {
+            Swal.fire('Error!', 'Unable to applied leave!', 'error');
+          }
+        },
+        (err) => {
+          this.spinner.hide();
+          console.log(err);
         }
-
-        if (res.added) {
-          Swal.fire('Success!', 'Leave applied successfully!', 'success');
-          this.leaveForm.reset();
-          this.ngOnInit();
-        } else {
-          Swal.fire('Error!', 'Unable to applied leave!', 'error');
-        }
-      },
-      (err) => {
-        this.spinner.hide();
-        console.log(err);
-      }
-    );
+      );
+    }
   }
 }
