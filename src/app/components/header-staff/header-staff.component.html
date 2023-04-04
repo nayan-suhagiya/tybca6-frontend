@@ -14,10 +14,21 @@
       </div>
     </div>
     <div class="header-menu ms-auto py-3">
-      <!-- <label for="">
-        <span class="las la-search"></span>
-      </label>
-
+      <div
+        class="me-2 mt-1 full-screen"
+        (click)="openFullscreen()"
+        *ngIf="!isFullScreen"
+      >
+        <i class="las la-expand-arrows-alt" style="font-size: 22px"></i>
+      </div>
+      <div
+        class="me-2 mt-1 full-screen"
+        (click)="closeFullscreen()"
+        *ngIf="isFullScreen"
+      >
+        <i class="las la-compress-arrows-alt" style="font-size: 22px"></i>
+      </div>
+      <!--
       <div class="notify-icon">
         <span class="las la-envelope"></span>
         <span class="notify">4</span>

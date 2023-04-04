@@ -1,9 +1,9 @@
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { StaffService } from './../../services/staff.service';
+import { HostListener } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import * as moment from 'moment';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,11 +13,13 @@ import Swal from 'sweetalert2';
 })
 export class HeaderStaffComponent implements OnInit {
   @Input() loggedInData: any;
+  elem: any;
+  isFullScreen: boolean = false;
 
   constructor(
-    private staffService: StaffService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    @Inject(DOCUMENT) private document: any
   ) {}
 
   ngOnInit(): void {
@@ -25,8 +27,28 @@ export class HeaderStaffComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
+
+    this.chkScreenMode();
+    this.elem = document.documentElement;
   }
 
+  fullscreenmodes(event) {
+    this.chkScreenMode();
+  }
+  chkScreenMode() {
+    if (document.fullscreenElement) {
+      //fullscreen
+      this.isFullScreen = true;
+    } else {
+      //not in full screen
+      this.isFullScreen = false;
+    }
+  }
+
+  @HostListener('document:fullscreenchange', ['$event'])
+  @HostListener('document:webkitfullscreenchange', ['$event'])
+  @HostListener('document:mozfullscreenchange', ['$event'])
+  @HostListener('document:MSFullscreenChange', ['$event'])
   isLogin() {
     return this.authService.isStaffLogin();
   }
@@ -51,5 +73,37 @@ export class HeaderStaffComponent implements OnInit {
         Swal.fire('Error!', 'Unable to logout!', 'error');
       }
     );
+  }
+
+  openFullscreen() {
+    this.isFullScreen = true;
+    if (this.elem.requestFullscreen) {
+      this.elem.requestFullscreen();
+    } else if (this.elem.mozRequestFullScreen) {
+      /* Firefox */
+      this.elem.mozRequestFullScreen();
+    } else if (this.elem.webkitRequestFullscreen) {
+      /* Chrome, Safari and Opera */
+      this.elem.webkitRequestFullscreen();
+    } else if (this.elem.msRequestFullscreen) {
+      /* IE/Edge */
+      this.elem.msRequestFullscreen();
+    }
+  }
+
+  closeFullscreen() {
+    this.isFullScreen = false;
+    if (this.document.exitFullscreen) {
+      this.document.exitFullscreen();
+    } else if (this.document.mozCancelFullScreen) {
+      /* Firefox */
+      this.document.mozCancelFullScreen();
+    } else if (this.document.webkitExitFullscreen) {
+      /* Chrome, Safari and Opera */
+      this.document.webkitExitFullscreen();
+    } else if (this.document.msExitFullscreen) {
+      /* IE/Edge */
+      this.document.msExitFullscreen();
+    }
   }
 }

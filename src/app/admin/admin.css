@@ -589,3 +589,7 @@ thead {
 /* .logo {
   filter: invert(1);
 } */
+
+.full-screen i {
+  cursor: pointer;
+}
