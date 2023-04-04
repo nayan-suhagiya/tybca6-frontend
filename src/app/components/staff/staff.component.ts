@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { StaffService } from './../../services/staff.service';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -16,9 +17,13 @@ export class StaffComponent implements OnInit {
   checkout: boolean = false;
   date: string = new Date().toString();
 
-  constructor(private staffService: StaffService) {}
+  constructor(
+    private staffService: StaffService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
+    this.spinner.show();
     setInterval(() => {
       this.date = new Date().toString();
     }, 1000);
@@ -45,13 +50,14 @@ export class StaffComponent implements OnInit {
     this.staffService.getApprovedLeave(this.loggedInData.empid).subscribe(
       (res) => {
         // console.log(res);
+        this.spinner.hide();
         if (res.length != 0) {
           for (let i = 0; i < res.length; i++) {
             const today = moment(new Date()).format('YYYY-MM-DD');
             const fromdate = moment(res[i].fromdate).format('YYYY-MM-DD');
             const todate = moment(res[i].todate).format('YYYY-MM-DD');
             // console.log(fromdate == todate);
-            if (today == fromdate && today == todate) {
+            if (today == fromdate || today == todate) {
               this.checkin = true;
               this.checkout = true;
             } else if (fromdate == todate) {
@@ -76,6 +82,9 @@ export class StaffComponent implements OnInit {
                   if (today == leaveDate) {
                     this.checkin = true;
                     this.checkout = true;
+                  } else {
+                    this.checkin = false;
+                    this.checkout = false;
                   }
                   // console.log(leaveDate);
                 } else {
@@ -93,26 +102,32 @@ export class StaffComponent implements OnInit {
               }
             }
           }
+        } else {
+          this.spinner.hide();
+          this.checkin = false;
+          this.checkout = false;
         }
       },
       (err) => {
+        this.spinner.hide();
         console.log(err);
       }
     );
 
     this.staffService.checkInTableDetails().subscribe(async (res) => {
-      res = await res.filter((data) => {
+      // this.spinner.hide();
+      const newRes = await res.filter((data) => {
         return data.empid == this.loggedInData.empid;
       });
 
-      const data = await res.filter((data) => {
+      // console.log(res);
+
+      const data = await newRes.filter((data) => {
         return (
           moment(new Date()).format('YYYY-MM-DD') ==
           moment(data.checkin).format('YYYY-MM-DD')
         );
       });
-
-      // console.log(res);
 
       // for (let checkin of res) {
       if (
@@ -135,6 +150,7 @@ export class StaffComponent implements OnInit {
         this.checkout = false;
       }
       // }
+      this.spinner.hide();
     });
   }
 

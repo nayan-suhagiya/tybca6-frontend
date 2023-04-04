@@ -18,6 +18,7 @@
           <div class="setCheckBtn">
             <button
               class="checkin mb-2 p-1 border-0"
+              aria-hidden="true"
               (click)="checkIn()"
               *ngIf="!checkin"
             >
@@ -26,6 +27,7 @@
             </button>
             <button
               class="checkin mb-2 p-1 border-0"
+              aria-hidden="true"
               (click)="checkOut()"
               *ngIf="!checkout"
             >

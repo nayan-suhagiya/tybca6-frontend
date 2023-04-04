@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { StaffLeave } from './StaffLeave';
@@ -21,9 +22,13 @@ export class StaffLeaveComponent implements OnInit {
   date: string = new Date().toString();
   offDay: boolean = false;
 
-  constructor(private staffService: StaffService) {}
+  constructor(
+    private staffService: StaffService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
+    this.spinner.show();
     const today = new Date();
 
     const day = this.date.split(' ')[0];
@@ -54,8 +59,10 @@ export class StaffLeaveComponent implements OnInit {
           this.pendingLeaveDatalength = 0;
           this.approvedOrdRejectedDatalength = 0;
         }
+        this.spinner.hide();
       },
       (err) => {
+        this.spinner.hide();
         console.log(err);
       }
     );
@@ -93,6 +100,7 @@ export class StaffLeaveComponent implements OnInit {
         }
       },
       (err) => {
+        this.spinner.hide();
         console.log(err);
       }
     );

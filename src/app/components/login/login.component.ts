@@ -16,6 +16,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class LoginComponent implements OnInit {
   @ViewChild('loginForm') loginForm: NgForm;
   loginData: Login = new Login();
+  password;
+  show: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -23,7 +25,9 @@ export class LoginComponent implements OnInit {
     private spinner: NgxSpinnerService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.password = 'password';
+  }
 
   loginSubmit() {
     this.spinner.show();
@@ -55,5 +59,15 @@ export class LoginComponent implements OnInit {
         }
       }
     );
+  }
+
+  showHideClick() {
+    if (this.password === 'password') {
+      this.password = 'text';
+      this.show = true;
+    } else {
+      this.password = 'password';
+      this.show = false;
+    }
   }
 }
