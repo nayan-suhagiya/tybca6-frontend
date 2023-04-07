@@ -3,6 +3,7 @@ import { DeptService } from 'src/app/services/dept.service';
 import { StaffService } from 'src/app/services/staff.service';
 import { Salary } from './Salary';
 import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin-salary',
@@ -20,6 +21,8 @@ export class AdminSalaryComponent implements OnInit {
   allDeptName: string[] = [];
   showSalaryTable: boolean = false;
   salaryData: Salary = new Salary();
+  allSalaryData: any;
+  allSalaryDataLength: number;
 
   constructor(
     private deptService: DeptService,
@@ -40,9 +43,24 @@ export class AdminSalaryComponent implements OnInit {
         console.log(err);
       }
     );
+
+    this.staffService.getSalary().subscribe(
+      (res) => {
+        // console.log(res);
+        if (res.length != 0) {
+          this.allSalaryData = res;
+          this.allSalaryDataLength = res.length;
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
     this.staffNameLength = 0;
     this.staffName = [];
     this.showSalaryTable = false;
+    this.salaryData = new Salary();
   }
 
   getStaffData(event) {
@@ -55,7 +73,6 @@ export class AdminSalaryComponent implements OnInit {
       this.staffName = [];
       this.showSalaryTable = false;
       this.staffNameLength = 0;
-      this.salaryForm.reset();
       return;
     }
 
@@ -121,10 +138,21 @@ export class AdminSalaryComponent implements OnInit {
 
   salaryFormSubmit() {
     this.salaryData.empid = this.staff[0].empid;
-    console.log(this.salaryData);
-    this.salaryData = new Salary();
-    this.staffName = [];
-    this.showSalaryTable = false;
-    this.staffNameLength = 0;
+    // console.log(this.salaryData);
+
+    this.staffService.addSalary(this.salaryData).subscribe(
+      (res) => {
+        // console.log(res);
+        if (res.inserted) {
+          Swal.fire('Success!', 'Salary Added Successfully!', 'success');
+          return;
+        }
+      },
+      (err) => {
+        console.log(err);
+        Swal.fire('Error!', 'Unable to add salary!', 'error');
+      }
+    );
+    this.ngOnInit();
   }
 }

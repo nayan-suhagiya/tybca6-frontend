@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Staff } from './../models/Staff';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Salary } from '../admin/admin-salary/Salary';
 
 @Injectable({
   providedIn: 'root',
@@ -98,6 +99,18 @@ export class StaffService {
 
   rejectLeave(data: any): Observable<any> {
     return this.http.patch(this.url + '/reject-staffleave', data, {
+      headers: this.setHeader(),
+    });
+  }
+
+  addSalary(data: Salary): Observable<any> {
+    return this.http.post(this.url + '/add-salary', data, {
+      headers: this.setHeader(),
+    });
+  }
+
+  getSalary(): Observable<any> {
+    return this.http.get(this.url + '/get-salary', {
       headers: this.setHeader(),
     });
   }
