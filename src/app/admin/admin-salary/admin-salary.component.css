@@ -1,0 +1,8 @@
+.deduc td {
+  padding: 19px;
+}
+
+.savebtn {
+  display: flex;
+  justify-content: end;
+}

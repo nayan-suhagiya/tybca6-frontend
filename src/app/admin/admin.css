@@ -319,11 +319,15 @@ header {
 }
 
 .indicator.three {
-  background: #f6d433;
+  background: #84a59d;
 }
 
 .indicator.four {
   background: #f25656;
+}
+
+.indicator.five {
+  background: #f6d433;
 }
 
 .records {

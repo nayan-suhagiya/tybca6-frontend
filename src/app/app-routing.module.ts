@@ -13,6 +13,7 @@ import { AdminComponent } from './admin/admin/admin.component';
 import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AdminSalaryComponent } from './admin/admin-salary/admin-salary.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,11 @@ const routes: Routes = [
   {
     path: 'admin/attendance',
     component: AdminAttendanceComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin/salary',
+    component: AdminSalaryComponent,
     canActivate: [AuthGuard],
   },
   {

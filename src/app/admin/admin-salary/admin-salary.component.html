@@ -1,0 +1,187 @@
+<app-sidebar></app-sidebar>
+
+<div class="main-content">
+  <app-header [part]="dpart"></app-header>
+  <main>
+    <div class="page-content">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">Staff Salary Add</h1>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label for="dname">Select Department </label>
+            <select
+              id="dname"
+              name="dname"
+              class="form-control"
+              (change)="getStaffData($event)"
+            >
+              <option value="">...</option>
+              <option [value]="dname" *ngFor="let dname of allDeptName">
+                {{ dname }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6" *ngIf="staffNameLength != 0">
+          <div class="form-group">
+            <label for="fname">Select Staff Name </label>
+            <select
+              id="fname"
+              name="fname"
+              class="form-control"
+              (change)="filterStaff($event)"
+            >
+              <option value="">...</option>
+              <option [value]="fname" *ngFor="let fname of staffName">
+                {{ fname }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12 my-3" *ngIf="showSalaryTable">
+          <!-- <h5 style="font-weight: 700">Salary Table</h5> -->
+          <form #salaryForm="ngForm" (ngSubmit)="salaryFormSubmit()">
+            <div class="form-group col-sm-4 ms-auto my-2">
+              <input
+                type="date"
+                name="salarydate"
+                id="salarydate"
+                required
+                class="form-control"
+                #salarydate="ngModel"
+                [(ngModel)]="salaryData.salarydate"
+              />
+              <div
+                class="alert alert-danger my-2"
+                *ngIf="salarydate.invalid && salarydate.touched"
+              >
+                Please select date!
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th class="text-success">Earnings(+)</th>
+                    <th class="text-danger">Deductions(-)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Basic Salary</th>
+                            <th>HRA(22%)</th>
+                            <th>Medical Allowances(8%)</th>
+                            <th>Dearness Allowance(6.5%)</th>
+                            <th>Gross Salary</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <input
+                                type="number"
+                                name="basicSalary"
+                                value="34500"
+                                id="basicSalary"
+                                class="form-control"
+                                min="5000"
+                                required
+                                #basicSalary="ngModel"
+                                (input)="calculateSalary($event)"
+                                [(ngModel)]="salaryData.basicSalary"
+                              />
+                              <div
+                                class="alert alert-danger my-2"
+                                *ngIf="
+                                  basicSalary.invalid && basicSalary.touched
+                                "
+                              >
+                                Please enter salary above 4999!
+                              </div>
+                            </td>
+                            <td>{{ salaryData.hra | number : "1.2-2" }}</td>
+                            <td>
+                              {{ salaryData.medicalAllow | number : "1.2-2" }}
+                            </td>
+                            <td>
+                              {{ salaryData.dearnessAllow | number : "1.2-2" }}
+                            </td>
+                            <td>
+                              <b>{{
+                                salaryData.grossSal | number : "1.2-2"
+                              }}</b>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>EPF(9%)</th>
+                            <th>Health Insurance(3%)</th>
+                            <th>Tax(5%)</th>
+                            <th>Total Deductions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="deduc">
+                            <td>{{ salaryData.epf | number : "1.2-2" }}</td>
+                            <td>
+                              {{
+                                salaryData.healthInsurance | number : "1.2-2"
+                              }}
+                            </td>
+                            <td>{{ salaryData.tax | number : "1.2-2" }}</td>
+                            <td>
+                              <b>{{
+                                salaryData.deduction | number : "1.2-2"
+                              }}</b>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="savebtn">
+              <p class="text-end text-decoration-underline me-2">
+                <span><b>Net Payment : </b></span>
+                <span>
+                  <b class="text-success">
+                    <span class="las la-rupee-sign"></span
+                    >{{ salaryData.netPay | number : "1.2-2" }}
+                  </b>
+                </span>
+              </p>
+              <button
+                class="btn btn-success me-2"
+                [disabled]="salaryForm.invalid"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+        <div
+          class="col-sm-12 text-danger text-center my-4"
+          *ngIf="staffNameLength == 0"
+        >
+          There is no staff!<span class="text-secondary"> or </span>Please
+          select valid department or staff!
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
