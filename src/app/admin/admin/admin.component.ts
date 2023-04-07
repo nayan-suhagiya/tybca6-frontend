@@ -12,6 +12,7 @@ export class AdminComponent implements OnInit {
   totalDept: number;
   totalStaffMemeber: number;
   totalLeaveRequest: number;
+  totalSalary: number = 0;
 
   constructor(
     private deptService: DeptService,
@@ -41,6 +42,20 @@ export class AdminComponent implements OnInit {
       (res) => {
         // console.log(res);
         this.totalLeaveRequest = res.length;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
+    this.staffService.getSalary().subscribe(
+      (res) => {
+        // console.log(res);
+        if (res.length != 0) {
+          for (let data of res) {
+            this.totalSalary += data.netpay;
+          }
+        }
       },
       (err) => {
         console.log(err);
