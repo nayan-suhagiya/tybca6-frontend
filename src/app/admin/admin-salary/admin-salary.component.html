@@ -76,11 +76,11 @@
                       <table class="table table-bordered">
                         <thead>
                           <tr>
-                            <th scope="col">Basic Salary</th>
-                            <th scope="col">HRA(22%)</th>
-                            <th scope="col">Medical Allowances(8%)</th>
-                            <th scope="col">Dearness Allowance(6.5%)</th>
-                            <th scope="col">Gross Salary</th>
+                            <th>Basic Salary</th>
+                            <th>HRA(22%)</th>
+                            <th>Medical Allowances(8%)</th>
+                            <th>Dearness Allowance(6.5%)</th>
+                            <th>Gross Salary</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -127,10 +127,10 @@
                       <table class="table table-bordered">
                         <thead>
                           <tr>
-                            <th scope="col">EPF(9%)</th>
-                            <th scope="col">Health Insurance(3%)</th>
-                            <th scope="col">Tax(5%)</th>
-                            <th scope="col">Total Deductions</th>
+                            <th>EPF(9%)</th>
+                            <th>Health Insurance(3%)</th>
+                            <th>Tax(5%)</th>
+                            <th>Total Deductions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -192,17 +192,17 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">EmpID</th>
-                <th scope="col">Paid Date</th>
-                <th scope="col">Basic Salary</th>
-                <th scope="col">HRA(22%)</th>
-                <th scope="col">Medical Allowances(8%)</th>
-                <th scope="col">Dearness Allowance(6.5%)</th>
-                <th scope="col">EPF(9%)</th>
-                <th scope="col">Health Insurance(3%)</th>
-                <th scope="col">Tax(5%)</th>
-                <th scope="col">Net Payment</th>
+                <th>#</th>
+                <th>EmpID</th>
+                <th>Paid Date</th>
+                <th>Basic Salary</th>
+                <th>HRA(22%)</th>
+                <th>Medical Allowances(8%)</th>
+                <th>Dearness Allowance(6.5%)</th>
+                <th>EPF(9%)</th>
+                <th>Health Insurance(3%)</th>
+                <th>Tax(5%)</th>
+                <th>Net Payment</th>
               </tr>
             </thead>
             <tbody>
@@ -213,33 +213,23 @@
                 <td class="text-primary">
                   {{ data.basicsalary | number : "1.2-2" }}
                 </td>
+                <td class="text-success">+{{ data.hra | number : "1.2-2" }}</td>
                 <td class="text-success">
-                  <span class="text-success">+</span>
-                  {{ data.hra | number : "1.2-2" }}
-                </td>
-                <td class="text-success">
-                  <span class="text-success">+</span>
-                  {{ data.medicalallow | number : "1.2-2" }}
+                  +{{ data.medicalallow | number : "1.2-2" }}
                 </td>
                 <td class="text-success">
-                  <span class="text-success">+</span>
-                  {{ data.dearnessallow | number : "1.2-2" }}
+                  +{{ data.dearnessallow | number : "1.2-2" }}
                 </td>
+                <td class="text-danger">-{{ data.epf | number : "1.2-2" }}</td>
                 <td class="text-danger">
-                  <span class="text-danger">-</span>
-                  {{ data.epf | number : "1.2-2" }}
+                  -{{ data.healthinsurance | number : "1.2-2" }}
                 </td>
-                <td class="text-danger">
-                  <span class="text-danger">-</span>
-                  {{ data.healthinsurance | number : "1.2-2" }}
-                </td>
-                <td class="text-danger">
-                  <span class="text-danger">-</span>
-                  {{ data.tax | number : "1.2-2" }}
-                </td>
+                <td class="text-danger">-{{ data.tax | number : "1.2-2" }}</td>
                 <td class="text-decoration-underline text-success">
-                  <span class="las la-rupee-sign"></span>
-                  <b>{{ data.netpay | number : "1.2-2" }}</b>
+                  <b style="display: flex; align-items: center">
+                    <i class="las la-rupee-sign"></i>
+                    {{ data.netpay | number : "1.2-2" }}
+                  </b>
                 </td>
               </tr>
             </tbody>

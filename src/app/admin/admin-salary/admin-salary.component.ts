@@ -138,6 +138,24 @@ export class AdminSalaryComponent implements OnInit {
 
   salaryFormSubmit() {
     this.salaryData.empid = this.staff[0].empid;
+    const specificSalaryData = this.allSalaryData.filter((data) => {
+      return this.salaryData.empid == data.empid;
+    });
+
+    // console.log(specificSalaryData.length);
+    if (specificSalaryData.length != 0) {
+      const date = String(this.salaryData.salarydate);
+      const dateArr = date.split('-');
+      const addSalaryMonth = Number(dateArr[1]);
+
+      const currentMonth = new Date().getMonth() + 1;
+
+      if (addSalaryMonth == currentMonth) {
+        Swal.fire('Warning!', 'Salary already paid for this month!', 'warning');
+        return;
+      }
+    }
+
     // console.log(this.salaryData);
 
     this.staffService.addSalary(this.salaryData).subscribe(
