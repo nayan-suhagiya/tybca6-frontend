@@ -23,7 +23,6 @@ export class StaffComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.spinner.show();
     setInterval(() => {
       this.date = new Date().toString();
     }, 1000);
@@ -50,7 +49,7 @@ export class StaffComponent implements OnInit {
     this.staffService.getApprovedLeave(this.loggedInData.empid).subscribe(
       (res) => {
         // console.log(res);
-        this.spinner.hide();
+
         if (res.length != 0) {
           for (let i = 0; i < res.length; i++) {
             const today = moment(new Date()).format('YYYY-MM-DD');
@@ -103,19 +102,16 @@ export class StaffComponent implements OnInit {
             }
           }
         } else {
-          this.spinner.hide();
           this.checkin = false;
           this.checkout = false;
         }
       },
       (err) => {
-        this.spinner.hide();
         console.log(err);
       }
     );
 
     this.staffService.checkInTableDetails().subscribe(async (res) => {
-      // this.spinner.hide();
       const newRes = await res.filter((data) => {
         return data.empid == this.loggedInData.empid;
       });
@@ -150,7 +146,6 @@ export class StaffComponent implements OnInit {
         this.checkout = false;
       }
       // }
-      this.spinner.hide();
     });
   }
 
