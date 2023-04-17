@@ -150,13 +150,17 @@ export class AdminSalaryComponent implements OnInit {
         return this.salaryData.empid == data.empid;
       });
 
-      // console.log(specificSalaryData.length);
+      console.log(specificSalaryData.length);
       if (specificSalaryData.length != 0) {
         const date = String(this.salaryData.salarydate);
         const dateArr = date.split('-');
         const addSalaryMonth = Number(dateArr[1]);
 
+        console.log(addSalaryMonth);
+
         const currentMonth = new Date().getMonth() + 1;
+
+        console.log(currentMonth);
 
         if (addSalaryMonth == currentMonth) {
           Swal.fire(
@@ -164,7 +168,9 @@ export class AdminSalaryComponent implements OnInit {
             'Salary already paid for this month!',
             'warning'
           );
+          return;
         } else {
+          console.log('Else part!');
           this.staffService.addSalary(this.salaryData).subscribe(
             (res) => {
               // console.log(res);
