@@ -16,6 +16,7 @@ export class StaffComponent implements OnInit {
   checkin: boolean = false;
   checkout: boolean = false;
   date: string = new Date().toString();
+  totalGainSalary: number = 0;
 
   constructor(
     private staffService: StaffService,
@@ -147,6 +148,20 @@ export class StaffComponent implements OnInit {
       }
       // }
     });
+
+    this.staffService.getSalaryForStaff(this.loggedInData.empid).subscribe(
+      (res) => {
+        // console.log(res);
+        if (res.length != 0) {
+          for (let data of res) {
+            this.totalGainSalary += data.netpay;
+          }
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   checkIn() {
