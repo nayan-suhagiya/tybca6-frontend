@@ -14,6 +14,7 @@ import { LoginComponent } from './components/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminSalaryComponent } from './admin/admin-salary/admin-salary.component';
+import { StaffSalaryComponent } from './components/staff-salary/staff-salary.component';
 
 const routes: Routes = [
   {
@@ -77,6 +78,11 @@ const routes: Routes = [
   {
     path: 'staff/profile',
     component: ProfileComponent,
+    canActivate: [StaffGuard],
+  },
+  {
+    path: 'staff/salary',
+    component: StaffSalaryComponent,
     canActivate: [StaffGuard],
   },
 ];

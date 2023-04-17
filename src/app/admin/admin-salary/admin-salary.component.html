@@ -194,6 +194,7 @@
               <tr>
                 <th>#</th>
                 <th>EmpID</th>
+                <th>Staff Name</th>
                 <th>Paid Date</th>
                 <th>Basic Salary</th>
                 <th>HRA(22%)</th>
@@ -209,6 +210,7 @@
               <tr *ngFor="let data of allSalaryData; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ data.empid }}</td>
+                <td>{{ data.fname }}</td>
                 <td>{{ data.salarydate | date : "mediumDate" }}</td>
                 <td class="text-primary">
                   {{ data.basicsalary | number : "1.2-2" }}

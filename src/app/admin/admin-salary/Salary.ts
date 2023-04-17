@@ -11,4 +11,5 @@ export class Salary {
   netPay: number;
   salarydate: Date;
   empid: string;
+  fname: string;
 }

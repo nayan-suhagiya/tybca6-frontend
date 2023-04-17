@@ -50,6 +50,9 @@ export class AdminSalaryComponent implements OnInit {
         if (res.length != 0) {
           this.allSalaryData = res;
           this.allSalaryDataLength = res.length;
+        } else {
+          this.allSalaryDataLength = 0;
+          this.allSalaryData = [];
         }
       },
       (err) => {
@@ -138,21 +141,45 @@ export class AdminSalaryComponent implements OnInit {
 
   salaryFormSubmit() {
     this.salaryData.empid = this.staff[0].empid;
-    const specificSalaryData = this.allSalaryData.filter((data) => {
-      return this.salaryData.empid == data.empid;
-    });
+    this.salaryData.fname = this.staff[0].fname;
+    console.log(this.allSalaryData.length);
+    console.log(this.salaryData);
 
-    // console.log(specificSalaryData.length);
-    if (specificSalaryData.length != 0) {
-      const date = String(this.salaryData.salarydate);
-      const dateArr = date.split('-');
-      const addSalaryMonth = Number(dateArr[1]);
+    if (this.allSalaryData.length !== 0) {
+      const specificSalaryData = this.allSalaryData.filter((data) => {
+        return this.salaryData.empid == data.empid;
+      });
 
-      const currentMonth = new Date().getMonth() + 1;
+      // console.log(specificSalaryData.length);
+      if (specificSalaryData.length != 0) {
+        const date = String(this.salaryData.salarydate);
+        const dateArr = date.split('-');
+        const addSalaryMonth = Number(dateArr[1]);
 
-      if (addSalaryMonth == currentMonth) {
-        Swal.fire('Warning!', 'Salary already paid for this month!', 'warning');
-        return;
+        const currentMonth = new Date().getMonth() + 1;
+
+        if (addSalaryMonth == currentMonth) {
+          Swal.fire(
+            'Warning!',
+            'Salary already paid for this month!',
+            'warning'
+          );
+        } else {
+          this.staffService.addSalary(this.salaryData).subscribe(
+            (res) => {
+              // console.log(res);
+              if (res.inserted) {
+                Swal.fire('Success!', 'Salary Added Successfully!', 'success');
+                return;
+              }
+            },
+            (err) => {
+              console.log(err);
+              Swal.fire('Error!', 'Unable to add salary!', 'error');
+            }
+          );
+          this.ngOnInit();
+        }
       }
     }
 
@@ -163,6 +190,7 @@ export class AdminSalaryComponent implements OnInit {
         // console.log(res);
         if (res.inserted) {
           Swal.fire('Success!', 'Salary Added Successfully!', 'success');
+          this.ngOnInit();
           return;
         }
       },
@@ -171,6 +199,5 @@ export class AdminSalaryComponent implements OnInit {
         Swal.fire('Error!', 'Unable to add salary!', 'error');
       }
     );
-    this.ngOnInit();
   }
 }

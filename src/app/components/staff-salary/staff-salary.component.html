@@ -1,0 +1,73 @@
+<app-sidebar-staff></app-sidebar-staff>
+<div class="main-content">
+  <app-header-staff [loggedInData]="loggedInData"></app-header-staff>
+  <main>
+    <div class="page-content">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">Salary Details</h1>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Staff Name</th>
+              <th>Paid Date</th>
+              <th>Basic Salary</th>
+              <th>HRA(22%)</th>
+              <th>Medical Allowances(8%)</th>
+              <th>Dearness Allowance(6.5%)</th>
+              <th>EPF(9%)</th>
+              <th>Health Insurance(3%)</th>
+              <th>Tax(5%)</th>
+              <th>Net Payment</th>
+              <th>Salary Slip</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of allSalaryData; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ data.fname }}</td>
+              <td>{{ data.salarydate | date : "mediumDate" }}</td>
+              <td class="text-primary">
+                {{ data.basicsalary | number : "1.2-2" }}
+              </td>
+              <td class="text-success">+{{ data.hra | number : "1.2-2" }}</td>
+              <td class="text-success">
+                +{{ data.medicalallow | number : "1.2-2" }}
+              </td>
+              <td class="text-success">
+                +{{ data.dearnessallow | number : "1.2-2" }}
+              </td>
+              <td class="text-danger">-{{ data.epf | number : "1.2-2" }}</td>
+              <td class="text-danger">
+                -{{ data.healthinsurance | number : "1.2-2" }}
+              </td>
+              <td class="text-danger">-{{ data.tax | number : "1.2-2" }}</td>
+              <td class="text-decoration-underline text-success">
+                <b style="display: flex; align-items: center">
+                  <i class="las la-rupee-sign"></i>
+                  {{ data.netpay | number : "1.2-2" }}
+                </b>
+              </td>
+              <td>
+                <i
+                  title="Show pdf"
+                  class="fa-solid fa-print text-info"
+                  style="font-size: 25px; cursor: pointer"
+                  (click)="pdfGenerate(data)"
+                ></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="text-danger text-center" *ngIf="allSalaryDataLength == 0">
+          No salary found!
+        </p>
+      </div>
+    </div>
+  </main>
+</div>

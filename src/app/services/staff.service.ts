@@ -202,4 +202,10 @@ export class StaffService {
       headers: this.setStaffHeader(),
     });
   }
+
+  getSalaryForStaff(empid: string): Observable<any> {
+    return this.http.get(this.urlstaff + '/get-salary/' + empid, {
+      headers: this.setStaffHeader(),
+    });
+  }
 }
