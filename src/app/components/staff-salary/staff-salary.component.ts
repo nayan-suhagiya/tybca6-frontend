@@ -178,7 +178,13 @@ export class StaffSalaryComponent implements OnInit {
     };
 
     if (action === 'download') {
-      pdfMake.createPdf(pdfDefinition).download();
+      pdfMake
+        .createPdf(pdfDefinition)
+        .download(
+          `Salary-${moment(data.salarydate).format('DD-MM-YYYY')}-${
+            data.fname
+          }.pdf`
+        );
     } else if (action === 'print') {
       pdfMake.createPdf(pdfDefinition).print();
     } else {
