@@ -23,6 +23,7 @@ export class AdminSalaryComponent implements OnInit {
   salaryData: Salary = new Salary();
   allSalaryData: any;
   allSalaryDataLength: number;
+  today: string;
 
   constructor(
     private deptService: DeptService,
@@ -101,6 +102,7 @@ export class AdminSalaryComponent implements OnInit {
   }
 
   filterStaff(event) {
+    this.salaryData.salarydate = new Date().toISOString().split('T')[0];
     // console.log(event.target.value);
     // console.log(this.staffData);
     if (event.target.value == '') {

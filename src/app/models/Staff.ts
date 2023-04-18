@@ -5,8 +5,8 @@ export class Staff {
   dname: string;
   email: string;
   mobile: string;
-  dob: Date;
-  jdate: Date;
+  dob: string;
+  jdate: string;
   city: string;
   state: string;
   address: string;

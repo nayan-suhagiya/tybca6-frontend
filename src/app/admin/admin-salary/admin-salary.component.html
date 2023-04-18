@@ -53,7 +53,9 @@
                 required
                 class="form-control"
                 #salarydate="ngModel"
+                value="{{ salaryData.salarydate }}"
                 [(ngModel)]="salaryData.salarydate"
+                [disabled]="true"
               />
               <div
                 class="alert alert-danger my-2"

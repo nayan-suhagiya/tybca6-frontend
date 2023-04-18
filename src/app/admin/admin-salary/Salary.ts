@@ -9,7 +9,7 @@ export class Salary {
   tax: number;
   deduction: number;
   netPay: number;
-  salarydate: Date;
+  salarydate: string;
   empid: string;
   fname: string;
 }
