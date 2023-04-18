@@ -37,7 +37,7 @@ export class StaffSalaryComponent implements OnInit {
     );
   }
 
-  pdfGenerate(data: any, action = 'open') {
+  pdfGenerate(data: any, action) {
     // console.log(data);
 
     let pdfDefinition = {
