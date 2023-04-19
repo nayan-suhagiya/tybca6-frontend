@@ -115,6 +115,12 @@ export class StaffService {
     });
   }
 
+  sendMail(data: any): Observable<any> {
+    return this.http.post(this.url + '/send-mail', data, {
+      headers: this.setHeader(),
+    });
+  }
+
   //regular staff
 
   loggednInData() {

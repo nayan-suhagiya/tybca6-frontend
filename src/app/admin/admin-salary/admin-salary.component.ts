@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DeptService } from 'src/app/services/dept.service';
 import { StaffService } from 'src/app/services/staff.service';
@@ -27,7 +28,8 @@ export class AdminSalaryComponent implements OnInit {
 
   constructor(
     private deptService: DeptService,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -142,29 +144,31 @@ export class AdminSalaryComponent implements OnInit {
   }
 
   salaryFormSubmit() {
+    this.spinner.show();
     this.salaryData.empid = this.staff[0].empid;
     this.salaryData.fname = this.staff[0].fname;
-    console.log(this.allSalaryData.length);
-    console.log(this.salaryData);
+    // console.log(this.allSalaryData.length);
+    // console.log(this.salaryData);
 
     if (this.allSalaryData.length !== 0) {
       const specificSalaryData = this.allSalaryData.filter((data) => {
         return this.salaryData.empid == data.empid;
       });
 
-      console.log(specificSalaryData.length);
+      // console.log(specificSalaryData.length);
       if (specificSalaryData.length != 0) {
         const date = String(this.salaryData.salarydate);
         const dateArr = date.split('-');
         const addSalaryMonth = Number(dateArr[1]);
 
-        console.log(addSalaryMonth);
+        // console.log(addSalaryMonth);
 
         const currentMonth = new Date().getMonth() + 1;
 
-        console.log(currentMonth);
+        // console.log(currentMonth);
 
         if (addSalaryMonth == currentMonth) {
+          this.spinner.hide();
           Swal.fire(
             'Warning!',
             'Salary already paid for this month!',
@@ -172,17 +176,21 @@ export class AdminSalaryComponent implements OnInit {
           );
           return;
         } else {
-          console.log('Else part!');
+          // console.log('Else part!');
           this.staffService.addSalary(this.salaryData).subscribe(
             (res) => {
               // console.log(res);
               if (res.inserted) {
+                this.spinner.hide();
+
                 Swal.fire('Success!', 'Salary Added Successfully!', 'success');
                 return;
               }
             },
             (err) => {
               console.log(err);
+              this.spinner.hide();
+
               Swal.fire('Error!', 'Unable to add salary!', 'error');
             }
           );
@@ -195,15 +203,38 @@ export class AdminSalaryComponent implements OnInit {
 
     this.staffService.addSalary(this.salaryData).subscribe(
       (res) => {
+        this.spinner.hide();
         // console.log(res);
         if (res.inserted) {
+          this.spinner.hide();
+
           Swal.fire('Success!', 'Salary Added Successfully!', 'success');
+
+          // console.log(this.staff);
+          this.staffService
+            .sendMail({
+              empid: this.salaryData.empid,
+              salarydate: this.salaryData.salarydate,
+              email: this.staff[0].email,
+              fname: this.staff[0].fname,
+            })
+            .subscribe(
+              (res) => {
+                // console.log(res);
+              },
+              (err) => {
+                console.log(err);
+              }
+            );
+
           this.ngOnInit();
           return;
         }
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
+
         Swal.fire('Error!', 'Unable to add salary!', 'error');
       }
     );
