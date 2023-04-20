@@ -12,6 +12,7 @@ import * as moment from 'moment';
   styleUrls: ['../../admin/admin.css'],
 })
 export class StaffLeaveComponent implements OnInit {
+  dpart: string = 'Leave';
   @ViewChild('leaveForm') leaveForm: NgForm;
   loggedInData: any;
   leaveData: StaffLeave = new StaffLeave();

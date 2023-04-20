@@ -12,6 +12,7 @@ import * as moment from 'moment';
   styleUrls: ['../../admin/admin.css'],
 })
 export class StaffAttendanceComponent implements OnInit {
+  dpart: string = 'Attendance';
   loggedInData: any;
   checkInDetails: any;
   allMonthDay: any = [];

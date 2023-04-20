@@ -4,7 +4,7 @@
       <small class="text-primary">Home / {{ part }}</small>
     </div>
     <div class="header-menu ms-auto py-3">
-      <div
+      <!-- <div
         class="me-2 mt-1 full-screen"
         (click)="openFullscreen()"
         *ngIf="!isFullScreen"
@@ -20,17 +20,17 @@
         *ngIf="isFullScreen"
       >
         <i class="las la-compress-arrows-alt" style="font-size: 22px"></i>
-      </div>
+      </div> -->
 
       <button
         type="button"
         routerLink="/admin/leavedays"
-        class="btn btn-sm btn-outline-secondary me-2"
+        class="btn btn-sm btn-outline-primary me-2"
       >
         Add Off Days
       </button>
 
-      <button
+      <!-- <button
         type="button"
         routerLink="/admin/leavedays"
         class="btn btn-sm btn-outline-secondary me-2"
@@ -39,7 +39,31 @@
       >
         <span class="las la-sign-out-alt" style="font-size: 1.3rem"></span>
         <span> Logout</span>
-      </button>
+      </button> -->
+
+      <div class="dropdown">
+        <button
+          class="btn btn-sm btn-outline-primary dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="fa-solid fa-user"></i>
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item" style="cursor: pointer"
+              >Update Password!</a
+            >
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item" (click)="logOut()" style="cursor: pointer"
+              >Logout</a
+            >
+          </li>
+        </ul>
+      </div>
 
       <label for="menu-toggle">
         <span class="las la-bars ms-3 mt-1"></span>

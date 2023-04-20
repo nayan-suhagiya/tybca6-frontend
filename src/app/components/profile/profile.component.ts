@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProfileComponent implements OnInit {
   loggedInData: any;
   userdata: any;
+  dpart: string = 'Profile';
 
   constructor(private staffService: StaffService) {}
 

@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./staff.component.css', '../../admin/admin.css'],
 })
 export class StaffComponent implements OnInit {
+  dpart: string = 'Dashboard';
   loggedInData: any;
   totalLeaveRequest: number;
   checkin: boolean;

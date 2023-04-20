@@ -11,6 +11,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
   styleUrls: ['./staff-salary.component.css', '../../admin/admin.css'],
 })
 export class StaffSalaryComponent implements OnInit {
+  dpart: string = 'Salary';
   loggedInData: any;
   allSalaryData: any;
   allSalaryDataLength: number;

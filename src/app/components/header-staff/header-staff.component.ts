@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 })
 export class HeaderStaffComponent implements OnInit {
   @Input() loggedInData: any;
+  @Input() dpart: any;
   elem: any;
   isFullScreen: boolean = false;
 

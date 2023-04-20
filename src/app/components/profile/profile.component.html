@@ -1,9 +1,12 @@
 <app-sidebar-staff></app-sidebar-staff>
 <div class="main-content">
-  <app-header-staff [loggedInData]="loggedInData"></app-header-staff>
+  <app-header-staff
+    [dpart]="dpart"
+    [loggedInData]="loggedInData"
+  ></app-header-staff>
   <main>
     <div class="page-content">
-      <div class="container mt-1 p-3 d-flex justify-content-center">
+      <!-- <div class="container mt-1 p-3 d-flex justify-content-center">
         <div class="card main-card p-4">
           <div
             class="image d-flex flex-column justify-content-center align-items-center"
@@ -55,14 +58,14 @@
             <div class="px-2 rounded date">
               <span class="join text-dark">
                 <i class="las la-birthday-cake"></i>
-                {{ loggedInData.dob | date : "mediumDate" }}
+                {{ loggedInData.dob | date : "dd-MM-yyyy" }}
               </span>
             </div>
             <div class="px-2 rounded mt-1 date">
               <span class="join text-dark">
                 <small class="me-1">Joined!</small>
                 <i class="las la-signature me-1"></i>
-                {{ loggedInData.jdate | date : "mediumDate" }}
+                {{ loggedInData.jdate | date : "dd-MM-yyyy" }}
               </span>
             </div>
 
@@ -74,6 +77,133 @@
               >
                 Edit Profile
               </button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="container">
+        <div class="main-body">
+          <div class="row shadow-lg gutters-sm">
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div
+                    class="d-flex flex-column align-items-center text-center"
+                  >
+                    <img
+                      src="https://img.icons8.com/bubbles/100/000000/user.png"
+                      alt="Admin"
+                      class="rounded-circle"
+                      width="150"
+                    />
+                    <div class="mt-3">
+                      <h4>{{ loggedInData.fname }}</h4>
+                      <p class="y mb-1">
+                        <i class="las la-id-badge" style="font-size: 25px"></i>
+                        {{ loggedInData.empid }}
+                      </p>
+                      <p class="font-size-sm">
+                        Department : <span>{{ loggedInData.dname }}</span>
+                      </p>
+                      <div class="text-primary">
+                        <span class="text-dark">
+                          <span>DOB</span>
+                          <i class="las icons la-birthday-cake"></i>
+                        </span>
+                        {{ loggedInData.dob | date : "dd-MM-yyyy" }}
+                      </div>
+                      <div class="text-primary">
+                        <span class="text-dark">
+                          <span>Joined</span>
+                          <i class="las icons la-signature me-1"></i>
+                        </span>
+                        {{ loggedInData.jdate | date : "dd-MM-yyyy" }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Full Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ loggedInData.fname }}
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ loggedInData.email }}
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">
+                        <i
+                          class="las la-phone-volume me-1"
+                          style="font-size: 25px"
+                        ></i>
+                        Phone
+                      </h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ loggedInData.mobile }}
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">
+                        <i
+                          class="las la-map-marked-alt"
+                          style="font-size: 25px"
+                        ></i>
+                        City,State
+                      </h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ loggedInData.city }},{{ loggedInData.state }}
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">
+                        <i
+                          class="las la-map-marker-alt"
+                          style="font-size: 25px"
+                        ></i>
+                        Address
+                      </h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ loggedInData.address }}
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <a
+                        class="btn btn-info"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"
+                      >
+                        Update
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -107,6 +237,11 @@
       </div>
       <div class="modal-body">
         <form #profileUpdateForm="ngForm" (ngSubmit)="updateProfile()">
+          <div class="mb-2 text-danger text-center">
+            <span class="text-decoration-underline">
+              If you change your email and mobile your password also be updated!
+            </span>
+          </div>
           <div class="form-group">
             <label for="fname">Full Name </label>
             <input
@@ -249,10 +384,6 @@
           </div>
 
           <div class="my-2 text-danger text-center">
-            <span class="text-decoration-underline">
-              If you change your email and mobile your password also be updated!
-            </span>
-            <br />
             <span class="text-secondary">
               Your password should be FIRST 3 letter of email and LAST 5 number
               of mobile number!
@@ -273,7 +404,7 @@
               class="btn btn-info"
               data-bs-dismiss="modal"
             >
-              Save
+              Save Changes
             </button>
           </div>
         </form>

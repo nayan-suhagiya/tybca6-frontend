@@ -33,10 +33,10 @@
               <td>{{ data.fname }}</td>
               <td>{{ data.dname }}</td>
               <td>{{ data.reason }}</td>
-              <td>{{ data.fromdate | date : "mediumDate" }}</td>
-              <td>{{ data.todate | date : "mediumDate" }}</td>
+              <td>{{ data.fromdate | date : "dd-MM-yyyy" }}</td>
+              <td>{{ data.todate | date : "dd-MM-yyyy" }}</td>
               <td>{{ data.description }}</td>
-              <td>{{ data.appliedon | date : "mediumDate" }}</td>
+              <td>{{ data.appliedon | date : "dd-MM-yyyy" }}</td>
               <td>
                 <div class="btn-group">
                   <button
@@ -96,10 +96,10 @@
               <td>{{ data.fname }}</td>
               <td>{{ data.dname }}</td>
               <td>{{ data.reason }}</td>
-              <td>{{ data.fromdate | date : "mediumDate" }}</td>
-              <td>{{ data.todate | date : "mediumDate" }}</td>
+              <td>{{ data.fromdate | date : "dd-MM-yyyy" }}</td>
+              <td>{{ data.todate | date : "dd-MM-yyyy" }}</td>
               <td>{{ data.description }}</td>
-              <td>{{ data.appliedon | date : "mediumDate" }}</td>
+              <td>{{ data.appliedon | date : "dd-MM-yyyy" }}</td>
               <td>
                 <span
                   *ngIf="data.status == 'Approved'"
