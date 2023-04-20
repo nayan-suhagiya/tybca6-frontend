@@ -13,10 +13,12 @@ import Swal from 'sweetalert2';
 export class StaffComponent implements OnInit {
   loggedInData: any;
   totalLeaveRequest: number;
-  checkin: boolean = false;
-  checkout: boolean = false;
+  checkin: boolean;
+  checkout: boolean;
   date: string = new Date().toString();
   totalGainSalary: number = 0;
+  leaveDateArr: any = [];
+  isleave: boolean = false;
 
   constructor(
     private staffService: StaffService,
@@ -31,7 +33,6 @@ export class StaffComponent implements OnInit {
 
     this.staffService.getAppliedLeave(this.loggedInData.empid).subscribe(
       (res) => {
-        // console.log(res);
         this.totalLeaveRequest = res.length;
       },
       (err) => {
@@ -47,111 +48,100 @@ export class StaffComponent implements OnInit {
       return;
     }
 
-    this.staffService.getApprovedLeave(this.loggedInData.empid).subscribe(
-      (res) => {
-        // console.log(res);
+    this.staffService
+      .getApprovedLeave(this.loggedInData.empid)
+      .subscribe((res) => {
+        const today = moment(new Date()).format('YYYY-MM-DD');
 
-        if (res.length != 0) {
-          for (let i = 0; i < res.length; i++) {
-            const today = moment(new Date()).format('YYYY-MM-DD');
-            const fromdate = moment(res[i].fromdate).format('YYYY-MM-DD');
-            const todate = moment(res[i].todate).format('YYYY-MM-DD');
-            // console.log(fromdate == todate);
-            if (today == fromdate || today == todate) {
+        const filteredData = res.filter((data) => {
+          return moment(data.fromdate).format('YYYY-MM-DD') == today;
+        });
+
+        if (filteredData.length !== 0) {
+          const fromdate = moment(filteredData[0].fromdate).format(
+            'YYYY-MM-DD'
+          );
+          const todate = moment(filteredData[0].todate).format('YYYY-MM-DD');
+
+          if (fromdate == todate) {
+            if (fromdate == today) {
               this.checkin = true;
               this.checkout = true;
-            } else if (fromdate == todate) {
-              if (today == fromdate || today == todate) {
-                this.checkin = true;
-                this.checkout = true;
-              } else {
-                this.checkin = false;
-                this.checkout = false;
-              }
+              this.isleave = true;
             } else {
-              const dateArr = fromdate.split('-');
-              const startdate = Number(fromdate.split('-')[2]);
-              const enddate = Number(todate.split('-')[2]);
+              this.checkin = false;
+              this.checkout = false;
+            }
+          } else {
+            const dateArr = fromdate.split('-');
+            const startdate = Number(fromdate.split('-')[2]);
+            const enddate = Number(todate.split('-')[2]);
 
-              for (let i = startdate; i <= enddate; i++) {
-                // console.log(i);
-                const today = moment(new Date()).format('YYYY-MM-DD');
-                if (i <= 9) {
-                  const leaveDate = dateArr[0] + '-' + dateArr[1] + '-0' + i;
-
-                  if (today == leaveDate) {
-                    this.checkin = true;
-                    this.checkout = true;
-                  } else {
-                    this.checkin = false;
-                    this.checkout = false;
-                  }
-                  // console.log(leaveDate);
-                } else {
-                  const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
-
-                  if (today == leaveDate) {
-                    this.checkin = true;
-                    this.checkout = true;
-                  } else {
-                    this.checkin = false;
-                    this.checkout = false;
-                  }
-                  // console.log(leaveDate);
-                }
+            for (let i = startdate; i <= enddate; i++) {
+              const today = moment(new Date()).format('YYYY-MM-DD');
+              if (i <= 9) {
+                const leaveDate = dateArr[0] + '-' + dateArr[1] + '-0' + i;
+                this.leaveDateArr.push(leaveDate);
+              } else {
+                const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
+                this.leaveDateArr.push(leaveDate);
               }
             }
+
+            this.leaveDateArr = this.leaveDateArr.filter((date) => {
+              return today == date;
+            });
+
+            if (this.leaveDateArr.length == 0) {
+              this.checkin = false;
+              this.checkout = false;
+            } else {
+              this.checkin = true;
+              this.checkout = true;
+              this.isleave = true;
+            }
           }
-        } else {
-          this.checkin = false;
-          this.checkout = false;
         }
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
 
-    this.staffService.checkInTableDetails().subscribe(async (res) => {
-      const newRes = await res.filter((data) => {
-        return data.empid == this.loggedInData.empid;
+        if (this.checkin == true && this.checkout == true) {
+          return;
+        } else {
+          this.staffService.checkInTableDetails().subscribe(
+            (res) => {
+              const newRes = res.filter((data) => {
+                return data.empid == this.loggedInData.empid;
+              });
+
+              const data = newRes.filter((data) => {
+                return today == moment(data.checkin).format('YYYY-MM-DD');
+              });
+
+              if (data.length == 0) {
+                this.checkin = false;
+                this.checkout = false;
+              } else {
+                if (data[0].checkin == null) {
+                  this.checkin = false;
+                } else {
+                  this.checkin = true;
+                }
+
+                if (data[0].checkout == null) {
+                  this.checkout = false;
+                } else {
+                  this.checkout = true;
+                }
+              }
+            },
+            (err) => {
+              console.log(err);
+            }
+          );
+        }
       });
-
-      // console.log(res);
-
-      const data = await newRes.filter((data) => {
-        return (
-          moment(new Date()).format('YYYY-MM-DD') ==
-          moment(data.checkin).format('YYYY-MM-DD')
-        );
-      });
-
-      // for (let checkin of res) {
-      if (
-        moment(data[0].checkin).format('YYYY-MM-DD') ==
-          moment(new Date()).format('YYYY-MM-DD') &&
-        data[0].checkin !== null
-      ) {
-        this.checkin = true;
-      } else {
-        this.checkin = false;
-      }
-
-      if (
-        moment(data[0].checkout).format('YYYY-MM-DD') ==
-          moment(new Date()).format('YYYY-MM-DD') &&
-        data[0].checkout !== null
-      ) {
-        this.checkout = true;
-      } else {
-        this.checkout = false;
-      }
-      // }
-    });
 
     this.staffService.getSalaryForStaff(this.loggedInData.empid).subscribe(
       (res) => {
-        // console.log(res);
         if (res.length != 0) {
           for (let data of res) {
             this.totalGainSalary += data.netpay;
@@ -169,21 +159,17 @@ export class StaffComponent implements OnInit {
 
     this.staffService.checkInTableDetails().subscribe(
       (res) => {
-        // console.log(res);
-        res = res.filter((data) => {
+        const filteredRes = res.filter((data) => {
           return data.empid == this.loggedInData.empid;
         });
 
-        // console.log(res);
-
-        if (res.length <= 0) {
+        if (filteredRes.length <= 0) {
           this.staffService.checkIn({ empid }).subscribe(
             (res) => {
               if (res.present) {
                 Swal.fire('Success!', 'Checked IN!', 'success');
                 sessionStorage.setItem('checkInDetails', JSON.stringify(res));
-                // this.ngOnInit();
-                this.checkin = true;
+                this.ngOnInit();
               } else {
                 Swal.fire('Warning!', 'Something went wrong!', 'warning');
               }
@@ -199,7 +185,6 @@ export class StaffComponent implements OnInit {
                 Swal.fire('Success!', 'Checked IN!', 'success');
                 sessionStorage.setItem('checkInDetails', JSON.stringify(res));
                 this.ngOnInit();
-                this.checkin = true;
               } else {
                 Swal.fire('Warning!', 'Something went wrong!', 'warning');
               }
@@ -230,8 +215,7 @@ export class StaffComponent implements OnInit {
           this.staffService.checkOut({ empid, date }).subscribe(
             (res) => {
               if (res.present == false) {
-                // this.ngOnInit();
-                this.checkout = true;
+                this.ngOnInit();
                 Swal.fire('Success!', 'Checked OUT!', 'success');
               } else {
                 Swal.fire('Warning!', 'Something went wrong!', 'warning');
@@ -251,8 +235,7 @@ export class StaffComponent implements OnInit {
               this.staffService.checkOut({ empid, date }).subscribe(
                 (res) => {
                   if (res.present == false) {
-                    // this.ngOnInit();
-                    this.checkout = true;
+                    this.ngOnInit();
                     Swal.fire('Success!', 'Checked OUT!', 'success');
                   } else {
                     Swal.fire('Warning!', 'Something went wrong!', 'warning');
