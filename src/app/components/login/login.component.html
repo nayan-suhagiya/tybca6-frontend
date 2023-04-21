@@ -19,7 +19,7 @@
               type="text"
               class="form-control"
               id="username"
-              placeholder="USERNAME"
+              placeholder="STAFFID or USERNAME"
               name="username"
               [(ngModel)]="loginData.username"
             />
@@ -55,6 +55,16 @@
             <button class="w-60 mt-3 btn btn-info" type="Submit">
               Sign in
             </button>
+          </div>
+          <div class="mt-2">
+            <p>
+              <a
+                routerLink="/forgot-password"
+                class="text-primary"
+                style="cursor: pointer"
+                >Forgot password ?</a
+              >
+            </p>
           </div>
         </form>
       </main>

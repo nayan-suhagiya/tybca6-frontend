@@ -27,10 +27,10 @@ export class StaffService {
 
   //admin
 
-  updateAdminPassword(data:any):Observable<any>{
-    return this.http.post(this.url+'/update-password',data,{
-      headers:this.setHeader()
-    })
+  updateAdminPassword(data: any): Observable<any> {
+    return this.http.post(this.url + '/update-password', data, {
+      headers: this.setHeader(),
+    });
   }
 
   getStaff(): Observable<any> {
@@ -125,6 +125,10 @@ export class StaffService {
     return this.http.post(this.url + '/send-mail', data, {
       headers: this.setHeader(),
     });
+  }
+
+  sendForgotPasswordMail(data: any) {
+    return this.http.post(this.url + '/send-forgot-password-mail', data);
   }
 
   //regular staff
