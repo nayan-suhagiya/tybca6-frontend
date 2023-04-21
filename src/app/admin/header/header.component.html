@@ -52,7 +52,11 @@
         </button>
         <ul class="dropdown-menu">
           <li>
-            <a class="dropdown-item" style="cursor: pointer"
+            <a
+              class="dropdown-item"
+              style="cursor: pointer"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
               >Update Password!</a
             >
           </li>
@@ -71,3 +75,73 @@
     </div>
   </div>
 </header>
+
+<!-- Modal for update password -->
+
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Update Password!
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form #adminUpdatePasswdForm="ngForm">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Password"
+              #passwd="ngModel"
+              [(ngModel)]="updatedPassword"
+              name="passwd"
+              id="passwd"
+              autocomplete="off"
+              required
+            />
+          </div>
+          <div
+            class="alert alert-danger my-2"
+            *ngIf="passwd.invalid && passwd.touched"
+          >
+            Please enter valid details!
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          (click)="resetForm()"
+        >
+          Close
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          [disabled]="adminUpdatePasswdForm.invalid"
+          (click)="updatePassword()"
+        >
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

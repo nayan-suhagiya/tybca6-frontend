@@ -25,7 +25,13 @@ export class StaffService {
     return new HttpHeaders().set('Authorization', 'Bearer ' + token);
   }
 
-  //admin staff
+  //admin
+
+  updateAdminPassword(data:any):Observable<any>{
+    return this.http.post(this.url+'/update-password',data,{
+      headers:this.setHeader()
+    })
+  }
 
   getStaff(): Observable<any> {
     return this.http.get(this.url + '/get-staff', {

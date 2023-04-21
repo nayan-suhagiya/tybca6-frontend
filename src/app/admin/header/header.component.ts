@@ -1,10 +1,11 @@
+import { NgForm } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
-import { Component, Input, Inject, OnInit } from '@angular/core';
-import { HostListener } from '@angular/core';
+import { Component, Input, Inject, OnInit, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { StaffService } from 'src/app/services/staff.service';
 
 @Component({
   selector: 'app-header',
@@ -12,15 +13,18 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['../admin.css'],
 })
 export class HeaderComponent implements OnInit {
+  @ViewChild('adminUpdatePasswdForm') adminUpdatePasswdForm: NgForm;
   @Input() part = '';
   elem: any;
   isFullScreen: boolean = false;
+  updatedPassword: string;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     @Inject(DOCUMENT) private document: any,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private staffServie: StaffService
   ) {}
 
   ngOnInit(): void {
@@ -105,5 +109,28 @@ export class HeaderComponent implements OnInit {
       /* IE/Edge */
       this.document.msExitFullscreen();
     }
+  }
+
+  updatePassword() {
+    // console.log(this.updatedPassword);
+    this.staffServie
+      .updateAdminPassword({ password: this.updatedPassword })
+      .subscribe(
+        (res) => {
+          if (res.updated) {
+            Swal.fire('Success!', 'Password updated!', 'success');
+          } else {
+            Swal.fire('Error!', 'Unable to change password!', 'error');
+          }
+        },
+        (err) => {
+          console.log(err);
+          Swal.fire('Error!', 'Unable to change password!', 'error');
+        }
+      );
+  }
+
+  resetForm() {
+    this.adminUpdatePasswdForm.reset();
   }
 }
