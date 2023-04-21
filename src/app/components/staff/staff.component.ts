@@ -20,6 +20,7 @@ export class StaffComponent implements OnInit {
   totalGainSalary: number = 0;
   leaveDateArr: any = [];
   isleave: boolean = false;
+  isoffday: boolean = false;
 
   constructor(
     private staffService: StaffService,
@@ -46,6 +47,7 @@ export class StaffComponent implements OnInit {
     if (day == 'Sat' || day == 'Sun') {
       this.checkin = true;
       this.checkout = true;
+      this.isoffday = true;
       return;
     }
 

@@ -58,6 +58,11 @@ export class StaffAttendanceComponent implements OnInit {
       plugins: [dayGridPlugin],
       events: [],
       firstDay: 1,
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridWeek,dayGridDay,dayGridYear,dayGridMonth', // user can switch between the two
+      },
     };
 
     this.staffService.getApprovedLeave(this.loggedInData.empid).subscribe(

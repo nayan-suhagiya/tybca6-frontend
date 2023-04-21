@@ -13,7 +13,7 @@
             <span class="las la-user-clock"></span>
           </div>
           <div class="card-progress">
-            <small>{{ date | date : "dd-MM-yyyy" }}</small>
+            <small>{{ date | date : "fullDate" }}</small>
             <div class="card-indicator">
               <div class="indicator two" style="width: 100%"></div>
             </div>
@@ -40,6 +40,14 @@
           </div>
           <div *ngIf="isleave">
             <p class="text-center text-danger">Today you are on leave!!!</p>
+          </div>
+          <div *ngIf="checkin && checkout">
+            <p class="text-center text-success">
+              You are already checkdIn and checkedOut for today!!!
+            </p>
+          </div>
+          <div *ngIf="isoffday">
+            <p class="text-center text-warning">Today is off day!!!</p>
           </div>
         </div>
 
