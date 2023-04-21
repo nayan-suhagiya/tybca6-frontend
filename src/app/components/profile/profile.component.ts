@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import { StaffService } from './../../services/staff.service';
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-profile',
@@ -12,24 +13,17 @@ export class ProfileComponent implements OnInit {
   userdata: any;
   dpart: string = 'Profile';
 
-  constructor(private staffService: StaffService) {}
+  constructor(
+    private staffService: StaffService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
-    // this.userdata = this.staffService.loggednInData();
-
-    // this.staffService.getSpecificStaff(this.userdata.empid).subscribe(
-    //   (res) => {
-    //     // console.log(res);
-    //     this.loggedInData = res;
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //   }
-    // );
     this.loggedInData = this.staffService.loggednInData();
   }
 
   updateProfile() {
+    this.spinner.show();
     this.loggedInData.password = this.generatePassword(
       this.loggedInData.email,
       this.loggedInData.mobile
@@ -42,11 +36,13 @@ export class ProfileComponent implements OnInit {
             JSON.stringify(this.loggedInData)
           );
           Swal.fire('Success!', 'Your Profile Updated!', 'success');
+          this.spinner.hide();
           this.ngOnInit();
         }
       },
       (err) => {
         Swal.fire('Oops!', 'Unable to update!', 'error');
+        this.spinner.hide();
       }
     );
   }

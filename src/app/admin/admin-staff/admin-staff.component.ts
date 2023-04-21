@@ -5,6 +5,7 @@ import { Staff } from './../../models/Staff';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-staff',
@@ -24,7 +25,8 @@ export class AdminStaffComponent implements OnInit {
 
   constructor(
     private deptService: DeptService,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +55,7 @@ export class AdminStaffComponent implements OnInit {
   }
 
   staffFormSubmit() {
+    this.spinner.show();
     this.staffData.password = this.generatePassword(
       this.staffData.email,
       this.staffData.mobile
@@ -63,12 +66,23 @@ export class AdminStaffComponent implements OnInit {
         this.staffForm.reset();
         if (res.inserted) {
           Swal.fire('Success!', 'Staff Added!', 'success');
-
+          this.spinner.hide();
           this.ngOnInit();
+        } else {
+          if (res.emailExist) {
+            Swal.fire('Error!', 'Email Already Exists!', 'error');
+            this.spinner.hide();
+          } else {
+            if (res.mobileExist) {
+              Swal.fire('Error!', 'Mobile Number Already Exists!', 'error');
+              this.spinner.hide();
+            }
+          }
         }
       },
       (err) => {
         Swal.fire('Oops!', 'Unable to add!', 'error');
+        this.spinner.hide();
       }
     );
   }
@@ -78,6 +92,7 @@ export class AdminStaffComponent implements OnInit {
   }
 
   updateSubmit() {
+    this.spinner.show();
     this.editableStaff.password = this.generatePassword(
       this.editableStaff.email,
       this.editableStaff.mobile
@@ -86,11 +101,13 @@ export class AdminStaffComponent implements OnInit {
       (res) => {
         if (res.updated) {
           Swal.fire('Success!', 'Staff Update!', 'success');
+          this.spinner.hide();
           this.ngOnInit();
         }
       },
       (err) => {
         Swal.fire('Oops!', 'Unable to update!', 'error');
+        this.spinner.hide();
       }
     );
   }
