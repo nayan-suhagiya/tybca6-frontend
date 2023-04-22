@@ -26,6 +26,7 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Empid</th>
+              <th scope="col">Profile Photo</th>
               <th scope="col">Name</th>
               <th scope="col">Gender</th>
               <th scope="col">Department</th>
@@ -44,13 +45,37 @@
             <tr *ngFor="let data of allStaffData; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ data.empid }}</td>
+              <td>
+                <img
+                  src="https://img.icons8.com/bubbles/100/000000/user.png"
+                  style="
+                    width: 65px;
+                    height: 65px;
+                    border: 0px;
+                    border-radius: 360px;
+                  "
+                  alt="profile photo"
+                  *ngIf="data.profile == null || data.profile == ''"
+                />
+                <img
+                  [src]="data.profile"
+                  style="
+                    width: 50px;
+                    height: 50px;
+                    border: 0px;
+                    border-radius: 360px;
+                  "
+                  alt="profile photo"
+                  *ngIf="data.profile !== null && data.profile !== ''"
+                />
+              </td>
               <td>{{ data.fname }}</td>
               <td>{{ data.gender }}</td>
               <td>{{ data.dname }}</td>
               <td>{{ data.email }}</td>
               <td>{{ data.mobile }}</td>
-              <td>{{ data.dob | date : "dd-MM-yyyy" }}</td>
-              <td>{{ data.jdate | date : "dd-MM-yyyy" }}</td>
+              <td>{{ data.dob | date : "mediumDate" }}</td>
+              <td>{{ data.jdate | date : "mediumDate" }}</td>
               <td>{{ data.city }}</td>
               <td>{{ data.state }}</td>
               <td>{{ data.address }}</td>
@@ -106,7 +131,33 @@
         ></button>
       </div>
       <div class="modal-body">
+        <div style="display: flex; justify-content: center">
+          <img
+            [src]="imageSrc"
+            style="
+              width: 100px;
+              height: 100px;
+              border: 0px;
+              border-radius: 360px;
+            "
+            alt="profile photo"
+          />
+        </div>
         <form #staffForm="ngForm" (ngSubmit)="staffFormSubmit()">
+          <div class="form-group">
+            <label for="profilePhoto" class="form-label"
+              >Upload Profile Image :
+            </label>
+            <input
+              name="imageUrl"
+              type="file"
+              id="profilePhoto"
+              accept="image/*"
+              [(ngModel)]="staffData.profile"
+              class="form-control"
+              (change)="handleInputChange($event)"
+            />
+          </div>
           <div class="form-group">
             <label for="empid">EMPID</label>
             <input
@@ -373,7 +424,33 @@
         ></button>
       </div>
       <div class="modal-body">
+        <div style="display: flex; justify-content: center">
+          <img
+            [src]="editableStaff.profile"
+            style="
+              width: 100px;
+              height: 100px;
+              border: 0px;
+              border-radius: 360px;
+            "
+            alt="profile photo"
+          />
+        </div>
         <form #staffForm="ngForm" (ngSubmit)="updateSubmit()">
+          <div class="form-group">
+            <label for="profilePhoto" class="form-label"
+              >Upload Profile Image :
+            </label>
+            <input
+              name="imageUrl"
+              type="file"
+              id="profilePhoto"
+              accept="image/*"
+              [(ngModel)]="editableStaff.profile"
+              class="form-control"
+              (change)="updatePhotoForStaffUpdate($event)"
+            />
+          </div>
           <div class="form-group">
             <label for="empid">EMPID</label>
             <input

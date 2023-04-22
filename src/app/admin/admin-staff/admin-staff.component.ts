@@ -3,7 +3,6 @@ import { DeptService } from './../../services/dept.service';
 import { NgForm } from '@angular/forms';
 import { Staff } from './../../models/Staff';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -16,7 +15,7 @@ export class AdminStaffComponent implements OnInit {
   dpart = 'Staff';
   @ViewChild('staffForm') staffForm: NgForm;
   staffData: Staff = new Staff();
-  imageSrc: string;
+  imageSrc: string = '';
   allDeptData: any;
   staffDept: any;
   allDeptName: string[] = [];
@@ -168,5 +167,39 @@ export class AdminStaffComponent implements OnInit {
 
   resetForm() {
     this.staffForm.reset();
+  }
+
+  handleInputChange(e) {
+    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    var pattern = /image-*/;
+    var reader = new FileReader();
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
+    }
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsDataURL(file);
+  }
+  _handleReaderLoaded(e) {
+    let reader = e.target;
+    this.imageSrc = reader.result;
+    this.staffData.profile = this.imageSrc;
+  }
+
+  updatePhotoForStaffUpdate(e) {
+    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    var pattern = /image-*/;
+    var reader = new FileReader();
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
+    }
+    reader.onload = this._handleReaderLoadedForStaffUpdate.bind(this);
+    reader.readAsDataURL(file);
+  }
+  _handleReaderLoadedForStaffUpdate(e) {
+    let reader = e.target;
+    // this.imageSrc = reader.result;
+    this.editableStaff.profile = reader.result;
   }
 }

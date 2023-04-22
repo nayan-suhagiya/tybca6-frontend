@@ -12,4 +12,5 @@ export class Staff {
   address: string;
   deptid: string;
   password: string;
+  profile: string;
 }

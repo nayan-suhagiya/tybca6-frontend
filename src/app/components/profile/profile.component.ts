@@ -12,6 +12,7 @@ export class ProfileComponent implements OnInit {
   loggedInData: any;
   userdata: any;
   dpart: string = 'Profile';
+  imageSrc: string = '';
 
   constructor(
     private staffService: StaffService,
@@ -20,6 +21,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInData = this.staffService.loggednInData();
+    this.imageSrc = this.loggedInData.profile;
   }
 
   updateProfile() {
@@ -50,5 +52,36 @@ export class ProfileComponent implements OnInit {
   generatePassword(email: string, mobile: string) {
     const password = email.substring(0, 3) + mobile.substring(5);
     return password.toUpperCase();
+  }
+
+  handleInputChange(e) {
+    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    var pattern = /image-*/;
+    var reader = new FileReader();
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
+    }
+
+    var fileSize = Math.round(file.size / 1024);
+    console.log(fileSize);
+
+    if (fileSize <= 600) {
+      // alert('Uploaded');
+    } else {
+      // alert('Error! File too large');
+      Swal.fire(
+        'Error',
+        'File too large!Please upload Maximum 8kb size image!',
+        'error'
+      );
+    }
+    reader.onload = this._handleReaderLoaded.bind(this);
+    reader.readAsDataURL(file);
+  }
+  _handleReaderLoaded(e) {
+    let reader = e.target;
+    this.imageSrc = reader.result;
+    this.loggedInData.profile = this.imageSrc;
   }
 }
