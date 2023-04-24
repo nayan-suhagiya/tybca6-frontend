@@ -97,9 +97,12 @@ side-head span {
 }
 
 .side-menu a {
-  display: block;
-  padding: 0.4rem 0rem;
+  /* display: block; */
+  padding: 0.4rem 1rem;
   text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .side-menu a.active {
@@ -595,4 +598,14 @@ thead {
 
 .full-screen i {
   cursor: pointer;
+}
+
+.sidebar-hr {
+  margin: 5px auto;
+  color: inherit;
+  border: 1;
+  border-top: 1px solid;
+  opacity: 0.25;
+  width: 142px;
+  color: #4361ee;
 }
