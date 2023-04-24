@@ -53,14 +53,14 @@
                           <span>DOB</span>
                           <i class="las icons la-birthday-cake"></i>
                         </span>
-                        {{ loggedInData.dob | date : "mediumDate" }}
+                        {{ loggedInData.dob | date : "dd-MM-yyyy" }}
                       </div>
                       <div class="text-primary">
                         <span class="text-dark">
                           <span>Joined</span>
                           <i class="las icons la-signature me-1"></i>
                         </span>
-                        {{ loggedInData.jdate | date : "mediumDate" }}
+                        {{ loggedInData.jdate | date : "dd-MM-yyyy" }}
                       </div>
                     </div>
                   </div>
@@ -81,7 +81,13 @@
                   <hr />
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Email</h6>
+                      <h6 class="mb-0">
+                        <i
+                          class="las la-envelope me-1"
+                          style="font-size: 25px"
+                        ></i>
+                        Email
+                      </h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
                       {{ loggedInData.email }}

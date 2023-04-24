@@ -34,7 +34,7 @@
             <tr *ngFor="let data of allSalaryData; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ data.fname }}</td>
-              <td>{{ data.salarydate | date : "mediumDate" }}</td>
+              <td>{{ data.salarydate | date : "dd-MM-yyyy" }}</td>
               <td class="text-primary">
                 {{ data.basicsalary | number : "1.2-2" }}
               </td>

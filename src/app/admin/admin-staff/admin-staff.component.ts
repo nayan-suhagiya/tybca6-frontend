@@ -5,6 +5,7 @@ import { Staff } from './../../models/Staff';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-admin-staff',
@@ -88,9 +89,16 @@ export class AdminStaffComponent implements OnInit {
 
   editData(data: Staff) {
     this.editableStaff = data;
+    this.editableStaff.jdate = moment(this.editableStaff.jdate).format(
+      'YYYY-MM-DD'
+    );
+    this.editableStaff.dob = moment(this.editableStaff.dob).format(
+      'YYYY-MM-DD'
+    );
   }
 
   updateSubmit() {
+    // console.log(this.editableStaff);
     this.spinner.show();
     this.editableStaff.password = this.generatePassword(
       this.editableStaff.email,

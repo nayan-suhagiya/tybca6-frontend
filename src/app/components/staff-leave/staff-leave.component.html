@@ -40,13 +40,13 @@
             <tr *ngFor="let data of pendingLeaveData; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ data.reason }}</td>
-              <td>{{ data.fromdate | date : "mediumDate" }}</td>
-              <td>{{ data.todate | date : "mediumDate" }}</td>
+              <td>{{ data.fromdate | date : "dd-MM-yyyy" }}</td>
+              <td>{{ data.todate | date : "dd-MM-yyyy" }}</td>
               <td>
                 <span class="bg-primary p-1 text-white">{{ data.status }}</span>
               </td>
               <td>{{ data.description }}</td>
-              <td>{{ data.appliedon | date : "mediumDate" }}</td>
+              <td>{{ data.appliedon | date : "dd-MM-yyyy" }}</td>
             </tr>
           </tbody>
         </table>
@@ -78,8 +78,8 @@
             <tr *ngFor="let data of approvedOrdRejectedData; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ data.reason }}</td>
-              <td>{{ data.fromdate | date : "mediumDate" }}</td>
-              <td>{{ data.todate | date : "mediumDate" }}</td>
+              <td>{{ data.fromdate | date : "dd-MM-yyyy" }}</td>
+              <td>{{ data.todate | date : "dd-MM-yyyy" }}</td>
               <td>
                 <span
                   *ngIf="data.status == 'Approved'"
@@ -93,7 +93,7 @@
                 >
               </td>
               <td>{{ data.description }}</td>
-              <td>{{ data.appliedon | date : "mediumDate" }}</td>
+              <td>{{ data.appliedon | date : "dd-MM-yyyy" }}</td>
             </tr>
           </tbody>
         </table>

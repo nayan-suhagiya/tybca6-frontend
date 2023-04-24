@@ -74,8 +74,8 @@
               <td>{{ data.dname }}</td>
               <td>{{ data.email }}</td>
               <td>{{ data.mobile }}</td>
-              <td>{{ data.dob | date : "mediumDate" }}</td>
-              <td>{{ data.jdate | date : "mediumDate" }}</td>
+              <td>{{ data.dob | date : "dd-MM-yyyy" }}</td>
+              <td>{{ data.jdate | date : "dd-MM-yyyy" }}</td>
               <td>{{ data.city }}</td>
               <td>{{ data.state }}</td>
               <td>{{ data.address }}</td>
@@ -547,6 +547,8 @@
               type="date"
               class="form-control"
               id="dob"
+              [(ngModel)]="editableStaff.dob"
+              #dob="ngModel"
               name="dob"
               required
             />

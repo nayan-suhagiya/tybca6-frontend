@@ -2,6 +2,7 @@ import Swal from 'sweetalert2';
 import { StaffService } from './../../services/staff.service';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedInData = this.staffService.loggednInData();
+    this.loggedInData.dob = moment(this.loggedInData.dob).format('YYYY-MM-DD');
+    this.loggedInData.jdate = moment(this.loggedInData.jdate).format(
+      'YYYY-MM-DD'
+    );
     this.imageSrc = this.loggedInData.profile;
   }
 
