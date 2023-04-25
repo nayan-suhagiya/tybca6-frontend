@@ -56,6 +56,55 @@ export class StaffComponent implements OnInit {
       .subscribe((res) => {
         const today = moment(new Date()).format('YYYY-MM-DD');
 
+        // console.log(res);
+
+        if (res.length !== 0) {
+          for (let i = 0; i < res.length; i++) {
+            const fromdate = moment(res[i].fromdate).format('YYYY-MM-DD');
+            const todate = moment(res[i].todate).format('YYYY-MM-DD');
+
+            if (fromdate == todate) {
+              if (fromdate == today) {
+                this.checkin = true;
+                this.checkout = true;
+                this.isleave = true;
+              } else {
+                this.checkin = false;
+                this.checkout = false;
+              }
+            } else {
+              const dateArr = fromdate.split('-');
+              const startdate = Number(fromdate.split('-')[2]);
+              const enddate = Number(todate.split('-')[2]);
+
+              for (let i = startdate; i <= enddate; i++) {
+                const today = moment(new Date()).format('YYYY-MM-DD');
+                if (i <= 9) {
+                  const leaveDate = dateArr[0] + '-' + dateArr[1] + '-0' + i;
+                  this.leaveDateArr.push(leaveDate);
+                } else {
+                  const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
+                  this.leaveDateArr.push(leaveDate);
+                }
+              }
+
+              this.leaveDateArr = this.leaveDateArr.filter((date) => {
+                return today == date;
+              });
+
+              if (this.leaveDateArr.length == 0) {
+                this.checkin = false;
+                this.checkout = false;
+              } else {
+                this.checkin = true;
+                this.checkout = true;
+                this.isleave = true;
+              }
+            }
+          }
+        }
+
+        /*
         const filteredData = res.filter((data) => {
           return moment(data.fromdate).format('YYYY-MM-DD') == today;
         });
@@ -105,6 +154,7 @@ export class StaffComponent implements OnInit {
             }
           }
         }
+        */
 
         if (this.checkin == true && this.checkout == true) {
           return;
