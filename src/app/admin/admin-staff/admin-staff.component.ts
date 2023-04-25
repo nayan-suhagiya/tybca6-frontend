@@ -98,6 +98,7 @@ export class AdminStaffComponent implements OnInit {
     this.editableStaff.dob = moment(this.editableStaff.dob).format(
       'YYYY-MM-DD'
     );
+    this.imageSrc = data.profile;
   }
 
   updateSubmit() {

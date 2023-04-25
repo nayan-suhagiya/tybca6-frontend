@@ -204,7 +204,7 @@
                   id="profilePhoto"
                   accept="image/*"
                   [(ngModel)]="staffData.profile"
-                  class="form-control"
+                  class="form-control-file"
                   (change)="handleInputChange($event)"
                 />
               </div>
@@ -651,7 +651,7 @@
                   id="profilePhoto"
                   accept="image/*"
                   [(ngModel)]="editableStaff.profile"
-                  class="form-control"
+                  class="form-control-file"
                   (change)="updatePhotoForStaffUpdate($event)"
                 />
               </div>
