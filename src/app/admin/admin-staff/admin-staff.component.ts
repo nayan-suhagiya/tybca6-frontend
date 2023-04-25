@@ -55,6 +55,7 @@ export class AdminStaffComponent implements OnInit {
   }
 
   staffFormSubmit() {
+    // console.log(this.staffData);
     this.spinner.show();
     this.staffData.password = this.generatePassword(
       this.staffData.email,
@@ -68,6 +69,7 @@ export class AdminStaffComponent implements OnInit {
           Swal.fire('Success!', 'Staff Added!', 'success');
           this.spinner.hide();
           this.ngOnInit();
+          this.imageSrc = '';
         } else {
           if (res.emailExist) {
             Swal.fire('Error!', 'Email Already Exists!', 'error');
@@ -88,6 +90,7 @@ export class AdminStaffComponent implements OnInit {
   }
 
   editData(data: Staff) {
+    console.log(data);
     this.editableStaff = data;
     this.editableStaff.jdate = moment(this.editableStaff.jdate).format(
       'YYYY-MM-DD'

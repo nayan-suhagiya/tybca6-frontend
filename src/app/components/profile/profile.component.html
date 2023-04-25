@@ -63,13 +63,29 @@
                         {{ loggedInData.jdate | date : "dd-MM-yyyy" }}
                       </div>
                     </div>
+
+                    <div class="row mt-4">
+                      <div class="col-sm-12">
+                        <a
+                          class="btn btn-info"
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdrop"
+                        >
+                          Update
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-md-8">
-              <div class="card mb-3">
+              <div class="card">
                 <div class="card-body">
+                  <div class="row">
+                    <h4>Personal Details</h4>
+                    <hr />
+                  </div>
                   <div class="row">
                     <div class="col-sm-3">
                       <h6 class="mb-0">Full Name</h6>
@@ -139,15 +155,34 @@
                     </div>
                   </div>
                   <hr />
+                  <div class="row my-3">
+                    <h4>Account Details</h4>
+                    <hr class="mb-1" />
+                  </div>
                   <div class="row">
-                    <div class="col-sm-12">
-                      <a
-                        class="btn btn-info"
-                        data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop"
-                      >
-                        Update
-                      </a>
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Bank Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ loggedInData.bankname }}
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">A/C Number</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ loggedInData.accountnumber }}
+                    </div>
+                  </div>
+                  <hr />
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">IFSc code</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      {{ loggedInData.ifsccode }}
                     </div>
                   </div>
                 </div>
@@ -170,7 +205,7 @@
   aria-labelledby="staticBackdropLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">
@@ -189,197 +224,344 @@
             If you change your email and mobile your password also be updated!
           </span>
         </div>
-        <div style="display: flex; justify-content: center">
-          <img
-            [src]="imageSrc"
-            style="
-              width: 100px;
-              height: 100px;
-              border: 0px;
-              border-radius: 360px;
-            "
-            alt="profile photo"
-          />
-        </div>
+
         <form #profileUpdateForm="ngForm" (ngSubmit)="updateProfile()">
-          <div class="form-group">
-            <label for="profilePhoto" class="form-label"
-              >Upload Profile Image :
-            </label>
-            <input
-              name="imageUrl"
-              type="file"
-              id="profilePhoto"
-              accept="image/*"
-              [(ngModel)]="loggedInData.profile"
-              class="form-control"
-              (change)="handleInputChange($event)"
-            />
-          </div>
-          <div class="form-group">
-            <label for="fname">Full Name </label>
-            <input
-              type="text"
-              class="form-control"
-              id="fname"
-              placeholder="Surname Firstname Middlename"
-              [(ngModel)]="loggedInData.fname"
-              name="fname"
-              #fname="ngModel"
-              required
-            />
+          <ul class="nav nav-tabs" id="myTab1" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="update-personal-details-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#update-personal-details-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="update-personal-details-tab-pane"
+                aria-selected="true"
+              >
+                Personal Details
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="update-bank-details-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#update-bank-details-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="update-bank-details-tab-pane"
+                aria-selected="false"
+              >
+                Bank Details
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
             <div
-              class="alert mt-2 alert-danger"
-              *ngIf="fname.invalid && fname.touched"
+              class="tab-pane fade show active"
+              id="update-personal-details-tab-pane"
+              role="tabpanel"
+              aria-labelledby="update-personal-details-tab"
+              tabindex="0"
             >
-              Please enter full name!
-            </div>
-          </div>
+              <div style="display: flex; justify-content: center">
+                <img
+                  [src]="imageSrc"
+                  style="width: 100px; height: 100px"
+                  alt="please upload photo"
+                  class="my-3"
+                />
+              </div>
 
-          <div class="form-group">
-            <label for="email">Email </label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              placeholder="test@gmail.com"
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-              [(ngModel)]="loggedInData.email"
-              name="email"
-              #email="ngModel"
-              required
-            />
+              <div class="form-group">
+                <label for="profilePhoto" class="form-label"
+                  >Upload Profile Image :
+                </label>
+                <input
+                  name="imageUrl"
+                  type="file"
+                  id="profilePhoto"
+                  accept="image/*"
+                  [(ngModel)]="loggedInData.profile"
+                  class="form-control"
+                  (change)="handleInputChange($event)"
+                />
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="fname">Full Name </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="fname"
+                      placeholder="Surname Firstname Middlename"
+                      [(ngModel)]="loggedInData.fname"
+                      name="fname"
+                      #fname="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="fname.invalid && fname.touched"
+                    >
+                      Please enter full name!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="gender">Select Gender </label>
+                    <select
+                      id="gender"
+                      name="gender"
+                      required
+                      class="form-control"
+                      #gender="ngModel"
+                      [(ngModel)]="loggedInData.gender"
+                    >
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="gender.invalid && gender.touched"
+                    >
+                      Please select gender!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="email">Email </label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="test@gmail.com"
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                      [(ngModel)]="loggedInData.email"
+                      name="email"
+                      #email="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="email.invalid && email.touched"
+                    >
+                      Please enter valid email!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="mobile">Mobile </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="mobile"
+                      placeholder="99***87*31"
+                      name="mobile"
+                      pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
+                      [(ngModel)]="loggedInData.mobile"
+                      #mobile="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="mobile.invalid && mobile.touched"
+                    >
+                      Please enter valid mobile number!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="dob">DOB </label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dob"
+                      [(ngModel)]="loggedInData.dob"
+                      name="dob"
+                      #dob="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="dob.invalid && dob.touched"
+                    >
+                      Please select birthdate!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="city">City </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="city"
+                      placeholder="city"
+                      [(ngModel)]="loggedInData.city"
+                      name="city"
+                      #city="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="city.invalid && city.touched"
+                    >
+                      Please enter city!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="state">State </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="state"
+                      placeholder="state"
+                      [(ngModel)]="loggedInData.state"
+                      name="state"
+                      #state="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="state.invalid && state.touched"
+                    >
+                      Please enter state!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="address">Address </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      [(ngModel)]="loggedInData.address"
+                      placeholder="123,street,area name,pincode"
+                      name="address"
+                      #address="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="address.invalid && address.touched"
+                    >
+                      Please enter address!
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div
-              class="alert mt-2 alert-danger"
-              *ngIf="email.invalid && email.touched"
+              class="tab-pane fade"
+              id="update-bank-details-tab-pane"
+              role="tabpanel"
+              aria-labelledby="update-bank-details-tab"
+              tabindex="0"
             >
-              Please enter valid email!
+              <div class="form-group my-2">
+                <label for="bankname">Bank Name </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="bankname"
+                  [(ngModel)]="loggedInData.bankname"
+                  placeholder="Ex.State bank of india"
+                  name="bankname"
+                  #bankname="ngModel"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="bankname.invalid && bankname.touched"
+                >
+                  Please enter bank name!
+                </div>
+              </div>
+
+              <div class="form-group my-2">
+                <label for="accountnumber">Account Number </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="accountnumber"
+                  pattern="\d*"
+                  maxlength="16"
+                  minlength="11"
+                  [(ngModel)]="loggedInData.accountnumber"
+                  placeholder="Ex.10001XXXX49"
+                  name="accountnumber"
+                  #accountnumber="ngModel"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="accountnumber.invalid && accountnumber.touched"
+                >
+                  Please enter valid account number!
+                </div>
+              </div>
+
+              <div class="form-group my-2">
+                <label for="ifsccode">IFSC Code </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ifsccode"
+                  [(ngModel)]="loggedInData.ifsccode"
+                  placeholder="Ex.SBINXXXX001"
+                  name="ifsccode"
+                  #ifsccode="ngModel"
+                  minlength="11"
+                  maxlength="11"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="ifsccode.invalid && ifsccode.touched"
+                >
+                  Please enter valid IFSC code!
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  [disabled]="profileUpdateForm.invalid"
+                  type="submit"
+                  class="btn btn-info"
+                  data-bs-dismiss="modal"
+                >
+                  Save Changes
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div class="form-group">
-            <label for="mobile">Mobile </label>
-            <input
-              type="text"
-              class="form-control"
-              id="mobile"
-              placeholder="99***87*31"
-              name="mobile"
-              pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
-              [(ngModel)]="loggedInData.mobile"
-              #mobile="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="mobile.invalid && mobile.touched"
-            >
-              Please enter valid mobile number!
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="dob">DOB </label>
-            <input
-              type="date"
-              class="form-control"
-              id="dob"
-              [(ngModel)]="loggedInData.dob"
-              name="dob"
-              #dob="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="dob.invalid && dob.touched"
-            >
-              Please select birthdate!
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="city">City </label>
-            <input
-              type="text"
-              class="form-control"
-              id="city"
-              placeholder="city"
-              [(ngModel)]="loggedInData.city"
-              name="city"
-              #city="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="city.invalid && city.touched"
-            >
-              Please enter city!
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="state">State </label>
-            <input
-              type="text"
-              class="form-control"
-              id="state"
-              placeholder="state"
-              [(ngModel)]="loggedInData.state"
-              name="state"
-              #state="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="state.invalid && state.touched"
-            >
-              Please enter state!
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="address">Address </label>
-            <input
-              type="text"
-              class="form-control"
-              id="address"
-              [(ngModel)]="loggedInData.address"
-              placeholder="123,street,area name,pincode"
-              name="address"
-              #address="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="address.invalid && address.touched"
-            >
-              Please enter address!
-            </div>
-          </div>
-
-          <div class="my-2 text-danger text-center">
-            <span class="text-secondary">
-              Your password should be FIRST 3 letter of email and LAST 5 number
-              of mobile number!
-            </span>
-          </div>
-
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button
-              [disabled]="profileUpdateForm.invalid"
-              type="submit"
-              class="btn btn-info"
-              data-bs-dismiss="modal"
-            >
-              Save Changes
-            </button>
           </div>
         </form>
       </div>

@@ -13,4 +13,7 @@ export class Staff {
   deptid: string;
   password: string;
   profile: string;
+  bankname: string;
+  accountnumber: number;
+  ifsccode: string;
 }

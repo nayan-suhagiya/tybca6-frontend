@@ -117,7 +117,7 @@
   aria-labelledby="staticBackdropLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">
@@ -128,271 +128,426 @@
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          (click)="resetForm()"
         ></button>
       </div>
       <div class="modal-body">
-        <div style="display: flex; justify-content: center">
-          <img
-            [src]="imageSrc"
-            style="
-              width: 100px;
-              height: 100px;
-              border: 0px;
-              border-radius: 360px;
-            "
-            alt="profile photo"
-          />
-        </div>
         <form #staffForm="ngForm" (ngSubmit)="staffFormSubmit()">
-          <div class="form-group">
-            <label for="profilePhoto" class="form-label"
-              >Upload Profile Image :
-            </label>
-            <input
-              name="imageUrl"
-              type="file"
-              id="profilePhoto"
-              accept="image/*"
-              [(ngModel)]="staffData.profile"
-              class="form-control"
-              (change)="handleInputChange($event)"
-            />
-          </div>
-          <div class="form-group">
-            <label for="empid">EMPID</label>
-            <input
-              type="text"
-              class="form-control"
-              id="empid"
-              placeholder="EMP001"
-              [(ngModel)]="staffData.empid"
-              disabled="true"
-              name="empid"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="fname">Full Name </label>
-            <input
-              type="text"
-              class="form-control"
-              id="fname"
-              placeholder="Surname Firstname Middlename"
-              [(ngModel)]="staffData.fname"
-              name="fname"
-              #fname="ngModel"
-              required
-            />
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="personal-details-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#personal-details-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="personal-details-tab-pane"
+                aria-selected="true"
+              >
+                Personal Details
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="other-details-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#other-details-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="other-details-tab-pane"
+                aria-selected="false"
+              >
+                Other Details
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="bank-details-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#bank-details-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="bank-details-tab-pane"
+                aria-selected="false"
+              >
+                Bank Details
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
             <div
-              class="alert mt-2 alert-danger"
-              *ngIf="fname.invalid && fname.touched"
+              class="tab-pane fade show active"
+              id="personal-details-tab-pane"
+              role="tabpanel"
+              aria-labelledby="personal-details-tab"
+              tabindex="0"
             >
-              Please enter full name!
-            </div>
-          </div>
+              <div style="display: flex; justify-content: center">
+                <img
+                  [src]="imageSrc"
+                  style="width: 100px; height: 100px"
+                  alt="please upload photo"
+                  class="my-3"
+                />
+              </div>
 
-          <div class="form-group">
-            <label for="gender">Select Gender </label>
-            <select
-              id="gender"
-              name="gender"
-              required
-              class="form-control"
-              #gender="ngModel"
-              [(ngModel)]="staffData.gender"
-            >
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
+              <div class="form-group">
+                <label for="profilePhoto" class="form-label"
+                  >Upload Profile Image :
+                </label>
+                <input
+                  name="imageUrl"
+                  type="file"
+                  id="profilePhoto"
+                  accept="image/*"
+                  [(ngModel)]="staffData.profile"
+                  class="form-control"
+                  (change)="handleInputChange($event)"
+                />
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="fname">Full Name </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="fname"
+                      placeholder="Surname Firstname Middlename"
+                      [(ngModel)]="staffData.fname"
+                      name="fname"
+                      #fname="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="fname.invalid && fname.touched"
+                    >
+                      Please enter full name!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="gender">Select Gender </label>
+                    <select
+                      id="gender"
+                      name="gender"
+                      required
+                      class="form-control"
+                      #gender="ngModel"
+                      [(ngModel)]="staffData.gender"
+                    >
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="gender.invalid && gender.touched"
+                    >
+                      Please select gender!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="email">Email </label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="test@gmail.com"
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                      [(ngModel)]="staffData.email"
+                      name="email"
+                      #email="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="email.invalid && email.touched"
+                    >
+                      Please enter valid email!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="mobile">Mobile </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="mobile"
+                      placeholder="99***87*31"
+                      name="mobile"
+                      pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
+                      [(ngModel)]="staffData.mobile"
+                      #mobile="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="mobile.invalid && mobile.touched"
+                    >
+                      Please enter valid mobile number!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="dob">DOB </label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dob"
+                      [(ngModel)]="staffData.dob"
+                      name="dob"
+                      #dob="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="dob.invalid && dob.touched"
+                    >
+                      Please select birthdate!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="city">City </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="city"
+                      placeholder="city"
+                      [(ngModel)]="staffData.city"
+                      name="city"
+                      #city="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="city.invalid && city.touched"
+                    >
+                      Please enter city!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="state">State </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="state"
+                      placeholder="state"
+                      [(ngModel)]="staffData.state"
+                      name="state"
+                      #state="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="state.invalid && state.touched"
+                    >
+                      Please enter state!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="address">Address </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      [(ngModel)]="staffData.address"
+                      placeholder="123,street,area name,pincode"
+                      name="address"
+                      #address="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="address.invalid && address.touched"
+                    >
+                      Please enter address!
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div
-              class="alert mt-2 alert-danger"
-              *ngIf="gender.invalid && gender.touched"
+              class="tab-pane fade"
+              id="other-details-tab-pane"
+              role="tabpanel"
+              aria-labelledby="other-details-tab"
+              tabindex="0"
             >
-              Please select gender!
-            </div>
-          </div>
+              <div class="form-group my-2">
+                <label for="empid">EMPID</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="empid"
+                  placeholder="EMP001"
+                  [(ngModel)]="staffData.empid"
+                  disabled="true"
+                  name="empid"
+                  required
+                />
+              </div>
 
-          <div class="form-group">
-            <label for="dname">Select Department </label>
-            <select
-              id="dname"
-              name="dname"
-              required
-              class="form-control"
-              #dname="ngModel"
-              [(ngModel)]="staffData.dname"
-              (change)="updateDeptID(staffData.dname)"
-            >
-              <option [value]="dname" *ngFor="let dname of allDeptName">
-                {{ dname }}
-              </option>
-            </select>
+              <div class="form-group my-2">
+                <label for="dname">Select Department </label>
+                <select
+                  id="dname"
+                  name="dname"
+                  required
+                  class="form-control"
+                  #dname="ngModel"
+                  [(ngModel)]="staffData.dname"
+                  (change)="updateDeptID(staffData.dname)"
+                >
+                  <option [value]="dname" *ngFor="let dname of allDeptName">
+                    {{ dname }}
+                  </option>
+                </select>
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="dname.invalid && dname.touched"
+                >
+                  Please select department name!
+                </div>
+              </div>
+
+              <div class="form-group my-2">
+                <label for="jdate">Joining Date </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="jdate"
+                  [(ngModel)]="staffData.jdate"
+                  name="jdate"
+                  #jdate="ngModel"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="jdate.invalid && jdate.touched"
+                >
+                  Please select joining date!
+                </div>
+              </div>
+            </div>
+
             <div
-              class="alert mt-2 alert-danger"
-              *ngIf="dname.invalid && dname.touched"
+              class="tab-pane fade"
+              id="bank-details-tab-pane"
+              role="tabpanel"
+              aria-labelledby="bank-details-tab"
+              tabindex="0"
             >
-              Please select department name!
-            </div>
-          </div>
+              <div class="form-group my-2">
+                <label for="bankname">Bank Name </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="bankname"
+                  [(ngModel)]="staffData.bankname"
+                  placeholder="Ex.State bank of india"
+                  name="bankname"
+                  #bankname="ngModel"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="bankname.invalid && bankname.touched"
+                >
+                  Please enter bank name!
+                </div>
+              </div>
 
-          <div class="form-group">
-            <label for="email">Email </label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              placeholder="test@gmail.com"
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-              [(ngModel)]="staffData.email"
-              name="email"
-              #email="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="email.invalid && email.touched"
-            >
-              Please enter valid email!
-            </div>
-          </div>
+              <div class="form-group my-2">
+                <label for="accountnumber">Account Number </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="accountnumber"
+                  pattern="\d*"
+                  maxlength="16"
+                  minlength="11"
+                  [(ngModel)]="staffData.accountnumber"
+                  placeholder="Ex.10001XXXX49"
+                  name="accountnumber"
+                  #accountnumber="ngModel"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="accountnumber.invalid && accountnumber.touched"
+                >
+                  Please enter valid account number!
+                </div>
+              </div>
 
-          <div class="form-group">
-            <label for="mobile">Mobile </label>
-            <input
-              type="text"
-              class="form-control"
-              id="mobile"
-              placeholder="99***87*31"
-              name="mobile"
-              pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
-              [(ngModel)]="staffData.mobile"
-              #mobile="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="mobile.invalid && mobile.touched"
-            >
-              Please enter valid mobile number!
-            </div>
-          </div>
+              <div class="form-group my-2">
+                <label for="ifsccode">IFSC Code </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ifsccode"
+                  [(ngModel)]="staffData.ifsccode"
+                  placeholder="Ex.SBINXXXX001"
+                  name="ifsccode"
+                  #ifsccode="ngModel"
+                  minlength="11"
+                  maxlength="11"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="ifsccode.invalid && ifsccode.touched"
+                >
+                  Please enter valid IFSC code!
+                </div>
+              </div>
 
-          <div class="form-group">
-            <label for="dob">DOB </label>
-            <input
-              type="date"
-              class="form-control"
-              id="dob"
-              [(ngModel)]="staffData.dob"
-              name="dob"
-              #dob="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="dob.invalid && dob.touched"
-            >
-              Please select birthdate!
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  (click)="resetForm()"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-info"
+                  data-bs-dismiss="modal"
+                  [disabled]="!staffForm.valid"
+                >
+                  Save
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div class="form-group">
-            <label for="jdate">Joining Date </label>
-            <input
-              type="date"
-              class="form-control"
-              id="jdate"
-              [(ngModel)]="staffData.jdate"
-              name="jdate"
-              #jdate="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="jdate.invalid && jdate.touched"
-            >
-              Please select joining date!
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="city">City </label>
-            <input
-              type="text"
-              class="form-control"
-              id="city"
-              placeholder="city"
-              [(ngModel)]="staffData.city"
-              name="city"
-              #city="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="city.invalid && city.touched"
-            >
-              Please enter city!
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="state">State </label>
-            <input
-              type="text"
-              class="form-control"
-              id="state"
-              placeholder="state"
-              [(ngModel)]="staffData.state"
-              name="state"
-              #state="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="state.invalid && state.touched"
-            >
-              Please enter state!
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="address">Address </label>
-            <input
-              type="text"
-              class="form-control"
-              id="address"
-              [(ngModel)]="staffData.address"
-              placeholder="123,street,area name,pincode"
-              name="address"
-              #address="ngModel"
-              required
-            />
-            <div
-              class="alert mt-2 alert-danger"
-              *ngIf="address.invalid && address.touched"
-            >
-              Please enter address!
-            </div>
-          </div>
-
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              (click)="resetForm()"
-            >
-              Close
-            </button>
-            <button
-              type="submit"
-              class="btn btn-info"
-              data-bs-dismiss="modal"
-              [disabled]="!staffForm.valid"
-            >
-              Save
-            </button>
           </div>
         </form>
       </div>
@@ -410,11 +565,11 @@
   aria-labelledby="staticBackdropLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">
-          Add staff member
+          Update Staff Details
         </h1>
         <button
           type="button"
@@ -424,203 +579,421 @@
         ></button>
       </div>
       <div class="modal-body">
-        <div style="display: flex; justify-content: center">
-          <img
-            [src]="editableStaff.profile"
-            style="
-              width: 100px;
-              height: 100px;
-              border: 0px;
-              border-radius: 360px;
-            "
-            alt="profile photo"
-          />
-        </div>
         <form #staffForm="ngForm" (ngSubmit)="updateSubmit()">
-          <div class="form-group">
-            <label for="profilePhoto" class="form-label"
-              >Upload Profile Image :
-            </label>
-            <input
-              name="imageUrl"
-              type="file"
-              id="profilePhoto"
-              accept="image/*"
-              [(ngModel)]="editableStaff.profile"
-              class="form-control"
-              (change)="updatePhotoForStaffUpdate($event)"
-            />
-          </div>
-          <div class="form-group">
-            <label for="empid">EMPID</label>
-            <input
-              type="text"
-              class="form-control"
-              id="empid"
-              placeholder="EMP001"
-              [(ngModel)]="editableStaff.empid"
-              disabled="true"
-              name="empid"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="fname">Full Name </label>
-            <input
-              type="text"
-              class="form-control"
-              id="fname"
-              placeholder="Surname Firstname Middlename"
-              [(ngModel)]="editableStaff.fname"
-              name="fname"
-              #fname="ngModel"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="gender">Select Gender </label>
-            <select
-              id="gender"
-              name="gender"
-              required
-              class="form-control"
-              #gender="ngModel"
-              [(ngModel)]="editableStaff.gender"
+          <ul class="nav nav-tabs" id="myTab1" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="update-personal-details-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#update-personal-details-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="update-personal-details-tab-pane"
+                aria-selected="true"
+              >
+                Personal Details
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="update-other-details-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#update-other-details-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="update-other-details-tab-pane"
+                aria-selected="false"
+              >
+                Other Details
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="update-bank-details-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#update-bank-details-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="update-bank-details-tab-pane"
+                aria-selected="false"
+              >
+                Bank Details
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div
+              class="tab-pane fade show active"
+              id="update-personal-details-tab-pane"
+              role="tabpanel"
+              aria-labelledby="update-personal-details-tab"
+              tabindex="0"
             >
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
+              <div style="display: flex; justify-content: center">
+                <img
+                  [src]="imageSrc"
+                  style="width: 100px; height: 100px"
+                  alt="please upload photo"
+                  class="my-3"
+                />
+              </div>
 
-          <div class="form-group">
-            <label for="dname">Select Department </label>
-            <select
-              id="dname"
-              name="dname"
-              required
-              class="form-control"
-              #dname="ngModel"
-              [(ngModel)]="editableStaff.dname"
-              (change)="updateDeptIDEditable(editableStaff.dname)"
+              <div class="form-group">
+                <label for="profilePhoto" class="form-label"
+                  >Upload Profile Image :
+                </label>
+                <input
+                  name="imageUrl"
+                  type="file"
+                  id="profilePhoto"
+                  accept="image/*"
+                  [(ngModel)]="editableStaff.profile"
+                  class="form-control"
+                  (change)="updatePhotoForStaffUpdate($event)"
+                />
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="fname">Full Name </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="fname"
+                      placeholder="Surname Firstname Middlename"
+                      [(ngModel)]="editableStaff.fname"
+                      name="fname"
+                      #fname="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="fname.invalid && fname.touched"
+                    >
+                      Please enter full name!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="gender">Select Gender </label>
+                    <select
+                      id="gender"
+                      name="gender"
+                      required
+                      class="form-control"
+                      #gender="ngModel"
+                      [(ngModel)]="editableStaff.gender"
+                    >
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="gender.invalid && gender.touched"
+                    >
+                      Please select gender!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="email">Email </label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="test@gmail.com"
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                      [(ngModel)]="editableStaff.email"
+                      name="email"
+                      #email="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="email.invalid && email.touched"
+                    >
+                      Please enter valid email!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="mobile">Mobile </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="mobile"
+                      placeholder="99***87*31"
+                      name="mobile"
+                      pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
+                      [(ngModel)]="editableStaff.mobile"
+                      #mobile="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="mobile.invalid && mobile.touched"
+                    >
+                      Please enter valid mobile number!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="dob">DOB </label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="dob"
+                      [(ngModel)]="editableStaff.dob"
+                      name="dob"
+                      #dob="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="dob.invalid && dob.touched"
+                    >
+                      Please select birthdate!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="city">City </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="city"
+                      placeholder="city"
+                      [(ngModel)]="editableStaff.city"
+                      name="city"
+                      #city="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="city.invalid && city.touched"
+                    >
+                      Please enter city!
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row my-2">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="state">State </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="state"
+                      placeholder="state"
+                      [(ngModel)]="editableStaff.state"
+                      name="state"
+                      #state="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="state.invalid && state.touched"
+                    >
+                      Please enter state!
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="address">Address </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      [(ngModel)]="editableStaff.address"
+                      placeholder="123,street,area name,pincode"
+                      name="address"
+                      #address="ngModel"
+                      required
+                    />
+                    <div
+                      class="alert mt-2 alert-danger"
+                      *ngIf="address.invalid && address.touched"
+                    >
+                      Please enter address!
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="tab-pane fade"
+              id="update-other-details-tab-pane"
+              role="tabpanel"
+              aria-labelledby="update-other-details-tab"
+              tabindex="0"
             >
-              <option [value]="dname" *ngFor="let dname of allDeptName">
-                {{ dname }}
-              </option>
-            </select>
-          </div>
+              <div class="form-group my-2">
+                <label for="empid">EMPID</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="empid"
+                  placeholder="EMP001"
+                  [(ngModel)]="editableStaff.empid"
+                  disabled="true"
+                  name="empid"
+                  required
+                />
+              </div>
 
-          <div class="form-group">
-            <label for="email">Email </label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              placeholder="test@gmail.com"
-              pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
-              [(ngModel)]="editableStaff.email"
-              name="email"
-              #email="ngModel"
-              required
-            />
-          </div>
+              <div class="form-group my-2">
+                <label for="dname">Select Department </label>
+                <select
+                  id="dname"
+                  name="dname"
+                  required
+                  class="form-control"
+                  #dname="ngModel"
+                  [(ngModel)]="editableStaff.dname"
+                  (change)="updateDeptIDEditable(editableStaff.dname)"
+                >
+                  <option [value]="dname" *ngFor="let dname of allDeptName">
+                    {{ dname }}
+                  </option>
+                </select>
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="dname.invalid && dname.touched"
+                >
+                  Please select department name!
+                </div>
+              </div>
 
-          <div class="form-group">
-            <label for="mobile">Mobile </label>
-            <input
-              type="text"
-              class="form-control"
-              id="mobile"
-              placeholder="99***87*31"
-              name="mobile"
-              pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
-              [(ngModel)]="editableStaff.mobile"
-              #mobile="ngModel"
-              required
-            />
-          </div>
+              <div class="form-group my-2">
+                <label for="jdate">Joining Date </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="jdate"
+                  [(ngModel)]="editableStaff.jdate"
+                  name="jdate"
+                  #jdate="ngModel"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="jdate.invalid && jdate.touched"
+                >
+                  Please select joining date!
+                </div>
+              </div>
+            </div>
 
-          <div class="form-group">
-            <label for="dob">DOB </label>
-            <input
-              type="date"
-              class="form-control"
-              id="dob"
-              [(ngModel)]="editableStaff.dob"
-              #dob="ngModel"
-              name="dob"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="jdate">Joining Date </label>
-            <input
-              type="date"
-              class="form-control"
-              id="jdate"
-              [(ngModel)]="editableStaff.jdate"
-              name="jdate"
-              #jdate="ngModel"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="city">City </label>
-            <input
-              type="text"
-              class="form-control"
-              id="city"
-              placeholder="city"
-              [(ngModel)]="editableStaff.city"
-              name="city"
-              #city="ngModel"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="state">State </label>
-            <input
-              type="text"
-              class="form-control"
-              id="state"
-              placeholder="state"
-              [(ngModel)]="editableStaff.state"
-              name="state"
-              #state="ngModel"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="address">Address </label>
-            <input
-              type="text"
-              class="form-control"
-              id="address"
-              [(ngModel)]="editableStaff.address"
-              placeholder="123,street,area name,pincode"
-              name="address"
-              #address="ngModel"
-              required
-            />
-          </div>
-
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              (click)="callNgOn()"
+            <div
+              class="tab-pane fade"
+              id="update-bank-details-tab-pane"
+              role="tabpanel"
+              aria-labelledby="update-bank-details-tab"
+              tabindex="0"
             >
-              Close
-            </button>
-            <button type="submit" class="btn btn-info" data-bs-dismiss="modal">
-              Save
-            </button>
+              <div class="form-group my-2">
+                <label for="bankname">Bank Name </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="bankname"
+                  [(ngModel)]="editableStaff.bankname"
+                  placeholder="Ex.State bank of india"
+                  name="bankname"
+                  #bankname="ngModel"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="bankname.invalid && bankname.touched"
+                >
+                  Please enter bank name!
+                </div>
+              </div>
+
+              <div class="form-group my-2">
+                <label for="accountnumber">Account Number </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="accountnumber"
+                  pattern="\d*"
+                  maxlength="16"
+                  minlength="11"
+                  [(ngModel)]="editableStaff.accountnumber"
+                  placeholder="Ex.10001XXXX49"
+                  name="accountnumber"
+                  #accountnumber="ngModel"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="accountnumber.invalid && accountnumber.touched"
+                >
+                  Please enter valid account number!
+                </div>
+              </div>
+
+              <div class="form-group my-2">
+                <label for="ifsccode">IFSC Code </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="ifsccode"
+                  [(ngModel)]="editableStaff.ifsccode"
+                  placeholder="Ex.SBINXXXX001"
+                  name="ifsccode"
+                  #ifsccode="ngModel"
+                  minlength="11"
+                  maxlength="11"
+                  required
+                />
+                <div
+                  class="alert mt-2 alert-danger"
+                  *ngIf="ifsccode.invalid && ifsccode.touched"
+                >
+                  Please enter valid IFSC code!
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  (click)="resetForm()"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-info"
+                  data-bs-dismiss="modal"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
           </div>
         </form>
       </div>
