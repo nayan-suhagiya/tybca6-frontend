@@ -21,6 +21,8 @@ export class StaffComponent implements OnInit {
   leaveDateArr: any = [];
   isleave: boolean = false;
   isoffday: boolean = false;
+  todayData: any = [];
+  todaydataLength: number = 0;
 
   constructor(
     private staffService: StaffService,
@@ -199,6 +201,28 @@ export class StaffComponent implements OnInit {
           for (let data of res) {
             this.totalGainSalary += data.netpay;
           }
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
+    //
+    this.staffService.getWorkDetails(this.loggedInData.empid).subscribe(
+      (res) => {
+        // console.log(res);
+        const today = moment(new Date()).format('YYYY-MM-DD');
+        if (res.length !== 0) {
+          this.todayData = res.filter((data) => {
+            return today == moment(data.date).format('YYYY-MM-DD');
+          });
+
+          this.todaydataLength = this.todayData.length;
+
+          // console.log(this.todayData);
+        } else {
+          this.todaydataLength = 0;
         }
       },
       (err) => {

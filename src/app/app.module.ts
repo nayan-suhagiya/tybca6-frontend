@@ -26,6 +26,7 @@ import { AdminAttendanceComponent } from './admin/admin-attendance/admin-attenda
 import { AdminSalaryComponent } from './admin/admin-salary/admin-salary.component';
 import { StaffSalaryComponent } from './components/staff-salary/staff-salary.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { MyWorkComponent } from './components/my-work/my-work.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
     AdminSalaryComponent,
     StaffSalaryComponent,
     ForgotPasswordComponent,
+    MyWorkComponent,
   ],
   imports: [
     BrowserModule,

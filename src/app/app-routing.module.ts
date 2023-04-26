@@ -16,6 +16,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminSalaryComponent } from './admin/admin-salary/admin-salary.component';
 import { StaffSalaryComponent } from './components/staff-salary/staff-salary.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { MyWorkComponent } from './components/my-work/my-work.component';
 
 const routes: Routes = [
   {
@@ -88,6 +89,11 @@ const routes: Routes = [
   {
     path: 'staff/salary',
     component: StaffSalaryComponent,
+    canActivate: [StaffGuard],
+  },
+  {
+    path: 'staff/my-work',
+    component: MyWorkComponent,
     canActivate: [StaffGuard],
   },
 ];

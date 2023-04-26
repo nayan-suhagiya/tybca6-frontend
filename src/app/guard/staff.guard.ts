@@ -16,11 +16,7 @@ export class StaffGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+  ): boolean {
     return this.authService.isStaffLogin();
   }
 }

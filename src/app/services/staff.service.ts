@@ -6,6 +6,7 @@ import { Staff } from './../models/Staff';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Salary } from '../admin/admin-salary/Salary';
+import { Work } from '../components/my-work/Work';
 
 @Injectable({
   providedIn: 'root',
@@ -223,5 +224,26 @@ export class StaffService {
     return this.http.get(this.urlstaff + '/get-salary/' + empid, {
       headers: this.setStaffHeader(),
     });
+  }
+
+  addWorkDetails(data: Work): Observable<any> {
+    return this.http.post(this.urlstaff + '/add-work-detail', data, {
+      headers: this.setStaffHeader(),
+    });
+  }
+
+  getWorkDetails(empid: string): Observable<any> {
+    return this.http.get(this.urlstaff + '/get-work-detail/' + empid, {
+      headers: this.setStaffHeader(),
+    });
+  }
+
+  getWorkDetailsUsingDate(empid: string, date: any): Observable<any> {
+    return this.http.get(
+      this.urlstaff + '/get-work-detail?empid=' + empid + '&date=' + date,
+      {
+        headers: this.setStaffHeader(),
+      }
+    );
   }
 }

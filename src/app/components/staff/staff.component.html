@@ -6,85 +6,124 @@
   ></app-header-staff>
   <main>
     <div class="page-content">
-      <div class="analytics">
-        <div class="card">
-          <div class="card-head">
-            <h2>{{ date | date : "mediumTime" }}</h2>
-            <span class="las la-user-clock"></span>
-          </div>
-          <div class="card-progress">
-            <small>{{ date | date : "fullDate" }}</small>
-            <div class="card-indicator">
-              <div class="indicator two" style="width: 100%"></div>
+      <div class="row">
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-head">
+              <h2>{{ date | date : "mediumTime" }}</h2>
+              <span class="las la-user-clock"></span>
             </div>
-          </div>
-          <div class="setCheckBtn">
-            <button
-              class="checkin mb-2 p-1 border-0"
-              aria-hidden="true"
-              (click)="checkIn()"
-              *ngIf="!checkin"
-            >
-              <span class="me-2">check in </span>
-              <span class="las la-user-check"></span>
-            </button>
-            <button
-              class="checkin mb-2 p-1 border-0"
-              aria-hidden="true"
-              (click)="checkOut()"
-              *ngIf="!checkout"
-            >
-              <span class="me-2">check out </span>
-              <span class="las la-user-check"></span>
-            </button>
-          </div>
-          <div *ngIf="isleave">
-            <p class="text-center text-danger">Today you are on leave!!!</p>
-          </div>
-          <!-- <div *ngIf="checkin && checkout">
-            <p class="text-center text-success">
-              You are already checkdIn and checkedOut for today!!!
-            </p>
-          </div> -->
-          <div *ngIf="isoffday">
-            <p class="text-center text-warning">Today is off day!!!</p>
+            <div class="card-progress">
+              <small>{{ date | date : "fullDate" }}</small>
+              <div class="card-indicator">
+                <div class="indicator two" style="width: 100%"></div>
+              </div>
+            </div>
+            <div class="setCheckBtn">
+              <button
+                class="checkin mb-2 p-1 border-0"
+                aria-hidden="true"
+                (click)="checkIn()"
+                *ngIf="!checkin"
+              >
+                <span class="me-2">check in </span>
+                <span class="las la-user-check"></span>
+              </button>
+              <button
+                class="checkin mb-2 p-1 border-0"
+                aria-hidden="true"
+                (click)="checkOut()"
+                *ngIf="!checkout"
+              >
+                <span class="me-2">check out </span>
+                <span class="las la-user-check"></span>
+              </button>
+            </div>
+            <div *ngIf="isleave">
+              <p class="text-center text-danger">Today you are on leave!!!</p>
+            </div>
+            <div *ngIf="checkin && checkout && !isleave">
+              <p class="text-center text-success">
+                You are already checkdIn and checkedOut for today!!!
+              </p>
+            </div>
+            <div *ngIf="isoffday">
+              <p class="text-center text-warning">Today is off day!!!</p>
+            </div>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-head">
-            <h2>{{ totalLeaveRequest }}</h2>
-            <span class="las la-arrow-circle-right"></span>
-          </div>
-          <div class="card-progress">
-            <small>Your Leave</small>
-            <div class="card-indicator">
-              <div class="indicator four" style="width: 100%"></div>
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-head">
+              <h2>{{ totalLeaveRequest }}</h2>
+              <span class="las la-arrow-circle-right"></span>
             </div>
-          </div>
-          <div class="text-center link-page" routerLink="/staff/leave">
-            <small
-              >Apply Leave!
-              <i class="fa-solid fa-arrow-up-right-from-square"></i
-            ></small>
+            <div class="card-progress">
+              <small>Your Leave</small>
+              <div class="card-indicator">
+                <div class="indicator four" style="width: 100%"></div>
+              </div>
+            </div>
+            <div class="text-center link-page" routerLink="/staff/leave">
+              <small
+                >Apply Leave!
+                <i class="fa-solid fa-arrow-up-right-from-square"></i
+              ></small>
+            </div>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-head">
-            <h2>&#8377;{{ totalGainSalary }}</h2>
-            <span class="las la-rupee-sign"></span>
-          </div>
-          <div class="card-progress">
-            <small>Total Gain Salary</small>
-            <div class="card-indicator">
-              <div class="indicator three" style="width: 100%"></div>
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-head">
+              <h2>&#8377;{{ totalGainSalary }}</h2>
+              <span class="las la-rupee-sign"></span>
+            </div>
+            <div class="card-progress">
+              <small>Total Gain Salary</small>
+              <div class="card-indicator">
+                <div class="indicator three" style="width: 100%"></div>
+              </div>
+            </div>
+            <div routerLink="/staff/salary" class="text-center link-page">
+              <small
+                >View more!
+                <i class="fa-solid fa-arrow-up-right-from-square"></i
+              ></small>
             </div>
           </div>
-          <div routerLink="/staff/salary" class="text-center link-page">
-            <small
-              >View more! <i class="fa-solid fa-arrow-up-right-from-square"></i
-            ></small>
+        </div>
+
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-head">
+              <h6 style="font-weight: 700">
+                Total Work Activity : {{ todaydataLength }}
+              </h6>
+              <span>
+                <i class="las la-list-alt"></i>
+              </span>
+            </div>
+            <div class="card-progress">
+              <ul>
+                <li
+                  style="list-style: circle"
+                  *ngFor="
+                    let data of todayData ? todayData.slice(0, 2) : [];
+                    let i = index
+                  "
+                >
+                  <small>{{ data.comment }}</small>
+                </li>
+              </ul>
+            </div>
+            <div class="text-center link-page" routerLink="/staff/my-work">
+              <small
+                >Today Work!
+                <i class="fa-solid fa-arrow-up-right-from-square"></i
+              ></small>
+            </div>
           </div>
         </div>
       </div>
