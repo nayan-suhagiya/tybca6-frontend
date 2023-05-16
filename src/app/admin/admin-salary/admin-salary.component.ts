@@ -147,27 +147,28 @@ export class AdminSalaryComponent implements OnInit {
     this.spinner.show();
     this.salaryData.empid = this.staff[0].empid;
     this.salaryData.fname = this.staff[0].fname;
+    this.salaryData.month = new Date().getMonth() + 1;
+    this.salaryData.year = new Date().getFullYear();
     // console.log(this.allSalaryData.length);
     // console.log(this.salaryData);
 
     if (this.allSalaryData.length !== 0) {
-      const specificSalaryData = this.allSalaryData.filter((data) => {
+      const userSalaryData = this.allSalaryData.filter((data) => {
         return this.salaryData.empid == data.empid;
       });
 
-      // console.log(specificSalaryData.length);
-      if (specificSalaryData.length != 0) {
-        const date = String(this.salaryData.salarydate);
-        const dateArr = date.split('-');
-        const addSalaryMonth = Number(dateArr[1]);
+      // console.log(specificSalaryData);
+      if (userSalaryData.length != 0) {
+        // console.log(userSalaryData);
+        const specificSalaryData = userSalaryData.filter((data) => {
+          return (
+            this.salaryData.month == data.month &&
+            this.salaryData.year == data.year
+          );
+        });
 
-        // console.log(addSalaryMonth);
-
-        const currentMonth = new Date().getMonth() + 1;
-
-        // console.log(currentMonth);
-
-        if (addSalaryMonth == currentMonth) {
+        // console.log(specificSalaryData);
+        if (specificSalaryData.length !== 0) {
           this.spinner.hide();
           Swal.fire(
             'Warning!',
@@ -176,10 +177,31 @@ export class AdminSalaryComponent implements OnInit {
           );
           return;
         } else {
+          /*
+          const date = String(this.salaryData.salarydate);
+          const dateArr = date.split('-');
+          const addSalaryMonth = Number(dateArr[1]);
+
+          // console.log(addSalaryMonth);
+
+          const currentMonth = new Date().getMonth() + 1;
+
+          // console.log(currentMonth);
+
+          if (addSalaryMonth == currentMonth) {
+            this.spinner.hide();
+            Swal.fire(
+              'Warning!',
+              'Salary already paid for this month!',
+              'warning'
+            );
+            return;
+          }
+          */
           // console.log('Else part!');
+
           this.staffService.addSalary(this.salaryData).subscribe(
             (res) => {
-              // console.log(res);
               if (res.inserted) {
                 this.spinner.hide();
 
@@ -192,6 +214,7 @@ export class AdminSalaryComponent implements OnInit {
               this.spinner.hide();
 
               Swal.fire('Error!', 'Unable to add salary!', 'error');
+              return;
             }
           );
           this.ngOnInit();
@@ -200,7 +223,6 @@ export class AdminSalaryComponent implements OnInit {
     }
 
     // console.log(this.salaryData);
-
     this.staffService.addSalary(this.salaryData).subscribe(
       (res) => {
         this.spinner.hide();

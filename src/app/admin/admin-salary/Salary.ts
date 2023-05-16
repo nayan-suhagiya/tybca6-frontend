@@ -12,4 +12,6 @@ export class Salary {
   salarydate: string;
   empid: string;
   fname: string;
+  month: number;
+  year: number;
 }

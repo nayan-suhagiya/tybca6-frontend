@@ -82,7 +82,7 @@ export class MyWorkComponent implements OnInit {
 
   searchWorkDetails(event) {
     this.spinner.show();
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const searchDate = event.target.value;
 
     if (searchDate == '') {

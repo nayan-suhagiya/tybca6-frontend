@@ -30,6 +30,7 @@ export class StaffComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // this.totalGainSalary = 0;
     setInterval(() => {
       this.date = new Date().toString();
     }, 1000);
