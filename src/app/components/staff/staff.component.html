@@ -43,9 +43,7 @@
               <p class="text-center text-danger">Today you are on leave!!!</p>
             </div>
             <div *ngIf="checkin && checkout && !isleave">
-              <p class="text-center text-success">
-                You are already checkdIn and checkedOut for today!!!
-              </p>
+              <p class="text-center text-success">Attendance already done!!!</p>
             </div>
             <div *ngIf="isoffday">
               <p class="text-center text-warning">Today is off day!!!</p>

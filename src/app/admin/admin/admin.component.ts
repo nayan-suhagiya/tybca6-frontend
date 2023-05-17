@@ -55,6 +55,8 @@ export class AdminComponent implements OnInit {
           for (let data of res) {
             this.totalSalary += data.netpay;
           }
+        } else {
+          this.totalSalary = 0;
         }
       },
       (err) => {

@@ -90,7 +90,7 @@ export class AdminStaffComponent implements OnInit {
   }
 
   editData(data: Staff) {
-    console.log(data);
+    // console.log(data);
     this.editableStaff = data;
     this.editableStaff.jdate = moment(this.editableStaff.jdate).format(
       'YYYY-MM-DD'
@@ -126,7 +126,7 @@ export class AdminStaffComponent implements OnInit {
   deleteData(empid: string) {
     Swal.fire({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: 'All staff reletade will be deleted!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

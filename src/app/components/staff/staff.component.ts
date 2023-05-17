@@ -199,6 +199,7 @@ export class StaffComponent implements OnInit {
     this.staffService.getSalaryForStaff(this.loggedInData.empid).subscribe(
       (res) => {
         if (res.length != 0) {
+          this.totalGainSalary = 0;
           for (let data of res) {
             this.totalGainSalary += data.netpay;
           }
