@@ -21,7 +21,7 @@
             </div>
             <div class="setCheckBtn">
               <button
-                class="checkin mb-2 p-1 border-0"
+                class="checkin mb-2 p-1 btn-secondary btn-sm btn"
                 aria-hidden="true"
                 (click)="checkIn()"
                 *ngIf="!checkin"
@@ -30,19 +30,19 @@
                 <span class="las la-user-check"></span>
               </button>
               <button
-                class="checkin mb-2 p-1 border-0"
+                class="checkin mb-2 p-1 btn-secondary btn-sm btn"
                 aria-hidden="true"
                 (click)="checkOut()"
                 *ngIf="!checkout"
               >
                 <span class="me-2">check out </span>
-                <span class="las la-user-check"></span>
+                <span class="las la-user-times"></span>
               </button>
             </div>
             <div *ngIf="isleave">
               <p class="text-center text-danger">Today you are on leave!!!</p>
             </div>
-            <div *ngIf="checkin && checkout && !isleave">
+            <div *ngIf="checkin && checkout && isleave">
               <p class="text-center text-success">Attendance already done!!!</p>
             </div>
             <div *ngIf="isoffday">

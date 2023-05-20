@@ -10,12 +10,12 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #5dc1a9;
+  /* background-color: #5dc1a9; */
   cursor: pointer;
 }
 
 .checkin .las {
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .setCheckBtn {

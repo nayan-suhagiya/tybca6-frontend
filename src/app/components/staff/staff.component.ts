@@ -45,6 +45,42 @@ export class StaffComponent implements OnInit {
       }
     );
 
+    this.staffService.getSalaryForStaff(this.loggedInData.empid).subscribe(
+      (res) => {
+        if (res.length != 0) {
+          this.totalGainSalary = 0;
+          for (let data of res) {
+            this.totalGainSalary += data.netpay;
+          }
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
+    //
+    this.staffService.getWorkDetails(this.loggedInData.empid).subscribe(
+      (res) => {
+        // console.log(res);
+        const today = moment(new Date()).format('YYYY-MM-DD');
+        if (res.length !== 0) {
+          this.todayData = res.filter((data) => {
+            return today == moment(data.date).format('YYYY-MM-DD');
+          });
+
+          this.todaydataLength = this.todayData.length;
+
+          // console.log(this.todayData);
+        } else {
+          this.todaydataLength = 0;
+        }
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+
     const day = this.date.split(' ')[0];
 
     if (day == 'Sat' || day == 'Sun') {
@@ -195,42 +231,6 @@ export class StaffComponent implements OnInit {
           );
         }
       });
-
-    this.staffService.getSalaryForStaff(this.loggedInData.empid).subscribe(
-      (res) => {
-        if (res.length != 0) {
-          this.totalGainSalary = 0;
-          for (let data of res) {
-            this.totalGainSalary += data.netpay;
-          }
-        }
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-
-    //
-    this.staffService.getWorkDetails(this.loggedInData.empid).subscribe(
-      (res) => {
-        // console.log(res);
-        const today = moment(new Date()).format('YYYY-MM-DD');
-        if (res.length !== 0) {
-          this.todayData = res.filter((data) => {
-            return today == moment(data.date).format('YYYY-MM-DD');
-          });
-
-          this.todaydataLength = this.todayData.length;
-
-          // console.log(this.todayData);
-        } else {
-          this.todaydataLength = 0;
-        }
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
   }
 
   checkIn() {
