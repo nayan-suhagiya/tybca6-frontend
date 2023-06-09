@@ -189,9 +189,24 @@ export class AdminStaffComponent implements OnInit {
       alert('invalid format');
       return;
     }
+
+    var fileSize = Math.round(file.size / 1024);
+    console.log(fileSize);
+
+    if (fileSize <= 600) {
+      // alert('Uploaded');
+    } else {
+      // alert('Error! File too large');
+      Swal.fire(
+        'Error',
+        'File too large!Please upload Maximum 8kb size image!',
+        'error'
+      );
+    }
     reader.onload = this._handleReaderLoaded.bind(this);
     reader.readAsDataURL(file);
   }
+
   _handleReaderLoaded(e) {
     let reader = e.target;
     this.imageSrc = reader.result;
