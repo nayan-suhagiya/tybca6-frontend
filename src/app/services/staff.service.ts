@@ -122,6 +122,15 @@ export class StaffService {
     });
   }
 
+  deleteSalary(data: any): Observable<any> {
+    return this.http.delete(
+      this.url + '/delete-salary/' + data.empid + '?' + data.salarydate,
+      {
+        headers: this.setHeader(),
+      }
+    );
+  }
+
   sendMail(data: any): Observable<any> {
     return this.http.post(this.url + '/send-mail', data, {
       headers: this.setHeader(),

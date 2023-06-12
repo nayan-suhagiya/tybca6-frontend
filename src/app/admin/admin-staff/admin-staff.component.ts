@@ -55,7 +55,7 @@ export class AdminStaffComponent implements OnInit {
   }
 
   staffFormSubmit() {
-    // console.log(this.staffData);
+    // console.log(this.staffData.profile);
     this.spinner.show();
     this.staffData.password = this.generatePassword(
       this.staffData.email,
@@ -210,7 +210,7 @@ export class AdminStaffComponent implements OnInit {
   _handleReaderLoaded(e) {
     let reader = e.target;
     this.imageSrc = reader.result;
-    this.staffData.profile = this.imageSrc;
+    this.staffData.profile = reader.result;
   }
 
   updatePhotoForStaffUpdate(e) {
@@ -220,6 +220,20 @@ export class AdminStaffComponent implements OnInit {
     if (!file.type.match(pattern)) {
       alert('invalid format');
       return;
+    }
+
+    var fileSize = Math.round(file.size / 1024);
+    console.log(fileSize);
+
+    if (fileSize <= 600) {
+      // alert('Uploaded');
+    } else {
+      // alert('Error! File too large');
+      Swal.fire(
+        'Error',
+        'File too large!Please upload Maximum 8kb size image!',
+        'error'
+      );
     }
     reader.onload = this._handleReaderLoadedForStaffUpdate.bind(this);
     reader.readAsDataURL(file);

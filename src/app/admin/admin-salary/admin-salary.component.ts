@@ -261,4 +261,18 @@ export class AdminSalaryComponent implements OnInit {
       }
     );
   }
+
+  deleteSalary(data: any) {
+    // console.log(data);
+    this.staffService.deleteSalary(data).subscribe((res)=>{
+      console.log(res);
+
+      if(res.deleted){
+        Swal.fire("Success!","Salary deleted successfully!","success")
+        this.ngOnInit();
+      }
+    },(err)=>{
+      console.log(err);
+    })
+  }
 }
