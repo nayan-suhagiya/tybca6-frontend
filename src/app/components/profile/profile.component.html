@@ -225,7 +225,11 @@
           </span>
         </div>
 
-        <form #profileUpdateForm="ngForm" (ngSubmit)="updateProfile()">
+        <form
+          autocomplete="off"
+          #profileUpdateForm="ngForm"
+          (ngSubmit)="updateProfile()"
+        >
           <ul class="nav nav-tabs" id="myTab1" role="tablist">
             <li class="nav-item" role="presentation">
               <button

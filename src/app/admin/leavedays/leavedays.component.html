@@ -7,7 +7,11 @@
       <div class="row">
         <div class="col-sm-5">
           <h3 class="mb-4 mt-1">Add Off Days</h3>
-          <form #addLeaveForm="ngForm" (ngSubmit)="leaveFormSubmit()">
+          <form
+            autocomplete="off"
+            #addLeaveForm="ngForm"
+            (ngSubmit)="leaveFormSubmit()"
+          >
             <div class="form-group">
               <input
                 type="date"

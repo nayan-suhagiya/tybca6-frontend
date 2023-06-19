@@ -132,7 +132,11 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form #staffForm="ngForm" (ngSubmit)="staffFormSubmit()">
+        <form
+          autocomplete="off"
+          #staffForm="ngForm"
+          (ngSubmit)="staffFormSubmit()"
+        >
           <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
               <button
@@ -579,7 +583,11 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form #staffForm="ngForm" (ngSubmit)="updateSubmit()">
+        <form
+          autocomplete="off"
+          #staffForm="ngForm"
+          (ngSubmit)="updateSubmit()"
+        >
           <ul class="nav nav-tabs" id="myTab1" role="tablist">
             <li class="nav-item" role="presentation">
               <button

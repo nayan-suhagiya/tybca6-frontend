@@ -43,7 +43,11 @@
           </div>
         </div>
         <div class="col-sm-12 my-3" *ngIf="showSalaryTable">
-          <form #salaryForm="ngForm" (ngSubmit)="salaryFormSubmit()">
+          <form
+            autocomplete="off"
+            #salaryForm="ngForm"
+            (ngSubmit)="salaryFormSubmit()"
+          >
             <div class="form-group col-sm-4 ms-auto my-2">
               <input
                 type="date"
@@ -235,10 +239,18 @@
                     {{ data.netpay | number : "1.2-2" }}
                   </b>
                 </td>
-                <td title="Delete" (click)="deleteSalary({empid:data.empid,salarydate:data.salarydate})">
+                <td
+                  title="Delete"
+                  (click)="
+                    deleteSalary({
+                      empid: data.empid,
+                      salarydate: data.salarydate
+                    })
+                  "
+                >
                   <i
                     class="las la-trash text-danger"
-                    style="font-size: 22px;cursor: pointer;"
+                    style="font-size: 22px; cursor: pointer"
                   ></i>
                 </td>
               </tr>

@@ -82,7 +82,7 @@ export class StaffLeaveComponent implements OnInit {
     this.leaveData.status = 'Pending';
     this.leaveData.appliedOn = moment(new Date()).format('YYYY-MM-DD');
     // console.log(this.leaveData);
-    console.log(this.approvedOrdRejectedData);
+    // console.log(this.approvedOrdRejectedData);
 
     if (this.approvedOrdRejectedData !== undefined) {
       const filteredApprovedData = this.approvedOrdRejectedData.filter(
@@ -146,5 +146,39 @@ export class StaffLeaveComponent implements OnInit {
         }
       );
     }
+  }
+
+  deleteLeave(empid: string, fromdate: Date) {
+    this.spinner.show();
+    let eid = empid;
+    let fdate = moment(fromdate).format('YYYY-MM-DD');
+
+    // console.log(eid, fdate);
+    this.staffService.deleteAppliedLeave(eid, fdate).subscribe(
+      (res) => {
+        console.log(res);
+
+        if (res.deleted) {
+          this.spinner.hide();
+          Swal.fire(
+            'Success!',
+            'Applied leave deleted successfully!',
+            'success'
+          );
+          this.ngOnInit();
+        } else {
+          this.spinner.hide();
+
+          Swal.fire('Error!', 'Unable to delete!', 'error');
+          this.ngOnInit();
+        }
+      },
+      (err) => {
+        this.spinner.hide();
+        console.log(err);
+        Swal.fire('Error!', 'Unable to delete!', 'error');
+        this.ngOnInit();
+      }
+    );
   }
 }

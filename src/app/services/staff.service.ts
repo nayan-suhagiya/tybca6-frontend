@@ -193,6 +193,15 @@ export class StaffService {
     });
   }
 
+  deleteAppliedLeave(empid: string, fromdate: string): Observable<any> {
+    return this.http.delete(
+      this.urlstaff + '/delete-leave/' + empid + '?' + fromdate,
+      {
+        headers: this.setStaffHeader(),
+      }
+    );
+  }
+
   updateProfile(data: Staff): Observable<any> {
     return this.http.patch(this.url + '/update-staff', data, {
       headers: this.setStaffHeader(),

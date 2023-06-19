@@ -34,6 +34,7 @@
               <th scope="col">Status</th>
               <th scope="col">Description</th>
               <th scope="col">Applied On</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -47,6 +48,18 @@
               </td>
               <td>{{ data.description }}</td>
               <td>{{ data.appliedon | date : "dd-MM-yyyy" }}</td>
+              <td>
+                <span>
+                  <button
+                    class="btn p-0"
+                    (click)="deleteLeave(data.empid, data.fromdate)"
+                  >
+                    <span
+                      class="las la-trash-alt text-danger action-icon"
+                    ></span>
+                  </button>
+                </span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -130,7 +143,11 @@
         ></button>
       </div>
       <div class="modal-body">
-        <form #leaveForm="ngForm" (ngSubmit)="leaveFormSubmit()">
+        <form
+          autocomplete="off"
+          #leaveForm="ngForm"
+          (ngSubmit)="leaveFormSubmit()"
+        >
           <div class="form-group">
             <label for="reason">Reason</label>
             <input
@@ -193,15 +210,8 @@
               name="description"
               [(ngModel)]="leaveData.description"
               #description="ngModel"
-              required
               class="form-control"
             />
-            <div
-              class="alert alert-danger mt-2"
-              *ngIf="description.invalid && description.touched"
-            >
-              Please enter valid description!
-            </div>
           </div>
           <div class="modal-footer">
             <button
