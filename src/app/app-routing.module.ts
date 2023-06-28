@@ -1,22 +1,22 @@
 import { AdminAttendanceComponent } from './admin/admin-attendance/admin-attendance.component';
 import { StaffGuard } from './guard/staff.guard';
-import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileComponent } from './staff/profile/profile.component';
 import { AdminLeaveComponent } from './admin/admin-leave/admin-leave.component';
-import { StaffLeaveComponent } from './components/staff-leave/staff-leave.component';
+import { StaffLeaveComponent } from './staff/staff-leave/staff-leave.component';
 import { LeavedaysComponent } from './admin/leavedays/leavedays.component';
-import { StaffAttendanceComponent } from './components/staff-attendance/staff-attendance.component';
-import { StaffComponent } from './components/staff/staff.component';
+import { StaffAttendanceComponent } from './staff/staff-attendance/staff-attendance.component';
+import { StaffComponent } from './staff/staff/staff.component';
 import { AdminDepartmentComponent } from './admin/admin-department/admin-department.component';
 import { AdminStaffComponent } from './admin/admin-staff/admin-staff.component';
 import { AuthGuard } from './guard/auth.guard';
 import { AdminComponent } from './admin/admin/admin.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './auth/login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminSalaryComponent } from './admin/admin-salary/admin-salary.component';
-import { StaffSalaryComponent } from './components/staff-salary/staff-salary.component';
-import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
-import { MyWorkComponent } from './components/my-work/my-work.component';
+import { StaffSalaryComponent } from './staff/staff-salary/staff-salary.component';
+import { ForgotPasswordComponent } from './staff/forgot-password/forgot-password.component';
+import { MyWorkComponent } from './staff/my-work/my-work.component';
 
 const routes: Routes = [
   {

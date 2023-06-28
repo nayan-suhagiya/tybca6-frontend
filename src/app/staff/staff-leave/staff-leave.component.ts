@@ -2,7 +2,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { StaffLeave } from './StaffLeave';
-import { StaffService } from './../../services/staff.service';
+import { StaffService } from '../../services/staff.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 

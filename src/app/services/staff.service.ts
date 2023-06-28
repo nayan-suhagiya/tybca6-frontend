@@ -1,4 +1,4 @@
-import { StaffLeave } from './../components/staff-leave/StaffLeave';
+import { StaffLeave } from '../staff/staff-leave/StaffLeave';
 import { Leave } from './../admin/leavedays/Leave';
 
 import { Observable } from 'rxjs';
@@ -6,7 +6,7 @@ import { Staff } from './../models/Staff';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Salary } from '../admin/admin-salary/Salary';
-import { Work } from '../components/my-work/Work';
+import { Work } from '../staff/my-work/Work';
 
 @Injectable({
   providedIn: 'root',

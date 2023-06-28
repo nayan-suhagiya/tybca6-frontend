@@ -1,5 +1,5 @@
 import { NgxSpinnerService } from 'ngx-spinner';
-import { StaffService } from './../../services/staff.service';
+import { StaffService } from '../../services/staff.service';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import * as moment from 'moment';
