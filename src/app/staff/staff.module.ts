@@ -14,6 +14,9 @@ import { StaffSalaryComponent } from './staff-salary/staff-salary.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AppRoutingModule } from '../app-routing.module';
 
+import { StaffService } from '../services/staff.service';
+import { AuthService } from '../services/auth.service';
+
 @NgModule({
   declarations: [
     ForgotPasswordComponent,
@@ -40,5 +43,6 @@ import { AppRoutingModule } from '../app-routing.module';
     StaffSalaryComponent,
     HeaderStaffComponent,
   ],
+  providers: [StaffService, AuthService],
 })
 export class StaffModule {}

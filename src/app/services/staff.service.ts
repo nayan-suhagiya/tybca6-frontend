@@ -141,6 +141,12 @@ export class StaffService {
     return this.http.post(this.url + '/send-forgot-password-mail', data);
   }
 
+  getStaffWorkDetails(date: string) {
+    return this.http.get(this.url + '/get-staff-work/' + date, {
+      headers: this.setHeader(),
+    });
+  }
+
   //regular staff
 
   loggednInData() {

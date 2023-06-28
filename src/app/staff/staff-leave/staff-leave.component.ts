@@ -9,7 +9,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-staff-leave',
   templateUrl: './staff-leave.component.html',
-  styleUrls: ['../../admin/admin.css'],
+  styleUrls: ['../../admin/main.css'],
 })
 export class StaffLeaveComponent implements OnInit {
   dpart: string = 'Leave';

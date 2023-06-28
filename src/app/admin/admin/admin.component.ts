@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
-  styleUrls: ['../admin.css'],
+  styleUrls: ['../main.css'],
 })
 export class AdminComponent implements OnInit {
   dpart = 'Dashboard';

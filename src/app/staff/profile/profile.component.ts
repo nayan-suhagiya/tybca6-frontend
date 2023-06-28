@@ -7,7 +7,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css', '../../admin/admin.css'],
+  styleUrls: ['./profile.component.css', '../../admin/main.css'],
 })
 export class ProfileComponent implements OnInit {
   loggedInData: any;

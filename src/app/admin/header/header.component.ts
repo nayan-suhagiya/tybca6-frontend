@@ -10,7 +10,7 @@ import { StaffService } from 'src/app/services/staff.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['../admin.css'],
+  styleUrls: ['../main.css'],
 })
 export class HeaderComponent implements OnInit {
   @ViewChild('adminUpdatePasswdForm') adminUpdatePasswdForm: NgForm;

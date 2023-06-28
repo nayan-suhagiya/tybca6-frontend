@@ -8,7 +8,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 @Component({
   selector: 'app-staff-salary',
   templateUrl: './staff-salary.component.html',
-  styleUrls: ['./staff-salary.component.css', '../../admin/admin.css'],
+  styleUrls: ['./staff-salary.component.css', '../../admin/main.css'],
 })
 export class StaffSalaryComponent implements OnInit {
   dpart: string = 'Salary';

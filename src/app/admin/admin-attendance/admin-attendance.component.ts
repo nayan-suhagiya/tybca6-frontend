@@ -9,7 +9,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-admin-attendance',
   templateUrl: './admin-attendance.component.html',
-  styleUrls: ['../admin.css'],
+  styleUrls: ['../main.css'],
 })
 export class AdminAttendanceComponent implements OnInit {
   dpart: string = 'Attendance';
@@ -53,7 +53,7 @@ export class AdminAttendanceComponent implements OnInit {
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridWeek,dayGridDay,dayGridYear,dayGridMonth', // user can switch between the two
+        right: 'dayGridWeek,dayGridMonth', // user can switch between the two
       },
     };
   }

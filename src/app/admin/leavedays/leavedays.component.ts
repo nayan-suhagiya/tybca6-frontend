@@ -10,7 +10,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-leavedays',
   templateUrl: './leavedays.component.html',
-  styleUrls: ['./leavedays.component.css', '../admin.css'],
+  styleUrls: ['./leavedays.component.css', '../main.css'],
 })
 export class LeavedaysComponent implements OnInit {
   @ViewChild('addLeaveForm') addLeaveForm: NgForm;

@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-admin-leave',
   templateUrl: './admin-leave.component.html',
-  styleUrls: ['../admin.css'],
+  styleUrls: ['../main.css'],
 })
 export class AdminLeaveComponent implements OnInit {
   dpart: string = 'Leave Manage';

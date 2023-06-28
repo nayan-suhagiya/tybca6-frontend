@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-department',
   templateUrl: './admin-department.component.html',
-  styleUrls: ['../admin.css'],
+  styleUrls: ['../main.css'],
 })
 export class AdminDepartmentComponent implements OnInit {
   dpart = 'Department';

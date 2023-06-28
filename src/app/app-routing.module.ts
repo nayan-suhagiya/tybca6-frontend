@@ -17,6 +17,7 @@ import { AdminSalaryComponent } from './admin/admin-salary/admin-salary.componen
 import { StaffSalaryComponent } from './staff/staff-salary/staff-salary.component';
 import { ForgotPasswordComponent } from './staff/forgot-password/forgot-password.component';
 import { MyWorkComponent } from './staff/my-work/my-work.component';
+import { StaffWorkComponent } from './admin/staff-work/staff-work.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,11 @@ const routes: Routes = [
   {
     path: 'admin/salary',
     component: AdminSalaryComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin/staff-work',
+    component: StaffWorkComponent,
     canActivate: [AuthGuard],
   },
   {

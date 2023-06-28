@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-my-work',
   templateUrl: './my-work.component.html',
-  styleUrls: ['./my-work.component.css', '../../admin/admin.css'],
+  styleUrls: ['./my-work.component.css', '../../admin/main.css'],
 })
 export class MyWorkComponent implements OnInit {
   @ViewChild('workForm') workForm: NgForm;

@@ -10,7 +10,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-admin-staff',
   templateUrl: './admin-staff.component.html',
-  styleUrls: ['../admin.css'],
+  styleUrls: ['../main.css'],
 })
 export class AdminStaffComponent implements OnInit {
   dpart = 'Staff';

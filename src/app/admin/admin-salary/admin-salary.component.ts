@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-admin-salary',
   templateUrl: './admin-salary.component.html',
-  styleUrls: ['./admin-salary.component.css', '../admin.css'],
+  styleUrls: ['./admin-salary.component.css', '../main.css'],
 })
 export class AdminSalaryComponent implements OnInit {
   @ViewChild('salaryForm') salaryForm: NgForm;
@@ -264,15 +264,18 @@ export class AdminSalaryComponent implements OnInit {
 
   deleteSalary(data: any) {
     // console.log(data);
-    this.staffService.deleteSalary(data).subscribe((res)=>{
-      console.log(res);
+    this.staffService.deleteSalary(data).subscribe(
+      (res) => {
+        console.log(res);
 
-      if(res.deleted){
-        Swal.fire("Success!","Salary deleted successfully!","success")
-        this.ngOnInit();
+        if (res.deleted) {
+          Swal.fire('Success!', 'Salary deleted successfully!', 'success');
+          this.ngOnInit();
+        }
+      },
+      (err) => {
+        console.log(err);
       }
-    },(err)=>{
-      console.log(err);
-    })
+    );
   }
 }

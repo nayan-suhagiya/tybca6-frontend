@@ -334,6 +334,10 @@ header {
   background: #f6d433;
 }
 
+.indicator.six {
+  background: #a08663;
+}
+
 .records {
   box-shadow: 0px 5px 5px -5px rgb(0 0 0 / 10%);
   background: #fff;

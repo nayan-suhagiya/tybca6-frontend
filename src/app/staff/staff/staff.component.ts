@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
-  styleUrls: ['./staff.component.css', '../../admin/admin.css'],
+  styleUrls: ['./staff.component.css', '../../admin/main.css'],
 })
 export class StaffComponent implements OnInit {
   dpart: string = 'Dashboard';

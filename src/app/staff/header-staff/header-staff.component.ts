@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-header-staff',
   templateUrl: './header-staff.component.html',
-  styleUrls: ['./header-staff.component.css', '../../admin/admin.css'],
+  styleUrls: ['./header-staff.component.css', '../../admin/main.css'],
 })
 export class HeaderStaffComponent implements OnInit {
   @Input() loggedInData: any;

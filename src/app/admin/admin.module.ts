@@ -11,9 +11,14 @@ import { HeaderComponent } from './header/header.component';
 import { LeavedaysComponent } from './leavedays/leavedays.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
+import { StaffService } from '../services/staff.service';
+import { DeptService } from '../services/dept.service';
+import { AuthService } from '../services/auth.service';
+
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
+import { StaffWorkComponent } from './staff-work/staff-work.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +31,7 @@ import { AppRoutingModule } from '../app-routing.module';
     HeaderComponent,
     LeavedaysComponent,
     SidebarComponent,
+    StaffWorkComponent,
   ],
   imports: [CommonModule, FullCalendarModule, FormsModule, AppRoutingModule],
   exports: [
@@ -38,6 +44,8 @@ import { AppRoutingModule } from '../app-routing.module';
     HeaderComponent,
     LeavedaysComponent,
     SidebarComponent,
+    StaffWorkComponent,
   ],
+  providers: [StaffService, DeptService, AuthService],
 })
 export class AdminModule {}
