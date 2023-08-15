@@ -163,6 +163,12 @@ export class StaffService {
     return new HttpHeaders().set('Authorization', 'Bearer ' + staffToken);
   }
 
+  getLeaveByDate(date: string): Observable<any> {
+    return this.http.get(this.urlstaff + '/get-leave-by-date?date=' + date, {
+      headers: this.setStaffHeader(),
+    });
+  }
+
   checkIn(data: any): Observable<any> {
     return this.http.post(this.urlstaff + '/check-in', data, {
       headers: this.setStaffHeader(),

@@ -157,9 +157,9 @@ export class AdminSalaryComponent implements OnInit {
         return this.salaryData.empid == data.empid;
       });
 
-      // console.log(specificSalaryData);
+      // console.log(userSalaryData);
       if (userSalaryData.length != 0) {
-        // console.log(userSalaryData);
+        console.log(userSalaryData);
         const specificSalaryData = userSalaryData.filter((data) => {
           return (
             this.salaryData.month == data.month &&
@@ -200,12 +200,35 @@ export class AdminSalaryComponent implements OnInit {
           */
           // console.log('Else part!');
 
+          // console.log(this.salaryData);
+          const salarydate = this.salaryData.salarydate;
+
           this.staffService.addSalary(this.salaryData).subscribe(
             (res) => {
               if (res.inserted) {
                 this.spinner.hide();
 
                 Swal.fire('Success!', 'Salary Added Successfully!', 'success');
+
+                // console.log(this.salaryData);
+
+                this.staffService
+                  .sendMail({
+                    empid: this.staff[0].empid,
+                    salarydate: salarydate,
+                    email: this.staff[0].email,
+                    fname: this.staff[0].fname,
+                  })
+                  .subscribe(
+                    (res) => {
+                      console.log(res);
+                    },
+                    (err) => {
+                      console.log(err);
+                    }
+                  );
+
+                this.ngOnInit();
                 return;
               }
             },
@@ -219,47 +242,48 @@ export class AdminSalaryComponent implements OnInit {
           );
           this.ngOnInit();
         }
+      } else {
+        this.staffService.addSalary(this.salaryData).subscribe(
+          (res) => {
+            this.spinner.hide();
+            // console.log(res);
+            if (res.inserted) {
+              this.spinner.hide();
+
+              Swal.fire('Success!', 'Salary Added Successfully!', 'success');
+
+              // console.log(this.staff);
+              this.staffService
+                .sendMail({
+                  empid: this.salaryData.empid,
+                  salarydate: this.salaryData.salarydate,
+                  email: this.staff[0].email,
+                  fname: this.staff[0].fname,
+                })
+                .subscribe(
+                  (res) => {
+                    // console.log(res);
+                  },
+                  (err) => {
+                    console.log(err);
+                  }
+                );
+
+              this.ngOnInit();
+              return;
+            }
+          },
+          (err) => {
+            console.log(err);
+            this.spinner.hide();
+
+            Swal.fire('Error!', 'Unable to add salary!', 'error');
+          }
+        );
       }
     }
 
     // console.log(this.salaryData);
-    this.staffService.addSalary(this.salaryData).subscribe(
-      (res) => {
-        this.spinner.hide();
-        // console.log(res);
-        if (res.inserted) {
-          this.spinner.hide();
-
-          Swal.fire('Success!', 'Salary Added Successfully!', 'success');
-
-          // console.log(this.staff);
-          this.staffService
-            .sendMail({
-              empid: this.salaryData.empid,
-              salarydate: this.salaryData.salarydate,
-              email: this.staff[0].email,
-              fname: this.staff[0].fname,
-            })
-            .subscribe(
-              (res) => {
-                // console.log(res);
-              },
-              (err) => {
-                console.log(err);
-              }
-            );
-
-          this.ngOnInit();
-          return;
-        }
-      },
-      (err) => {
-        console.log(err);
-        this.spinner.hide();
-
-        Swal.fire('Error!', 'Unable to add salary!', 'error');
-      }
-    );
   }
 
   deleteSalary(data: any) {

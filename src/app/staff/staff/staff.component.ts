@@ -90,6 +90,8 @@ export class StaffComponent implements OnInit {
       return;
     }
 
+    // console.log('execution continue');
+
     this.staffService
       .getApprovedLeave(this.loggedInData.empid)
       .subscribe((res) => {
@@ -195,6 +197,9 @@ export class StaffComponent implements OnInit {
         }
         */
 
+        // console.log(this.checkin);
+        // console.log(this.checkout);
+
         if (this.checkin == true && this.checkout == true) {
           return;
         } else {
@@ -227,6 +232,30 @@ export class StaffComponent implements OnInit {
             },
             (err) => {
               console.log(err);
+            }
+          );
+
+          // console.log(this.checkin);
+          // console.log(this.checkout);
+
+          // console.log(today);
+
+          this.staffService.getLeaveByDate(today).subscribe(
+            (res) => {
+              // console.log(res.founded);
+              if (res.founded) {
+                this.checkin = true;
+                this.checkout = true;
+                this.isoffday = true;
+              } else {
+                this.checkin = false;
+                this.checkout = false;
+                this.isoffday = false;
+              }
+            },
+            (err) => {
+              console.log(err);
+              // return;
             }
           );
         }
