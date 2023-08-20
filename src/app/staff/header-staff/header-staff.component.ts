@@ -1,10 +1,11 @@
-import { NgxSpinnerService } from 'ngx-spinner';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { HostListener } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AuthService } from '../../services/auth.service';
 
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { StaffService } from 'src/app/services/staff.service';
+import * as moment from 'moment';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,14 +16,14 @@ import Swal from 'sweetalert2';
 export class HeaderStaffComponent implements OnInit {
   @Input() loggedInData: any;
   @Input() dpart: any;
-  elem: any;
   isFullScreen: boolean = false;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    @Inject(DOCUMENT) private document: any,
-    private spinner: NgxSpinnerService
+
+    private spinner: NgxSpinnerService,
+    private staffService: StaffService
   ) {}
 
   ngOnInit(): void {
@@ -30,40 +31,35 @@ export class HeaderStaffComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
-
-    this.chkScreenMode();
-    this.elem = document.documentElement;
   }
 
-  fullscreenmodes(event) {
-    this.chkScreenMode();
-  }
-  chkScreenMode() {
-    if (document.fullscreenElement) {
-      //fullscreen
-      this.isFullScreen = true;
-    } else {
-      //not in full screen
-      this.isFullScreen = false;
-    }
-  }
-
-  @HostListener('document:fullscreenchange', ['$event'])
-  @HostListener('document:webkitfullscreenchange', ['$event'])
-  @HostListener('document:mozfullscreenchange', ['$event'])
-  @HostListener('document:MSFullscreenChange', ['$event'])
   isLogin() {
     return this.authService.isStaffLogin();
   }
 
   logOut() {
-    const adminToken = sessionStorage.getItem('authToken');
-    if (!adminToken) {
-      const userAuthToken = sessionStorage.getItem('userAuthToken');
-      this.callLogOut(userAuthToken);
-    } else {
-      this.callLogOut(adminToken);
-    }
+    const searchDate = moment(Date.now()).format('YYYY-MM-DD');
+    this.staffService
+      .getWorkDetailsUsingDate(this.loggedInData.empid, searchDate)
+      .subscribe(
+        (res) => {
+          // console.log(res);
+          if (res.length == 0) {
+            Swal.fire('Warning!', 'Please add today work details!', 'warning');
+          } else {
+            const adminToken = sessionStorage.getItem('authToken');
+            if (!adminToken) {
+              const userAuthToken = sessionStorage.getItem('userAuthToken');
+              this.callLogOut(userAuthToken);
+            } else {
+              this.callLogOut(adminToken);
+            }
+          }
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   callLogOut(token: string) {
@@ -79,37 +75,5 @@ export class HeaderStaffComponent implements OnInit {
         // Swal.fire('Error!', 'Unable to logout!', 'error');
       }
     );
-  }
-
-  openFullscreen() {
-    this.isFullScreen = true;
-    if (this.elem.requestFullscreen) {
-      this.elem.requestFullscreen();
-    } else if (this.elem.mozRequestFullScreen) {
-      /* Firefox */
-      this.elem.mozRequestFullScreen();
-    } else if (this.elem.webkitRequestFullscreen) {
-      /* Chrome, Safari and Opera */
-      this.elem.webkitRequestFullscreen();
-    } else if (this.elem.msRequestFullscreen) {
-      /* IE/Edge */
-      this.elem.msRequestFullscreen();
-    }
-  }
-
-  closeFullscreen() {
-    this.isFullScreen = false;
-    if (this.document.exitFullscreen) {
-      this.document.exitFullscreen();
-    } else if (this.document.mozCancelFullScreen) {
-      /* Firefox */
-      this.document.mozCancelFullScreen();
-    } else if (this.document.webkitExitFullscreen) {
-      /* Chrome, Safari and Opera */
-      this.document.webkitExitFullscreen();
-    } else if (this.document.msExitFullscreen) {
-      /* IE/Edge */
-      this.document.msExitFullscreen();
-    }
   }
 }

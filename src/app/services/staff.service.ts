@@ -1,12 +1,20 @@
-import { StaffLeave } from '../staff/staff-leave/StaffLeave';
-import { Leave } from './../admin/leavedays/Leave';
-
 import { Observable } from 'rxjs';
-import { Staff } from './../models/Staff';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+import { StaffLeave } from '../staff/staff-leave/StaffLeave';
+import { Leave } from './../admin/leavedays/Leave';
+import { Staff } from './../models/Staff';
 import { Salary } from '../admin/admin-salary/Salary';
 import { Work } from '../staff/my-work/Work';
+import {
+  AllLeave,
+  Approve,
+  Delete,
+  Insert,
+  MailSend,
+  Update,
+} from '../models/ResponseModel';
 
 @Injectable({
   providedIn: 'root',
@@ -28,102 +36,105 @@ export class StaffService {
 
   //admin
 
-  updateAdminPassword(data: any): Observable<any> {
-    return this.http.post(this.url + '/update-password', data, {
+  updateAdminPassword(data: any): Observable<Update> {
+    return this.http.post<Update>(this.url + '/update-password', data, {
       headers: this.setHeader(),
     });
   }
 
-  getStaff(): Observable<any> {
-    return this.http.get(this.url + '/get-staff', {
+  getStaff(): Observable<Staff[]> {
+    return this.http.get<Staff[]>(this.url + '/get-staff', {
       headers: this.setHeader(),
     });
   }
 
-  getSpecificStaff(empid: string): Observable<any> {
-    return this.http.get(this.url + '/get-staff/' + empid, {
+  getSpecificStaff(empid: string): Observable<Staff> {
+    return this.http.get<Staff>(this.url + '/get-staff/' + empid, {
       headers: this.setStaffHeader(),
     });
   }
 
-  getStaffUsingDname(dname: string): Observable<any> {
-    return this.http.get(this.url + `/get-staff-dname/${dname}`, {
+  getStaffUsingDname(dname: string): Observable<Staff[]> {
+    return this.http.get<Staff[]>(this.url + `/get-staff-dname/${dname}`, {
       headers: this.setHeader(),
     });
   }
 
-  addStaff(data: Staff): Observable<any> {
-    return this.http.post(this.url + '/add-staff', data, {
+  addStaff(data: Staff): Observable<Insert> {
+    return this.http.post<Insert>(this.url + '/add-staff', data, {
       headers: this.setHeader(),
     });
   }
 
-  updateStaff(data: Staff): Observable<any> {
-    return this.http.patch(this.url + '/update-staff', data, {
+  updateStaff(data: Staff): Observable<Update> {
+    return this.http.patch<Update>(this.url + '/update-staff', data, {
       headers: this.setHeader(),
     });
   }
 
-  deleteStaff(empid: string): Observable<any> {
-    return this.http.delete(this.url + '/delete-staff/' + empid, {
+  deleteStaff(empid: string): Observable<Delete> {
+    return this.http.delete<Delete>(this.url + '/delete-staff/' + empid, {
       headers: this.setHeader(),
     });
   }
 
-  addLeave(data: Leave): Observable<any> {
-    return this.http.post(this.url + '/addleave', data, {
+  addLeave(data: Leave): Observable<Insert> {
+    return this.http.post<Insert>(this.url + '/addleave', data, {
       headers: this.setHeader(),
     });
   }
 
-  removeLeave(date: any): Observable<any> {
-    return this.http.delete(this.url + '/removeleave/' + date, {
+  removeLeave(date: any): Observable<Delete> {
+    return this.http.delete<Delete>(this.url + '/removeleave/' + date, {
       headers: this.setHeader(),
     });
   }
 
-  getAllLeave(): Observable<any> {
-    return this.http.get(this.url + '/getall-leave');
+  getAllLeave(): Observable<AllLeave[]> {
+    return this.http.get<AllLeave[]>(this.url + '/getall-leave');
   }
 
-  getPendingLeave(): Observable<any> {
-    return this.http.get(this.url + '/getpending-staffleave', {
+  getPendingLeave(): Observable<StaffLeave[]> {
+    return this.http.get<StaffLeave[]>(this.url + '/getpending-staffleave', {
       headers: this.setHeader(),
     });
   }
 
-  getApproveOrRejectLeave(): Observable<any> {
-    return this.http.get(this.url + '/getapproveorreject-staffleave', {
+  getApproveOrRejectLeave(): Observable<StaffLeave[]> {
+    return this.http.get<StaffLeave[]>(
+      this.url + '/getapproveorreject-staffleave',
+      {
+        headers: this.setHeader(),
+      }
+    );
+  }
+
+  approveLeave(data: any): Observable<Approve> {
+    return this.http.patch<Approve>(this.url + '/approve-staffleave', data, {
       headers: this.setHeader(),
     });
   }
 
-  approveLeave(data: any): Observable<any> {
-    return this.http.patch(this.url + '/approve-staffleave', data, {
+  rejectLeave(data: any): Observable<Approve> {
+    return this.http.patch<Approve>(this.url + '/reject-staffleave', data, {
       headers: this.setHeader(),
     });
   }
 
-  rejectLeave(data: any): Observable<any> {
-    return this.http.patch(this.url + '/reject-staffleave', data, {
+  addSalary(data: Salary): Observable<Insert> {
+    return this.http.post<Insert>(this.url + '/add-salary', data, {
       headers: this.setHeader(),
     });
   }
 
-  addSalary(data: Salary): Observable<any> {
-    return this.http.post(this.url + '/add-salary', data, {
+  getSalary(): Observable<Salary[]> {
+    return this.http.get<Salary[]>(this.url + '/get-salary', {
       headers: this.setHeader(),
     });
   }
 
-  getSalary(): Observable<any> {
-    return this.http.get(this.url + '/get-salary', {
-      headers: this.setHeader(),
-    });
-  }
-
-  deleteSalary(data: any): Observable<any> {
-    return this.http.delete(
+  deleteSalary(data: any): Observable<Delete> {
+    return this.http.delete<Delete>(
       this.url + '/delete-salary/' + data.empid + '?' + data.salarydate,
       {
         headers: this.setHeader(),
@@ -131,18 +142,21 @@ export class StaffService {
     );
   }
 
-  sendMail(data: any): Observable<any> {
-    return this.http.post(this.url + '/send-mail', data, {
+  sendMail(data: any): Observable<MailSend> {
+    return this.http.post<MailSend>(this.url + '/send-mail', data, {
       headers: this.setHeader(),
     });
   }
 
-  sendForgotPasswordMail(data: any) {
-    return this.http.post(this.url + '/send-forgot-password-mail', data);
+  sendForgotPasswordMail(data: any): Observable<MailSend> {
+    return this.http.post<MailSend>(
+      this.url + '/send-forgot-password-mail',
+      data
+    );
   }
 
-  getStaffWorkDetails(date: string) {
-    return this.http.get(this.url + '/get-staff-work/' + date, {
+  getStaffWorkDetails(date: string): Observable<Work> {
+    return this.http.get<Work>(this.url + '/get-staff-work/' + date, {
       headers: this.setHeader(),
     });
   }

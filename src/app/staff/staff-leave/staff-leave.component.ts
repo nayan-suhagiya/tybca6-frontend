@@ -21,7 +21,6 @@ export class StaffLeaveComponent implements OnInit {
   approvedOrdRejectedData: any;
   approvedOrdRejectedDatalength: number;
   date: string = new Date().toString();
-  offDay: boolean = false;
 
   constructor(
     private staffService: StaffService,
@@ -30,14 +29,6 @@ export class StaffLeaveComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.show();
-    const today = new Date();
-
-    const day = this.date.split(' ')[0];
-
-    if (day == 'Sat' || day == 'Sun') {
-      this.offDay = true;
-    }
-
     this.loggedInData = this.staffService.loggednInData();
 
     this.staffService.getAppliedLeave(this.loggedInData.empid).subscribe(

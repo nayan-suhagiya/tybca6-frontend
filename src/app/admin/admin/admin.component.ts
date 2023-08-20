@@ -1,6 +1,9 @@
 import { StaffService } from './../../services/staff.service';
 import { DeptService } from './../../services/dept.service';
 import { Component, OnInit } from '@angular/core';
+import { Dept } from 'src/app/models/Dept';
+
+type deptRes = Array<{ deptid: number; dname: string }>;
 
 @Component({
   selector: 'app-admin',
@@ -22,6 +25,7 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.deptService.getDepartments().subscribe(
       (res) => {
+        // console.log(res);
         this.totalDept = res.length;
       },
       (err) => {

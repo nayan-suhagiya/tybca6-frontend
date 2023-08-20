@@ -126,7 +126,7 @@ export class AdminStaffComponent implements OnInit {
   deleteData(empid: string) {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'All staff reletade will be deleted!',
+      text: 'All staff related data will be deleted!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

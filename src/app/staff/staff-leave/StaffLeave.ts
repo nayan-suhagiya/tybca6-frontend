@@ -1,12 +1,12 @@
 export class StaffLeave {
+  empid: string;
+  deptid: string;
+  fname: string;
+  dname: string;
   reason: string;
   fromdate: Date;
   todate: Date;
   description: string;
-  fname: string;
-  dname: string;
   appliedOn: string;
-  empid: string;
-  deptid: string;
   status: string;
 }

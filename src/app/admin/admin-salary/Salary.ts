@@ -1,4 +1,5 @@
 export class Salary {
+  empid: string;
   basicSalary: number;
   hra: number;
   medicalAllow: number;
@@ -10,8 +11,8 @@ export class Salary {
   deduction: number;
   netPay: number;
   salarydate: string;
-  empid: string;
   fname: string;
   month: number;
   year: number;
+  netpay?: number;
 }

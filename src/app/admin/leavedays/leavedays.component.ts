@@ -65,7 +65,7 @@ export class LeavedaysComponent implements OnInit {
     this.staffService.addLeave(this.addLeaveData).subscribe(
       (res) => {
         // console.log(res);
-        if (res.added) {
+        if (res.inserted) {
           Swal.fire('Success!', 'Added!', 'success');
           this.ngOnInit();
         }

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
+import { Staff } from '../models/Staff';
 
 @Injectable({
   providedIn: 'root',
@@ -39,8 +40,8 @@ export class AuthService {
     }
   }
 
-  login(data: Login): Observable<any> {
-    return this.http.post(this.url + '/login', data);
+  login(data: Login): Observable<Staff> {
+    return this.http.post<Staff>(this.url + '/login', data);
   }
 
   logout(token: string): Observable<any> {

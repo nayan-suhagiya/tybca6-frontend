@@ -25,7 +25,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.spinner.show();
     this.staffService.sendForgotPasswordMail({ empid: this.staffID }).subscribe(
       (res: any) => {
-        if (res.userFound) {
+        if (res.mailSend) {
           Swal.fire(
             'Success!',
             'Your password sent to your registered email!',

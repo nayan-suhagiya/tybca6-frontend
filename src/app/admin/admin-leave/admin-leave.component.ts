@@ -71,7 +71,7 @@ export class AdminLeaveComponent implements OnInit {
       (res) => {
         // console.log(res);
 
-        if (res.rejected) {
+        if (!res.approved) {
           Swal.fire('Warning!', 'Leave Rejected!', 'warning');
           this.ngOnInit();
         }

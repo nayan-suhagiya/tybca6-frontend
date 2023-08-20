@@ -11,9 +11,11 @@ export class Staff {
   state: string;
   address: string;
   deptid: string;
-  password: string;
+  password?: string;
   profile: string;
   bankname: string;
   accountnumber: number;
   ifsccode: string;
+  token?: string;
+  role?: string;
 }

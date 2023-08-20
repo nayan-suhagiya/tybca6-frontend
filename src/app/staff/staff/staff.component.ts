@@ -31,6 +31,8 @@ export class StaffComponent implements OnInit {
 
   ngOnInit(): void {
     // this.totalGainSalary = 0;
+    const today = moment(new Date()).format('YYYY-MM-DD');
+
     setInterval(() => {
       this.date = new Date().toString();
     }, 1000);
@@ -81,14 +83,14 @@ export class StaffComponent implements OnInit {
       }
     );
 
-    const day = this.date.split(' ')[0];
+    // const day = this.date.split(' ')[0];
 
-    if (day == 'Sat' || day == 'Sun') {
-      this.checkin = true;
-      this.checkout = true;
-      this.isoffday = true;
-      return;
-    }
+    // if (day == 'Sat' || day == 'Sun') {
+    //   this.checkin = true;
+    //   this.checkout = true;
+    //   this.isoffday = true;
+    //   return;
+    // }
 
     // console.log('execution continue');
 
@@ -145,61 +147,6 @@ export class StaffComponent implements OnInit {
           }
         }
 
-        /*
-        const filteredData = res.filter((data) => {
-          return moment(data.fromdate).format('YYYY-MM-DD') == today;
-        });
-
-        if (filteredData.length !== 0) {
-          const fromdate = moment(filteredData[0].fromdate).format(
-            'YYYY-MM-DD'
-          );
-          const todate = moment(filteredData[0].todate).format('YYYY-MM-DD');
-
-          if (fromdate == todate) {
-            if (fromdate == today) {
-              this.checkin = true;
-              this.checkout = true;
-              this.isleave = true;
-            } else {
-              this.checkin = false;
-              this.checkout = false;
-            }
-          } else {
-            const dateArr = fromdate.split('-');
-            const startdate = Number(fromdate.split('-')[2]);
-            const enddate = Number(todate.split('-')[2]);
-
-            for (let i = startdate; i <= enddate; i++) {
-              const today = moment(new Date()).format('YYYY-MM-DD');
-              if (i <= 9) {
-                const leaveDate = dateArr[0] + '-' + dateArr[1] + '-0' + i;
-                this.leaveDateArr.push(leaveDate);
-              } else {
-                const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
-                this.leaveDateArr.push(leaveDate);
-              }
-            }
-
-            this.leaveDateArr = this.leaveDateArr.filter((date) => {
-              return today == date;
-            });
-
-            if (this.leaveDateArr.length == 0) {
-              this.checkin = false;
-              this.checkout = false;
-            } else {
-              this.checkin = true;
-              this.checkout = true;
-              this.isleave = true;
-            }
-          }
-        }
-        */
-
-        // console.log(this.checkin);
-        // console.log(this.checkout);
-
         if (this.checkin == true && this.checkout == true) {
           return;
         } else {
@@ -232,30 +179,27 @@ export class StaffComponent implements OnInit {
             },
             (err) => {
               console.log(err);
-            }
-          );
-
-          // console.log(this.checkin);
-          // console.log(this.checkout);
-
-          // console.log(today);
-
-          this.staffService.getLeaveByDate(today).subscribe(
-            (res) => {
-              // console.log(res.founded);
-              if (res.founded) {
-                this.checkin = true;
-                this.checkout = true;
-                this.isoffday = true;
-              } else {
-                this.checkin = false;
-                this.checkout = false;
-                this.isoffday = false;
-              }
             },
-            (err) => {
-              console.log(err);
-              // return;
+            () => {
+              console.log('final time check detauils of checkin and checkout');
+              this.staffService.getLeaveByDate(today).subscribe(
+                (res) => {
+                  // console.log(res.founded);
+                  if (res.founded) {
+                    this.checkin = true;
+                    this.checkout = true;
+                    this.isoffday = true;
+                  } else {
+                    this.checkin = false;
+                    this.checkout = false;
+                    this.isoffday = false;
+                  }
+                },
+                (err) => {
+                  console.log(err);
+                  // return;
+                }
+              );
             }
           );
         }
@@ -362,4 +306,6 @@ export class StaffComponent implements OnInit {
       }
     );
   }
+
+  refreshTheDashboard() {}
 }
