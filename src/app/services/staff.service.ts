@@ -1,3 +1,4 @@
+import { Founded } from './../models/ResponseModel';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -177,10 +178,13 @@ export class StaffService {
     return new HttpHeaders().set('Authorization', 'Bearer ' + staffToken);
   }
 
-  getLeaveByDate(date: string): Observable<any> {
-    return this.http.get(this.urlstaff + '/get-leave-by-date?date=' + date, {
-      headers: this.setStaffHeader(),
-    });
+  getLeaveByDate(date: string): Observable<Founded> {
+    return this.http.get<Founded>(
+      this.urlstaff + '/get-leave-by-date?date=' + date,
+      {
+        headers: this.setStaffHeader(),
+      }
+    );
   }
 
   checkIn(data: any): Observable<any> {

@@ -30,3 +30,7 @@ export interface Approve {
 export interface MailSend {
   mainSend: boolean;
 }
+
+export interface Founded {
+  founded: boolean;
+}
