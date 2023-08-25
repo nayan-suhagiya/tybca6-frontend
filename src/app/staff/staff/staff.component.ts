@@ -181,7 +181,7 @@ export class StaffComponent implements OnInit {
               console.log(err);
             },
             () => {
-              console.log('final time check detauils of checkin and checkout');
+              // console.log('final time check detauils of checkin and checkout');
               this.staffService.getLeaveByDate(today).subscribe(
                 (res) => {
                   // console.log(res.founded);
@@ -189,10 +189,6 @@ export class StaffComponent implements OnInit {
                     this.checkin = true;
                     this.checkout = true;
                     this.isoffday = true;
-                  } else {
-                    this.checkin = false;
-                    this.checkout = false;
-                    this.isoffday = false;
                   }
                 },
                 (err) => {
@@ -203,6 +199,8 @@ export class StaffComponent implements OnInit {
             }
           );
         }
+
+        // console.log(this.checkin, this.checkout);
       });
   }
 
