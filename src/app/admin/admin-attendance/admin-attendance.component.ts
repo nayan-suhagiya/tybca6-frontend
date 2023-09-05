@@ -269,25 +269,10 @@ export class AdminAttendanceComponent implements OnInit {
               this.spinner.hide();
             }
           );
-
-          // for (let date of this.allMonthDay) {
-          //   const today = moment(new Date()).format('YYYY-MM-DD');
-
-          //   if (date < today) {
-          //     this.events.push({
-          //       title: 'A',
-          //       date: date,
-          //       color: '#dc3545',
-          //     });
-          //   }
-          //   this.calendarOptions.events = this.events;
-          // }
         }
       },
       (err) => {
         this.spinner.hide();
-
-        // Swal.fire('Error!', 'Data not loaded!', 'error');
       }
     );
   }

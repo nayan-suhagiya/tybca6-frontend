@@ -181,7 +181,7 @@ export class StaffAttendanceComponent implements OnInit {
             })
             .subscribe(
               (res) => {
-                // console.log(res);
+                console.log(res);
                 this.staffService
                   .getAbsentData(this.loggedInData.empid)
                   .subscribe(

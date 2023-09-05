@@ -62,7 +62,7 @@ export class MyWorkComponent implements OnInit {
     this.staffService.addWorkDetails(this.workData).subscribe(
       (res) => {
         // console.log(res);
-        if (res.added) {
+        if (res.inserted) {
           this.spinner.hide();
           this.workForm.reset();
           Swal.fire('Success!', 'Work details added!', 'success');

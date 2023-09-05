@@ -9,6 +9,7 @@ export interface Insert {
 export interface Update {
   deptid?: number;
   empid?: string;
+  added?: boolean;
   updated: boolean;
 }
 
@@ -24,6 +25,7 @@ export interface AllLeave {
 
 export interface Approve {
   empid: string;
+  offday?: boolean;
   approved: boolean;
 }
 
@@ -33,4 +35,23 @@ export interface MailSend {
 
 export interface Founded {
   founded: boolean;
+}
+
+export interface Present {
+  present: boolean;
+}
+
+export interface CheckInData {
+  empid: string;
+  checkin: Date;
+  checkout: Date;
+  date: Date;
+  token: string;
+}
+
+export interface AbsentData {
+  empid: string;
+  month: string;
+  year: string;
+  date: Date[];
 }

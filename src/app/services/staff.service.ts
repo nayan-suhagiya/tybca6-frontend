@@ -1,4 +1,9 @@
-import { Founded } from './../models/ResponseModel';
+import {
+  Founded,
+  Present,
+  CheckInData,
+  AbsentData,
+} from './../models/ResponseModel';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -187,44 +192,50 @@ export class StaffService {
     );
   }
 
-  checkIn(data: any): Observable<any> {
-    return this.http.post(this.urlstaff + '/check-in', data, {
+  checkIn(data: any): Observable<Present> {
+    return this.http.post<Present>(this.urlstaff + '/check-in', data, {
       headers: this.setStaffHeader(),
     });
   }
 
-  checkOut(data: any): Observable<any> {
-    return this.http.patch(this.urlstaff + '/check-out', data, {
+  checkOut(data: any): Observable<Present> {
+    return this.http.patch<Present>(this.urlstaff + '/check-out', data, {
       headers: this.setStaffHeader(),
     });
   }
 
-  checkInTableDetails(): Observable<any> {
-    return this.http.get(this.urlstaff + '/check-details', {
+  checkInTableDetails(): Observable<CheckInData[]> {
+    return this.http.get<CheckInData[]>(this.urlstaff + '/check-details', {
       headers: this.setStaffHeader(),
     });
   }
 
-  applyLeave(data: StaffLeave): Observable<any> {
-    return this.http.post(this.urlstaff + '/apply-leave', data, {
+  applyLeave(data: StaffLeave): Observable<Approve> {
+    return this.http.post<Approve>(this.urlstaff + '/apply-leave', data, {
       headers: this.setStaffHeader(),
     });
   }
 
-  getAppliedLeave(empid: string): Observable<any> {
-    return this.http.get(this.urlstaff + '/get-applied-leave/' + empid, {
-      headers: this.setStaffHeader(),
-    });
+  getAppliedLeave(empid: string): Observable<StaffLeave[]> {
+    return this.http.get<StaffLeave[]>(
+      this.urlstaff + '/get-applied-leave/' + empid,
+      {
+        headers: this.setStaffHeader(),
+      }
+    );
   }
 
-  getApprovedLeave(empid: string): Observable<any> {
-    return this.http.get(this.urlstaff + '/get-approved-leave/' + empid, {
-      headers: this.setStaffHeader(),
-    });
+  getApprovedLeave(empid: string): Observable<StaffLeave[]> {
+    return this.http.get<StaffLeave[]>(
+      this.urlstaff + '/get-approved-leave/' + empid,
+      {
+        headers: this.setStaffHeader(),
+      }
+    );
   }
 
-  deleteAppliedLeave(empid: string, fromdate: string): Observable<any> {
-    return this.http.delete(
+  deleteAppliedLeave(empid: string, fromdate: string): Observable<Delete> {
+    return this.http.delete<Delete>(
       this.urlstaff + '/delete-leave/' + empid + '?' + fromdate,
       {
         headers: this.setStaffHeader(),
@@ -232,62 +243,65 @@ export class StaffService {
     );
   }
 
-  updateProfile(data: Staff): Observable<any> {
-    return this.http.patch(this.url + '/update-staff', data, {
+  updateProfile(data: Staff): Observable<Update> {
+    return this.http.patch<Update>(this.url + '/update-staff', data, {
       headers: this.setStaffHeader(),
     });
   }
 
-  getApprovedLeaveForAdmin(empid: string): Observable<any> {
-    return this.http.get(this.urlstaff + '/get-approved-leave/' + empid, {
+  getApprovedLeaveForAdmin(empid: string): Observable<StaffLeave[]> {
+    return this.http.get<StaffLeave[]>(
+      this.urlstaff + '/get-approved-leave/' + empid,
+      {
+        headers: this.setHeader(),
+      }
+    );
+  }
+
+  checkInTableDetailsForAdmin(): Observable<CheckInData[]> {
+    return this.http.get<CheckInData[]>(this.urlstaff + '/check-details', {
       headers: this.setHeader(),
     });
   }
 
-  checkInTableDetailsForAdmin(): Observable<any> {
-    return this.http.get(this.urlstaff + '/check-details', {
+  getAbsentDataForAdmin(empid: string): Observable<AbsentData[]> {
+    return this.http.get<AbsentData[]>(this.urlstaff + '/get-absent/' + empid, {
       headers: this.setHeader(),
     });
   }
 
-  getAbsentDataForAdmin(empid: string): Observable<any> {
-    return this.http.get(this.urlstaff + '/get-absent/' + empid, {
-      headers: this.setHeader(),
-    });
-  }
-
-  addAbsentData(data: any): Observable<any> {
-    return this.http.post(this.urlstaff + '/add-absent', data, {
+  addAbsentData(data: any): Observable<Update> {
+    return this.http.post<Update>(this.urlstaff + '/add-absent', data, {
       headers: this.setStaffHeader(),
     });
   }
 
-  getAbsentData(empid: string): Observable<any> {
-    return this.http.get(this.urlstaff + '/get-absent/' + empid, {
+  getAbsentData(empid: string): Observable<AbsentData[]> {
+    return this.http.get<AbsentData[]>(this.urlstaff + '/get-absent/' + empid, {
       headers: this.setStaffHeader(),
     });
   }
 
-  getSalaryForStaff(empid: string): Observable<any> {
-    return this.http.get(this.urlstaff + '/get-salary/' + empid, {
+  getSalaryForStaff(empid: string): Observable<Salary[]> {
+    return this.http.get<Salary[]>(this.urlstaff + '/get-salary/' + empid, {
       headers: this.setStaffHeader(),
     });
   }
 
-  addWorkDetails(data: Work): Observable<any> {
-    return this.http.post(this.urlstaff + '/add-work-detail', data, {
+  addWorkDetails(data: Work): Observable<Insert> {
+    return this.http.post<Insert>(this.urlstaff + '/add-work-detail', data, {
       headers: this.setStaffHeader(),
     });
   }
 
-  getWorkDetails(empid: string): Observable<any> {
-    return this.http.get(this.urlstaff + '/get-work-detail/' + empid, {
+  getWorkDetails(empid: string): Observable<Work[]> {
+    return this.http.get<Work[]>(this.urlstaff + '/get-work-detail/' + empid, {
       headers: this.setStaffHeader(),
     });
   }
 
-  getWorkDetailsUsingDate(empid: string, date: any): Observable<any> {
-    return this.http.get(
+  getWorkDetailsUsingDate(empid: string, date: any): Observable<Work[]> {
+    return this.http.get<Work[]>(
       this.urlstaff + '/get-work-detail?empid=' + empid + '&date=' + date,
       {
         headers: this.setStaffHeader(),

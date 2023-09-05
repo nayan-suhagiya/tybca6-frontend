@@ -99,7 +99,7 @@ export class StaffLeaveComponent implements OnInit {
               return;
             }
 
-            if (res.added) {
+            if (res.approved) {
               Swal.fire('Success!', 'Leave applied successfully!', 'success');
               this.leaveForm.reset();
               this.ngOnInit();
@@ -123,7 +123,7 @@ export class StaffLeaveComponent implements OnInit {
             return;
           }
 
-          if (res.added) {
+          if (res.approved) {
             Swal.fire('Success!', 'Leave applied successfully!', 'success');
             this.leaveForm.reset();
             this.ngOnInit();
