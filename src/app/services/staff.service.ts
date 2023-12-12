@@ -26,8 +26,8 @@ import {
   providedIn: 'root',
 })
 export class StaffService {
-  url: string = 'http://localhost:5000/admin';
-  urlstaff: string = 'http://localhost:5000/staff';
+  url: string = 'http://localhost:3000/admin';
+  urlstaff: string = 'http://localhost:3000/staff';
   // url: string = 'http://192.168.0.172:5000/admin';
   // urlstaff: string = 'http://192.168.0.172:5000/staff';
   date: string;
