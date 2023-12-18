@@ -144,7 +144,7 @@ export class AdminSalaryComponent implements OnInit {
   }
 
   salaryFormSubmit() {
-    this.spinner.show();
+    // this.spinner.show();
     this.salaryData.empid = this.staff[0].empid;
     this.salaryData.fname = this.staff[0].fname;
     this.salaryData.month = new Date().getMonth() + 1;
@@ -281,6 +281,43 @@ export class AdminSalaryComponent implements OnInit {
           }
         );
       }
+    } else {
+      // console.log('else part');
+
+      const salarydate = this.salaryData.salarydate;
+      this.staffService.addSalary(this.salaryData).subscribe(
+        (res) => {
+          if (res.inserted) {
+            this.spinner.hide();
+            Swal.fire('Success!', 'Salary Added Successfully!', 'success');
+            // console.log(this.salaryData);
+            this.staffService
+              .sendMail({
+                empid: this.staff[0].empid,
+                salarydate: salarydate,
+                email: this.staff[0].email,
+                fname: this.staff[0].fname,
+              })
+              .subscribe(
+                (res) => {
+                  console.log(res);
+                },
+                (err) => {
+                  console.log(err);
+                }
+              );
+            this.ngOnInit();
+            return;
+          }
+        },
+        (err) => {
+          console.log(err);
+          this.spinner.hide();
+          Swal.fire('Error!', 'Unable to add salary!', 'error');
+          return;
+        }
+      );
+      this.ngOnInit();
     }
 
     // console.log(this.salaryData);

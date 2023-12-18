@@ -190,12 +190,10 @@ export class AdminStaffComponent implements OnInit {
       return;
     }
 
-    var fileSize = Math.round(file.size / 1024);
+    var fileSize = file.size / 1024;
     console.log(fileSize);
 
-    if (fileSize <= 600) {
-      // alert('Uploaded');
-    } else {
+    if (fileSize >= 8) {
       // alert('Error! File too large');
       Swal.fire(
         'Error',
