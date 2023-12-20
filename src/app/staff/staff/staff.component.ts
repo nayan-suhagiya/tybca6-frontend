@@ -267,6 +267,7 @@ export class StaffComponent implements OnInit {
   }
 
   checkOut() {
+    this.spinner.show();
     const empid = this.loggedInData.empid;
     const date = moment(new Date()).format('YYYY-MM-DD');
 
@@ -280,13 +281,16 @@ export class StaffComponent implements OnInit {
           this.staffService.checkOut({ empid, date }).subscribe(
             (res) => {
               if (res.present == false) {
+                this.spinner.hide();
                 this.ngOnInit();
                 Swal.fire('Success!', 'Checked OUT!', 'success');
               } else {
+                this.spinner.hide();
                 Swal.fire('Warning!', 'Something went wrong!', 'warning');
               }
             },
             (err) => {
+              this.spinner.hide();
               Swal.fire('Warning!', 'Please first checkIN!', 'warning');
             }
           );
@@ -295,18 +299,22 @@ export class StaffComponent implements OnInit {
 
           for (let checkin of res) {
             if (today == moment(checkin.checkout).format('YYYY-MM-DD')) {
+              this.spinner.hide();
               Swal.fire('Warning!', 'Already checked out!', 'warning');
             } else {
               this.staffService.checkOut({ empid, date }).subscribe(
                 (res) => {
                   if (res.present == false) {
+                    this.spinner.hide();
                     this.ngOnInit();
                     Swal.fire('Success!', 'Checked OUT!', 'success');
                   } else {
+                    this.spinner.hide();
                     Swal.fire('Warning!', 'Something went wrong!', 'warning');
                   }
                 },
                 (err) => {
+                  this.spinner.hide();
                   Swal.fire('Warning!', 'Please first checkIN!', 'warning');
                 }
               );
@@ -316,9 +324,8 @@ export class StaffComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
   }
-
-  refreshTheDashboard() {}
 }
