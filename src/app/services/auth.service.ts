@@ -11,8 +11,9 @@ import { Staff } from '../models/Staff';
   providedIn: 'root',
 })
 export class AuthService {
-  url: string = 'http://localhost:3000';
+  // url: string = 'http://localhost:3000';
   // url: string = 'http://192.168.0.172:5000';
+  url: string = 'http://54.227.125.254:3000';
 
   constructor(
     private http: HttpClient,
