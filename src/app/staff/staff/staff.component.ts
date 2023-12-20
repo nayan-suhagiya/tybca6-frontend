@@ -205,6 +205,7 @@ export class StaffComponent implements OnInit {
   }
 
   checkIn() {
+    this.spinner.show();
     const empid = this.loggedInData.empid;
 
     this.staffService.checkInTableDetails().subscribe(
@@ -217,14 +218,21 @@ export class StaffComponent implements OnInit {
           this.staffService.checkIn({ empid }).subscribe(
             (res) => {
               if (res.present) {
+                this.spinner.hide();
                 Swal.fire('Success!', 'Checked IN!', 'success');
                 sessionStorage.setItem('checkInDetails', JSON.stringify(res));
                 this.ngOnInit();
               } else {
-                Swal.fire('Warning!', 'Something went wrong!', 'warning');
+                this.spinner.hide();
+                Swal.fire(
+                  'Warning!',
+                  'Something went wrong! or unable to checkin',
+                  'warning'
+                );
               }
             },
             (err) => {
+              this.spinner.hide();
               console.log(err);
             }
           );
@@ -232,14 +240,21 @@ export class StaffComponent implements OnInit {
           this.staffService.checkIn({ empid }).subscribe(
             (res) => {
               if (res.present) {
+                this.spinner.hide();
                 Swal.fire('Success!', 'Checked IN!', 'success');
                 sessionStorage.setItem('checkInDetails', JSON.stringify(res));
                 this.ngOnInit();
               } else {
-                Swal.fire('Warning!', 'Something went wrong!', 'warning');
+                this.spinner.hide();
+                Swal.fire(
+                  'Warning!',
+                  'Something went wrong! or unable to checkin',
+                  'warning'
+                );
               }
             },
             (err) => {
+              this.spinner.hide();
               console.log(err);
             }
           );
