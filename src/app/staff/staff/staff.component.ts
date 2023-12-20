@@ -30,6 +30,7 @@ export class StaffComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.spinner.show();
     // this.totalGainSalary = 0;
     const today = moment(new Date()).format('YYYY-MM-DD');
 
@@ -152,6 +153,7 @@ export class StaffComponent implements OnInit {
         } else {
           this.staffService.checkInTableDetails().subscribe(
             (res) => {
+              this.spinner.hide();
               const newRes = res.filter((data) => {
                 return data.empid == this.loggedInData.empid;
               });
@@ -178,6 +180,7 @@ export class StaffComponent implements OnInit {
               }
             },
             (err) => {
+              this.spinner.hide();
               console.log(err);
             },
             () => {
@@ -185,6 +188,7 @@ export class StaffComponent implements OnInit {
               this.staffService.getLeaveByDate(today).subscribe(
                 (res) => {
                   // console.log(res.founded);
+                  this.spinner.hide();
                   if (res.founded) {
                     this.checkin = true;
                     this.checkout = true;
@@ -192,6 +196,7 @@ export class StaffComponent implements OnInit {
                   }
                 },
                 (err) => {
+                  this.spinner.hide();
                   console.log(err);
                   // return;
                 }
