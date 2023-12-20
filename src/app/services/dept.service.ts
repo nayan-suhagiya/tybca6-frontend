@@ -5,14 +5,14 @@ import { Observable } from 'rxjs';
 
 import { Dept } from './../models/Dept';
 import { Delete, Insert, Update } from './../models/ResponseModel';
+import { environment } from 'src/environments/environment.prod';
+import { CONSTANT } from '../constant/constant';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DeptService {
-  // url: string = 'http://localhost:3000/admin';
-  // url: string = 'http://192.168.0.172:5000/admin';
-  url: string = 'http://54.227.125.254:3000/admin';
+  url: string = environment.ADMIN_API_ENDPOINT;
 
   constructor(private http: HttpClient) {}
 
@@ -23,26 +23,40 @@ export class DeptService {
   }
 
   getDepartments(): Observable<Dept[]> {
-    return this.http.get<Dept[]>(this.url + '/get-depts', {
-      headers: this.setHeader(),
-    });
+    return this.http.get<Dept[]>(
+      this.url + CONSTANT.ENDPOINTS.GET_DEPARTMENTS,
+      {
+        headers: this.setHeader(),
+      }
+    );
   }
 
   addDepartment(data: Dept): Observable<Insert> {
-    return this.http.post<Insert>(this.url + '/add-dept', data, {
-      headers: this.setHeader(),
-    });
+    return this.http.post<Insert>(
+      this.url + CONSTANT.ENDPOINTS.ADD_DEPARTMENT,
+      data,
+      {
+        headers: this.setHeader(),
+      }
+    );
   }
 
   updateDepartment(data: Dept): Observable<Update> {
-    return this.http.patch<Update>(this.url + '/update-dept', data, {
-      headers: this.setHeader(),
-    });
+    return this.http.patch<Update>(
+      this.url + CONSTANT.ENDPOINTS.UPDATE_DEPARTMENT,
+      data,
+      {
+        headers: this.setHeader(),
+      }
+    );
   }
 
   deleteDepartment(deptid: string): Observable<Delete> {
-    return this.http.delete<Delete>(this.url + `/delete-dept/${deptid}`, {
-      headers: this.setHeader(),
-    });
+    return this.http.delete<Delete>(
+      this.url + CONSTANT.ENDPOINTS.DELETE_DEPARTMENT + deptid,
+      {
+        headers: this.setHeader(),
+      }
+    );
   }
 }

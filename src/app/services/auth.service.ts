@@ -6,14 +6,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Staff } from '../models/Staff';
+import { environment } from 'src/environments/environment.prod';
+import { CONSTANT } from '../constant/constant';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  // url: string = 'http://localhost:3000';
-  // url: string = 'http://192.168.0.172:5000';
-  url: string = 'http://54.227.125.254:3000';
+  url: string = environment.COMMON_API_ENDPOINT;
 
   constructor(
     private http: HttpClient,
@@ -42,11 +42,11 @@ export class AuthService {
   }
 
   login(data: Login): Observable<Staff> {
-    return this.http.post<Staff>(this.url + '/login', data);
+    return this.http.post<Staff>(this.url + CONSTANT.ENDPOINTS.LOGIN, data);
   }
 
   logout(token: string): Observable<any> {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-    return this.http.get(this.url + '/logout', { headers });
+    return this.http.get(this.url + CONSTANT.ENDPOINTS.LOGOUT, { headers });
   }
 }
