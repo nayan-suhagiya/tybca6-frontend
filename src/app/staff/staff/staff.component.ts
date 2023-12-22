@@ -41,15 +41,18 @@ export class StaffComponent implements OnInit {
 
     this.staffService.getAppliedLeave(this.loggedInData.empid).subscribe(
       (res) => {
+        this.spinner.hide();
         this.totalLeaveRequest = res.length;
       },
       (err) => {
+        this.spinner.hide();
         console.log(err);
       }
     );
 
     this.staffService.getSalaryForStaff(this.loggedInData.empid).subscribe(
       (res) => {
+        this.spinner.hide();
         if (res.length != 0) {
           this.totalGainSalary = 0;
           for (let data of res) {
@@ -58,6 +61,7 @@ export class StaffComponent implements OnInit {
         }
       },
       (err) => {
+        this.spinner.hide();
         console.log(err);
       }
     );
@@ -65,6 +69,7 @@ export class StaffComponent implements OnInit {
     //
     this.staffService.getWorkDetails(this.loggedInData.empid).subscribe(
       (res) => {
+        this.spinner.hide();
         // console.log(res);
         const today = moment(new Date()).format('YYYY-MM-DD');
         if (res.length !== 0) {
@@ -80,6 +85,7 @@ export class StaffComponent implements OnInit {
         }
       },
       (err) => {
+        this.spinner.hide();
         console.log(err);
       }
     );
@@ -98,6 +104,7 @@ export class StaffComponent implements OnInit {
     this.staffService
       .getApprovedLeave(this.loggedInData.empid)
       .subscribe((res) => {
+        this.spinner.hide();
         const today = moment(new Date()).format('YYYY-MM-DD');
 
         // console.log(res);
@@ -190,6 +197,7 @@ export class StaffComponent implements OnInit {
                   // console.log(res.founded);
                   this.spinner.hide();
                   if (res.founded) {
+                    this.spinner.hide();
                     this.checkin = true;
                     this.checkout = true;
                     this.isoffday = true;

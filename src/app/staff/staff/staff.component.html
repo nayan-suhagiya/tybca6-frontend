@@ -42,7 +42,7 @@
             <div *ngIf="isleave">
               <p class="text-center text-danger">Today you are on leave!!!</p>
             </div>
-            <div *ngIf="checkin && checkout">
+            <div *ngIf="checkin && checkout && !isleave">
               <p class="text-center text-success">Attendance already done!!!</p>
             </div>
             <div *ngIf="isoffday">
