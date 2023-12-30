@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  ADMIN_API_ENDPOINT: 'http://localhost:3000/admin',
-  STAFF_API_ENDPOINT: 'http://localhost:3000/staff',
-  COMMON_API_ENDPOINT: 'http://localhost:3000',
+  ADMIN_API_ENDPOINT: 'https://stackzoid.tech/admin',
+  STAFF_API_ENDPOINT: 'https://stackzoid.tech/staff',
+  COMMON_API_ENDPOINT: 'https://stackzoid.tech',
 };
