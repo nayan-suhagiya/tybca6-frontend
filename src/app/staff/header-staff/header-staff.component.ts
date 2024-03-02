@@ -38,28 +38,28 @@ export class HeaderStaffComponent implements OnInit {
   }
 
   logOut() {
-    const searchDate = moment(Date.now()).format('YYYY-MM-DD');
-    this.staffService
-      .getWorkDetailsUsingDate(this.loggedInData.empid, searchDate)
-      .subscribe(
-        (res) => {
-          // console.log(res);
-          if (res.length == 0) {
-            Swal.fire('Warning!', 'Please add today work details!', 'warning');
-          } else {
-            const adminToken = sessionStorage.getItem('authToken');
-            if (!adminToken) {
-              const userAuthToken = sessionStorage.getItem('userAuthToken');
-              this.callLogOut(userAuthToken);
-            } else {
-              this.callLogOut(adminToken);
-            }
-          }
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
+    // const searchDate = moment(Date.now()).format('YYYY-MM-DD');
+    // this.staffService
+    //   .getWorkDetailsUsingDate(this.loggedInData.empid, searchDate)
+    //   .subscribe(
+    //     (res) => {
+    //       // console.log(res);
+    //       if (res.length == 0) {
+    //         Swal.fire('Warning!', 'Please add today work details!', 'warning');
+    //       } else {
+    const adminToken = sessionStorage.getItem('authToken');
+    if (!adminToken) {
+      const userAuthToken = sessionStorage.getItem('userAuthToken');
+      this.callLogOut(userAuthToken);
+    } else {
+      this.callLogOut(adminToken);
+    }
+    //   }
+    // },
+    // (err) => {
+    //   console.log(err);
+    // }
+    // );
   }
 
   callLogOut(token: string) {

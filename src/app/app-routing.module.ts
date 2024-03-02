@@ -48,61 +48,61 @@ const routes: Routes = [
     component: AdminDepartmentComponent,
     canActivate: [AuthGuard],
   },
-  {
-    path: 'admin/leavedays',
-    component: LeavedaysComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'admin/staffleave',
-    component: AdminLeaveComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'admin/attendance',
-    component: AdminAttendanceComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'admin/salary',
-    component: AdminSalaryComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'admin/staff-work',
-    component: StaffWorkComponent,
-    canActivate: [AuthGuard],
-  },
+  // {
+  //   path: 'admin/leavedays',
+  //   component: LeavedaysComponent,
+  //   canActivate: [AuthGuard],
+  // },
+  // {
+  //   path: 'admin/staffleave',
+  //   component: AdminLeaveComponent,
+  //   canActivate: [AuthGuard],
+  // },
+  // {
+  //   path: 'admin/attendance',
+  //   component: AdminAttendanceComponent,
+  //   canActivate: [AuthGuard],
+  // },
+  // {
+  //   path: 'admin/salary',
+  //   component: AdminSalaryComponent,
+  //   canActivate: [AuthGuard],
+  // },
+  // {
+  //   path: 'admin/staff-work',
+  //   component: StaffWorkComponent,
+  //   canActivate: [AuthGuard],
+  // },
   {
     path: 'staff',
     component: StaffComponent,
     canActivate: [StaffGuard],
   },
-  {
-    path: 'staff/attendance',
-    component: StaffAttendanceComponent,
-    canActivate: [StaffGuard],
-  },
-  {
-    path: 'staff/leave',
-    component: StaffLeaveComponent,
-    canActivate: [StaffGuard],
-  },
-  {
-    path: 'staff/profile',
-    component: ProfileComponent,
-    canActivate: [StaffGuard],
-  },
-  {
-    path: 'staff/salary',
-    component: StaffSalaryComponent,
-    canActivate: [StaffGuard],
-  },
-  {
-    path: 'staff/my-work',
-    component: MyWorkComponent,
-    canActivate: [StaffGuard],
-  },
+  // {
+  //   path: 'staff/attendance',
+  //   component: StaffAttendanceComponent,
+  //   canActivate: [StaffGuard],
+  // },
+  // {
+  //   path: 'staff/leave',
+  //   component: StaffLeaveComponent,
+  //   canActivate: [StaffGuard],
+  // },
+  // {
+  //   path: 'staff/profile',
+  //   component: ProfileComponent,
+  //   canActivate: [StaffGuard],
+  // },
+  // {
+  //   path: 'staff/salary',
+  //   component: StaffSalaryComponent,
+  //   canActivate: [StaffGuard],
+  // },
+  // {
+  //   path: 'staff/my-work',
+  //   component: MyWorkComponent,
+  //   canActivate: [StaffGuard],
+  // },
 ];
 
 @NgModule({
