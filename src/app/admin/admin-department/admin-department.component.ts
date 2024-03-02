@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import { DeptService } from './../../services/dept.service';
 import { NgForm } from '@angular/forms';
 import { Dept } from './../../models/Dept';
@@ -16,32 +17,42 @@ export class AdminDepartmentComponent implements OnInit {
   alldept: any;
   editableDept: Dept = new Dept();
 
-  constructor(private deptService: DeptService) {}
+  constructor(private deptService: DeptService, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    this.loadDepartments();
+  }
+
+  loadDepartments() {
+    this.spinner.show();
     this.deptService.getDepartments().subscribe(
       (res) => {
         this.alldept = res;
+        this.spinner.hide();
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
   }
 
   deptSubmit() {
+    this.spinner.show();
     this.deptService.addDepartment(this.deptData).subscribe(
       (res) => {
         this.deptForm.reset();
         if (res.inserted) {
           Swal.fire('Success!', 'Department Added!', 'success');
-          this.ngOnInit();
+          this.loadDepartments();
         } else {
           Swal.fire('Oops!', 'Unable to add!', 'error');
         }
+        this.spinner.hide();
       },
       (err) => {
         Swal.fire('Oops!', 'Unable to add!', 'error');
+        this.spinner.hide();
       }
     );
   }
@@ -51,17 +62,20 @@ export class AdminDepartmentComponent implements OnInit {
   }
 
   updateSubmit() {
+    this.spinner.show();
     this.deptService.updateDepartment(this.editableDept).subscribe(
       (res) => {
         if (res.updated) {
           Swal.fire('Success!', 'Department Updated!', 'success');
-          this.ngOnInit();
+          this.loadDepartments();
         } else {
           Swal.fire('Oops!', 'Unable to update!', 'error');
         }
+        this.spinner.hide();
       },
       (err) => {
         Swal.fire('Oops!', 'Unable to update!', 'error');
+        this.spinner.hide();
       }
     );
   }
@@ -78,21 +92,25 @@ export class AdminDepartmentComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         try {
+          this.spinner.show();
           this.deptService.deleteDepartment(deptid).subscribe(
             (res) => {
               if (res.deleted) {
-                this.ngOnInit();
+                this.loadDepartments();
               } else {
                 Swal.fire('Oops!', 'Unable to delete!', 'error');
               }
+              this.spinner.hide();
             },
             (err) => {
               Swal.fire('Oops!', 'Unable to delete!', 'error');
+              this.spinner.hide();
             }
           );
           return;
         } catch (error) {
           Swal.fire('Oops!', 'Unable to delete!', 'error');
+          this.spinner.hide();
         }
       }
     });
@@ -103,7 +121,7 @@ export class AdminDepartmentComponent implements OnInit {
   }
 
   callNgOn() {
-    this.ngOnInit();
+    this.loadDepartments();
   }
 
   resetForm() {

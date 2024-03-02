@@ -27,9 +27,15 @@ export class AdminStaffComponent implements OnInit {
     private deptService: DeptService,
     private staffService: StaffService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+    this.loadInitialData();
+  }
+
+  loadInitialData() {
+    this.spinner.show();
+
     this.deptService.getDepartments().subscribe(
       (res) => {
         this.allDeptData = res;
@@ -38,25 +44,31 @@ export class AdminStaffComponent implements OnInit {
             this.allDeptName.push(dept.dname);
           }
         }
+        this.loadStaffData();
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
+  }
 
+  loadStaffData() {
     this.staffService.getStaff().subscribe(
       (res) => {
         this.allStaffData = res;
+        this.spinner.hide();
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
   }
 
   staffFormSubmit() {
-    // console.log(this.staffData.profile);
     this.spinner.show();
+
     this.staffData.password = this.generatePassword(
       this.staffData.email,
       this.staffData.mobile
@@ -67,20 +79,18 @@ export class AdminStaffComponent implements OnInit {
         this.staffForm.reset();
         if (res.inserted) {
           Swal.fire('Success!', 'Staff Added!', 'success');
-          this.spinner.hide();
-          this.ngOnInit();
+          this.loadStaffData();
           this.imageSrc = '';
         } else {
           if (res.emailExist) {
             Swal.fire('Error!', 'Email Already Exists!', 'error');
-            this.spinner.hide();
           } else {
             if (res.mobileExist) {
               Swal.fire('Error!', 'Mobile Number Already Exists!', 'error');
-              this.spinner.hide();
             }
           }
         }
+        this.spinner.hide();
       },
       (err) => {
         Swal.fire('Oops!', 'Unable to add!', 'error');
@@ -90,7 +100,8 @@ export class AdminStaffComponent implements OnInit {
   }
 
   editData(data: Staff) {
-    // console.log(data);
+    this.spinner.show();
+
     this.editableStaff = data;
     this.editableStaff.jdate = moment(this.editableStaff.jdate).format(
       'YYYY-MM-DD'
@@ -99,22 +110,25 @@ export class AdminStaffComponent implements OnInit {
       'YYYY-MM-DD'
     );
     this.imageSrc = data.profile;
+
+    this.spinner.hide();
   }
 
   updateSubmit() {
-    // console.log(this.editableStaff);
     this.spinner.show();
+
     this.editableStaff.password = this.generatePassword(
       this.editableStaff.email,
       this.editableStaff.mobile
     );
+
     this.staffService.updateStaff(this.editableStaff).subscribe(
       (res) => {
         if (res.updated) {
           Swal.fire('Success!', 'Staff Update!', 'success');
-          this.spinner.hide();
-          this.ngOnInit();
+          this.loadStaffData();
         }
+        this.spinner.hide();
       },
       (err) => {
         Swal.fire('Oops!', 'Unable to update!', 'error');
@@ -134,14 +148,18 @@ export class AdminStaffComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
+        this.spinner.show();
+
         this.staffService.deleteStaff(empid).subscribe(
           (res) => {
             if (res.deleted) {
-              this.ngOnInit();
+              this.loadStaffData();
             }
+            this.spinner.hide();
           },
           (err) => {
             Swal.fire('Oops!', 'Unable to delete!', 'error');
+            this.spinner.hide();
           }
         );
       }
@@ -158,23 +176,19 @@ export class AdminStaffComponent implements OnInit {
   }
 
   updateDeptID(dname: string) {
-    this.staffDept = this.allDeptData.filter((deptdata) => {
-      return dname === deptdata.dname;
-    });
+    this.staffDept = this.allDeptData.find((deptdata) => dname === deptdata.dname);
 
-    this.staffData.deptid = this.staffDept[0].deptid;
+    this.staffData.deptid = this.staffDept.deptid;
   }
 
   updateDeptIDEditable(dname: string) {
-    const deptUpdateData = this.allDeptData.filter((deptdata) => {
-      return dname === deptdata.dname;
-    });
+    const deptUpdateData = this.allDeptData.find((deptdata) => dname === deptdata.dname);
 
-    this.editableStaff.deptid = deptUpdateData[0].deptid;
+    this.editableStaff.deptid = deptUpdateData.deptid;
   }
 
   callNgOn() {
-    this.ngOnInit();
+    this.loadInitialData();
   }
 
   resetForm() {
@@ -186,7 +200,7 @@ export class AdminStaffComponent implements OnInit {
     var pattern = /image-*/;
     var reader = new FileReader();
     if (!file.type.match(pattern)) {
-      alert('invalid format');
+      alert('Invalid format');
       return;
     }
 
@@ -216,7 +230,7 @@ export class AdminStaffComponent implements OnInit {
     var pattern = /image-*/;
     var reader = new FileReader();
     if (!file.type.match(pattern)) {
-      alert('invalid format');
+      alert('Invalid format');
       return;
     }
 
