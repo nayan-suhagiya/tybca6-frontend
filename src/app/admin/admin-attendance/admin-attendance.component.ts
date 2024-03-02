@@ -28,7 +28,7 @@ export class AdminAttendanceComponent implements OnInit {
     private deptService: DeptService,
     private staffService: StaffService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.deptService.getDepartments().subscribe(
@@ -71,14 +71,21 @@ export class AdminAttendanceComponent implements OnInit {
       return;
     }
 
+    this.spinner.show();
+
     this.staffService.getStaffUsingDname(event.target.value).subscribe(
       (res) => {
         // console.log(res);
+        if (res.length === 0) {
+          this.spinner.hide();
+          return;
+        }
         if (res.length != 0) {
           this.staffData = res;
           this.staffNameLength = res.length;
           for (let data of res) {
             // console.log(data.fname);
+            this.spinner.hide();
             this.staffName.push(data.fname);
           }
         }
