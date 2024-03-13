@@ -1,48 +1,29 @@
 <app-sidebar-staff></app-sidebar-staff>
 <div class="main-content">
-  <app-header-staff
-    [dpart]="dpart"
-    [loggedInData]="loggedInData"
-  ></app-header-staff>
+  <app-header-staff [dpart]="dpart" [loggedInData]="loggedInData"></app-header-staff>
   <main>
     <div class="page-content">
-      <div
-        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-      >
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Add Work Details</h1>
       </div>
       <div class="row">
         <div class="m-auto col-sm-8">
-          <form
-            autocomplete="off"
-            #workForm="ngForm"
-            (ngSubmit)="workDetailSubmit()"
-          >
+          <form autocomplete="off" #workForm="ngForm" (ngSubmit)="workDetailSubmit()">
             <div class="row">
               <div class="col">
                 <div class="form-group">
-                  <label class="form-label" for="worktype"
-                    >Select Work Type
+                  <label class="form-label" for="worktype">Select Work Type
                   </label>
-                  <select
-                    id="worktype"
-                    name="worktype"
-                    class="form-control"
-                    required
-                    #worktype="ngModel"
-                    [(ngModel)]="workData.worktype"
-                  >
+                  <select id="worktype" name="worktype" class="form-control" required #worktype="ngModel" [(ngModel)]="workData.worktype">
                     <option value="">...</option>
                     <option value="Development">Development</option>
                     <option value="Research">Research</option>
                     <option value="Meeting">Meeting</option>
                     <option value="Bug Fixes">Bug Fixes</option>
                     <option value="Training">Training</option>
+                    <option value="Others">Others</option>
                   </select>
-                  <div
-                    class="alert alert-danger my-2"
-                    *ngIf="worktype.invalid && worktype.touched"
-                  >
+                  <div class="alert alert-danger my-2" *ngIf="worktype.invalid && worktype.touched">
                     Please select work type!
                   </div>
                 </div>
@@ -50,43 +31,16 @@
               <div class="col">
                 <div class="form-group">
                   <label class="form-label" for="hour">Enter total hour</label>
-                  <input
-                    type="number"
-                    name="hour"
-                    id="hour"
-                    class="form-control"
-                    required
-                    #hour="ngModel"
-                    min="0"
-                    max="12"
-                    [(ngModel)]="workData.hour"
-                    placeholder="Enter total hour"
-                  />
+                  <input type="number" name="hour" id="hour" class="form-control" required #hour="ngModel" min="0" max="12" [(ngModel)]="workData.hour" placeholder="Enter total hour" />
                 </div>
-                <div
-                  class="alert alert-danger my-2"
-                  *ngIf="hour.invalid && hour.touched"
-                >
+                <div class="alert alert-danger my-2" *ngIf="hour.invalid && hour.touched">
                   Please enter total hour!
                 </div>
               </div>
             </div>
             <div class="form-group mt-3">
-              <textarea
-                name="comment"
-                id="comment"
-                class="form-control"
-                required
-                #comment="ngModel"
-                [(ngModel)]="workData.comment"
-                placeholder="Write comment here.."
-                cols="30"
-                rows="4"
-              ></textarea>
-              <div
-                class="alert alert-danger my-2"
-                *ngIf="comment.invalid && comment.touched"
-              >
+              <textarea name="comment" id="comment" class="form-control" required #comment="ngModel" [(ngModel)]="workData.comment" placeholder="Write comment here.." cols="30" rows="4"></textarea>
+              <div class="alert alert-danger my-2" *ngIf="comment.invalid && comment.touched">
                 Please write comment!
               </div>
             </div>
@@ -102,9 +56,7 @@
 
       <div class="row">
         <div class="col-sm-6">
-          <div
-            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-          >
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h4>Today Work Details</h4>
           </div>
           <div class="table-responsive" *ngIf="todaydataLength !== 0">
@@ -118,9 +70,15 @@
               </thead>
               <tbody>
                 <tr *ngFor="let data of todayData; let i = index">
-                  <td>{{ data.worktype }}</td>
-                  <td>{{ data.hour }}</td>
-                  <td>{{ data.comment }}</td>
+                  <td>
+                    {{ data.worktype }}
+                  </td>
+                  <td>
+                    {{ data.hour }}
+                  </td>
+                  <td>
+                    {{ data.comment }}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -131,20 +89,12 @@
         </div>
 
         <div class="col-sm-6">
-          <div
-            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-          >
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h4>Search Work Details</h4>
           </div>
           <div class="form-group mb-3">
             <label for="date" class="form-label">Select Date </label>
-            <input
-              type="date"
-              name="searchDate"
-              id="searchDate"
-              class="form-control"
-              (change)="searchWorkDetails($event)"
-            />
+            <input type="date" name="searchDate" id="searchDate" class="form-control" (change)="searchWorkDetails($event)" />
           </div>
           <div class="table-responsive" *ngIf="searchdataLength !== 0">
             <table class="table table-bordered">
@@ -158,10 +108,18 @@
               </thead>
               <tbody>
                 <tr *ngFor="let data of searchData; let i = index">
-                  <td>{{ data.date | date : "dd-MM-yyyy" }}</td>
-                  <td>{{ data.worktype }}</td>
-                  <td>{{ data.hour }}</td>
-                  <td>{{ data.comment }}</td>
+                  <td>
+                    {{ data.date | date : "dd-MM-yyyy" }}
+                  </td>
+                  <td>
+                    {{ data.worktype }}
+                  </td>
+                  <td>
+                    {{ data.hour }}
+                  </td>
+                  <td>
+                    {{ data.comment }}
+                  </td>
                 </tr>
               </tbody>
             </table>
