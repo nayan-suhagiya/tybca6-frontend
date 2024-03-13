@@ -63,16 +63,16 @@ const routes: Routes = [
     component: AdminAttendanceComponent,
     canActivate: [AuthGuard],
   },
-  // {
-  //   path: 'admin/salary',
-  //   component: AdminSalaryComponent,
-  //   canActivate: [AuthGuard],
-  // },
-  // {
-  //   path: 'admin/staff-work',
-  //   component: StaffWorkComponent,
-  //   canActivate: [AuthGuard],
-  // },
+  {
+    path: 'admin/salary',
+    component: AdminSalaryComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin/staff-work',
+    component: StaffWorkComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'staff',
     component: StaffComponent,
@@ -93,16 +93,16 @@ const routes: Routes = [
     component: ProfileComponent,
     canActivate: [StaffGuard],
   },
-  // {
-  //   path: 'staff/salary',
-  //   component: StaffSalaryComponent,
-  //   canActivate: [StaffGuard],
-  // },
-  // {
-  //   path: 'staff/my-work',
-  //   component: MyWorkComponent,
-  //   canActivate: [StaffGuard],
-  // },
+  {
+    path: 'staff/salary',
+    component: StaffSalaryComponent,
+    canActivate: [StaffGuard],
+  },
+  {
+    path: 'staff/my-work',
+    component: MyWorkComponent,
+    canActivate: [StaffGuard],
+  },
 ];
 
 @NgModule({
