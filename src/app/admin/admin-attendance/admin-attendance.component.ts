@@ -31,6 +31,12 @@ export class AdminAttendanceComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.loadInitialData();
+  }
+
+  loadInitialData() {
+    this.spinner.show();
+
     this.deptService.getDepartments().subscribe(
       (res) => {
         this.allDeptData = res;
@@ -42,6 +48,7 @@ export class AdminAttendanceComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
 
@@ -56,26 +63,25 @@ export class AdminAttendanceComponent implements OnInit {
         right: 'dayGridWeek,dayGridMonth', // user can switch between the two
       },
     };
+
+    this.spinner.hide();
   }
 
   getStaffData(event) {
+    this.spinner.show();
+
     this.staffName = [];
     this.calendarOptions.events = [];
     this.staffNameLength = 0;
     this.calendarShow = false;
 
     if (event.target.value == '') {
-      this.staffName = [];
-      this.calendarOptions.events = [];
-      this.staffNameLength = 0;
+      this.spinner.hide();
       return;
     }
 
-    this.spinner.show();
-
     this.staffService.getStaffUsingDname(event.target.value).subscribe(
       (res) => {
-        // console.log(res);
         if (res.length === 0) {
           this.spinner.hide();
           return;
@@ -84,24 +90,24 @@ export class AdminAttendanceComponent implements OnInit {
           this.staffData = res;
           this.staffNameLength = res.length;
           for (let data of res) {
-            // console.log(data.fname);
-            this.spinner.hide();
             this.staffName.push(data.fname);
           }
+          this.spinner.hide();
         }
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
   }
 
   filterStaff(event) {
+    this.spinner.show();
+
     const staff = this.staffData.filter((data) => {
       return data.fname == event.target.value;
     });
-
-    // console.log(staff);
 
     if (staff.length == 0) {
       this.spinner.hide();
@@ -110,7 +116,6 @@ export class AdminAttendanceComponent implements OnInit {
     }
 
     this.calendarShow = true;
-    this.spinner.show();
     this.events = [];
     this.allMonthDay = [];
 
@@ -120,17 +125,11 @@ export class AdminAttendanceComponent implements OnInit {
     const firstDay = moment(new Date(y, m, 1)).format('YYYY-MM-DD');
     const lastDay = moment(new Date(y, m + 1, 0)).format('YYYY-MM-DD');
 
-    // console.log(firstDay, '\n', lastDay);
-
     const dateArr = firstDay.split('-');
     const startdate = Number(firstDay.split('-')[2]);
     const enddate = Number(lastDay.split('-')[2]);
 
-    // console.log(dateArr);
-    // console.log(startdate, enddate);
-
     for (let i = startdate; i <= enddate; i++) {
-      // console.log(i);
       if (i <= 9) {
         const date = dateArr[0] + '-' + dateArr[1] + '-0' + i;
         this.allMonthDay.push(date);
@@ -142,7 +141,6 @@ export class AdminAttendanceComponent implements OnInit {
 
     this.staffService.getApprovedLeaveForAdmin(staff[0].empid).subscribe(
       (res) => {
-        // console.log(res);
         if (res.length != 0) {
           for (let i = 0; i < res.length; i++) {
             const fromdate = moment(res[i].fromdate).format('YYYY-MM-DD');
@@ -159,11 +157,8 @@ export class AdminAttendanceComponent implements OnInit {
               const enddate = Number(todate.split('-')[2]);
 
               for (let i = startdate; i <= enddate; i++) {
-                // console.log(i);
                 if (i <= 9) {
                   const leaveDate = dateArr[0] + '-' + dateArr[1] + '-0' + i;
-
-                  // console.log(leaveDate);
                   this.events.push({
                     title: 'Leave',
                     date: leaveDate,
@@ -171,8 +166,6 @@ export class AdminAttendanceComponent implements OnInit {
                   });
                 } else {
                   const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
-
-                  // console.log(leaveDate);
                   this.events.push({
                     title: 'Leave',
                     date: leaveDate,
@@ -186,14 +179,11 @@ export class AdminAttendanceComponent implements OnInit {
       },
       (err) => {
         console.log(err);
-        this.spinner.hide();
       }
     );
 
     this.staffService.getAllLeave().subscribe(
       (res) => {
-        // console.log(res);
-
         if (res.length != 0) {
           res = res.filter((data) => {
             return (data.leavedate = moment(data.leavedate).format(
@@ -201,9 +191,6 @@ export class AdminAttendanceComponent implements OnInit {
             ));
           });
 
-          // console.log(res);
-
-          // console.log(res);
           for (let i = 0; i < res.length; i++) {
             this.events.push({
               title: 'O',
@@ -211,13 +198,10 @@ export class AdminAttendanceComponent implements OnInit {
               color: '#ABADAF',
             });
           }
-
-          // this.calendarOptions.events = this.events;
         }
       },
       (err) => {
         console.log(err);
-        this.spinner.hide();
       }
     );
 
@@ -230,33 +214,22 @@ export class AdminAttendanceComponent implements OnInit {
             return data.empid == staff[0].empid;
           });
 
-          // console.log(res);
           for (let i = 0; i < res.length; i++) {
             const date = moment(res[i].checkin).format('YYYY-MM-DD');
             this.events.push({ title: 'P', date: date, color: '#388007' });
-
-            // console.log(this.events);
           }
 
           for (let i of this.events) {
-            // console.log(i.date);
             this.allMonthDay = this.allMonthDay.filter((data) => {
               return data != i.date;
             });
           }
 
-          // console.log(this.allMonthDay);
-
           this.staffService.getAbsentDataForAdmin(staff[0].empid).subscribe(
             (res) => {
-              // console.log(res);
-
               for (let i = 0; i < res.length; i++) {
-                // console.log(res[i].date);
-
                 for (let data of res[i].date) {
                   const date = moment(data).format('YYYY-MM-DD');
-                  // console.log(date);
                   const today = moment(new Date()).format('YYYY-MM-DD');
 
                   if (date < today) {
@@ -279,6 +252,7 @@ export class AdminAttendanceComponent implements OnInit {
         }
       },
       (err) => {
+        console.log(err);
         this.spinner.hide();
       }
     );

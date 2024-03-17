@@ -31,37 +31,37 @@ export class MyWorkComponent implements OnInit {
     this.loggedInData = this.staffService.loggednInData();
     this.today = moment(new Date()).format('YYYY-MM-DD');
 
+    this.spinner.show(); // Show spinner during initial loading
+
     this.staffService.getWorkDetails(this.loggedInData.empid).subscribe(
       (res) => {
-        // console.log(res);
         if (res.length !== 0) {
           this.todayData = res.filter((data) => {
             return this.today == moment(data.date).format('YYYY-MM-DD');
           });
 
           this.todaydataLength = this.todayData.length;
-
-          // console.log(this.todayData);
         } else {
           this.todaydataLength = 0;
         }
       },
       (err) => {
         console.log(err);
+      },
+      () => {
+        this.spinner.hide(); // Hide spinner after API call completes
       }
     );
   }
 
   workDetailSubmit() {
     this.spinner.show();
+
     this.workData.date = moment(new Date()).format('YYYY-MM-DD');
     this.workData.empid = this.loggedInData.empid;
 
-    // console.log(this.workData);
-
     this.staffService.addWorkDetails(this.workData).subscribe(
       (res) => {
-        // console.log(res);
         if (res.inserted) {
           this.spinner.hide();
           this.workForm.reset();
@@ -77,12 +77,11 @@ export class MyWorkComponent implements OnInit {
         this.spinner.hide();
       }
     );
-    this.spinner.hide();
   }
 
   searchWorkDetails(event) {
     this.spinner.show();
-    // console.log(event.target.value);
+
     const searchDate = event.target.value;
 
     if (searchDate == '') {
@@ -93,7 +92,7 @@ export class MyWorkComponent implements OnInit {
 
     if (searchDate > this.today) {
       this.spinner.hide();
-      Swal.fire('Error!', 'Please select valid date!', 'error');
+      Swal.fire('Error!', 'Please select a valid date!', 'error');
       return;
     }
 
@@ -101,7 +100,6 @@ export class MyWorkComponent implements OnInit {
       .getWorkDetailsUsingDate(this.loggedInData.empid, searchDate)
       .subscribe(
         (res) => {
-          // console.log(res);
           if (res.length !== 0) {
             this.spinner.hide();
             this.searchData = res;
@@ -116,7 +114,5 @@ export class MyWorkComponent implements OnInit {
           console.log(err);
         }
       );
-
-    this.spinner.hide();
   }
 }

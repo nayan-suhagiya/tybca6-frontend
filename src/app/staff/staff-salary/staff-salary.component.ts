@@ -3,6 +3,8 @@ import { StaffService } from 'src/app/services/staff.service';
 import * as pdfMake from 'pdfmake/build/pdfmake.js';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import * as moment from 'moment';
+import { NgxSpinnerService } from 'ngx-spinner';
+import Swal from 'sweetalert2';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -16,14 +18,21 @@ export class StaffSalaryComponent implements OnInit {
   allSalaryData: any;
   allSalaryDataLength: number;
 
-  constructor(private staffService: StaffService) {}
+  constructor(
+    private staffService: StaffService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
     this.loggedInData = this.staffService.loggednInData();
+    this.fetchSalaryData();
+  }
+
+  fetchSalaryData(): void {
+    this.spinner.show();
 
     this.staffService.getSalaryForStaff(this.loggedInData.empid).subscribe(
       (res) => {
-        // console.log(res);
         if (res.length != 0) {
           this.allSalaryData = res;
           this.allSalaryDataLength = res.length;
@@ -34,6 +43,11 @@ export class StaffSalaryComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
+        Swal.fire('Error!', 'Failed to fetch salary data!', 'error');
+      },
+      () => {
+        this.spinner.hide();
       }
     );
   }

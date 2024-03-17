@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import { StaffService } from './../../services/staff.service';
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-admin-leave',
@@ -14,9 +15,18 @@ export class AdminLeaveComponent implements OnInit {
   approveOrRejectData: any;
   approveOrRejectDatalength: number;
 
-  constructor(private staffService: StaffService) {}
+  constructor(
+    private staffService: StaffService,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
+    this.loadInitialData();
+  }
+
+  loadInitialData() {
+    this.spinner.show();
+
     this.staffService.getPendingLeave().subscribe(
       (res) => {
         // console.log(res);
@@ -26,6 +36,7 @@ export class AdminLeaveComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
 
@@ -35,9 +46,11 @@ export class AdminLeaveComponent implements OnInit {
 
         this.approveOrRejectData = res;
         this.approveOrRejectDatalength = this.approveOrRejectData.length;
+        this.spinner.hide();
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
   }
@@ -53,31 +66,34 @@ export class AdminLeaveComponent implements OnInit {
 
         if (res.approved) {
           Swal.fire('Success!', 'Leave Approved!', 'success');
-          this.ngOnInit();
+          this.loadInitialData();
+          this.spinner.hide();
         }
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
   }
 
   rejectClick(data: any) {
-    // console.log(data);
+    this.spinner.show();
+
     const empid = data.empid;
     const fromdate = data.fromdate;
-    // console.log('reject clicked!');
+
     this.staffService.rejectLeave({ empid, fromdate }).subscribe(
       (res) => {
-        // console.log(res);
-
         if (!res.approved) {
           Swal.fire('Warning!', 'Leave Rejected!', 'warning');
-          this.ngOnInit();
+          this.loadInitialData();
+          this.spinner.hide();
         }
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
   }
