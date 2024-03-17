@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { StaffService } from 'src/app/services/staff.service';
+import { NgxSpinnerService } from 'ngx-spinner'; // Import NgxSpinnerService
 
 @Component({
   selector: 'app-staff-work',
@@ -12,11 +13,15 @@ export class StaffWorkComponent implements OnInit {
   workdDataLength: number = 0;
   workData: any;
   today: string;
-  constructor(private staffService: StaffService) {}
+
+  constructor(
+    private staffService: StaffService,
+    private spinner: NgxSpinnerService // Inject NgxSpinnerService
+  ) {}
 
   ngOnInit(): void {
     const date = new Date().toISOString();
-    this.today = moment(date).format('yyyy-MM-DD');
+    this.today = moment(date).format('YYYY-MM-DD');
 
     this.callApi(date);
   }
@@ -35,18 +40,22 @@ export class StaffWorkComponent implements OnInit {
   }
 
   callApi = (date) => {
+    this.spinner.show(); // Show spinner
     this.staffService.getStaffWorkDetails(date).subscribe(
       (res: any) => {
         if (res.length != 0) {
           this.workdDataLength = res.length;
           this.workData = res;
+          this.spinner.hide();
         } else {
           this.workData = res;
           this.workdDataLength = res.length;
+          this.spinner.hide();
         }
       },
       (err) => {
         console.log(err);
+        this.spinner.hide(); // Hide spinner in case of error
       }
     );
   };

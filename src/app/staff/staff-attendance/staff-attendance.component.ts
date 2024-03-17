@@ -1,10 +1,9 @@
-import { NgxSpinnerService } from 'ngx-spinner';
-import { StaffService } from '../../services/staff.service';
-
 import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import * as moment from 'moment';
+import { StaffService } from '../../services/staff.service';
 
 @Component({
   selector: 'app-staff-attendance',
@@ -18,14 +17,16 @@ export class StaffAttendanceComponent implements OnInit {
   allMonthDay: any = [];
   events: Array<{ title: string; date: string; color: string }> = [];
   calendarOptions: CalendarOptions;
+
   constructor(
     private staffService: StaffService,
     private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
+    this.spinner.show(); // Show spinner during initial loading
+
     this.loggedInData = this.staffService.loggednInData();
-    this.spinner.show();
 
     const date = new Date();
     const y = date.getFullYear();
@@ -33,17 +34,11 @@ export class StaffAttendanceComponent implements OnInit {
     const firstDay = moment(new Date(y, m, 1)).format('YYYY-MM-DD');
     const lastDay = moment(new Date(y, m + 1, 0)).format('YYYY-MM-DD');
 
-    // console.log(firstDay, '\n', lastDay);
-
     const dateArr = firstDay.split('-');
     const startdate = Number(firstDay.split('-')[2]);
     const enddate = Number(lastDay.split('-')[2]);
 
-    // console.log(dateArr);
-    // console.log(startdate, enddate);
-
     for (let i = startdate; i <= enddate; i++) {
-      // console.log(i);
       if (i <= 9) {
         const date = dateArr[0] + '-' + dateArr[1] + '-0' + i;
         this.allMonthDay.push(date);
@@ -61,13 +56,12 @@ export class StaffAttendanceComponent implements OnInit {
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridWeek,dayGridMonth', // user can switch between the two
+        right: 'dayGridWeek,dayGridMonth',
       },
     };
 
     this.staffService.getApprovedLeave(this.loggedInData.empid).subscribe(
       (res) => {
-        // console.log(res);
         if (res.length != 0) {
           for (let i = 0; i < res.length; i++) {
             const fromdate = moment(res[i].fromdate).format('YYYY-MM-DD');
@@ -84,11 +78,8 @@ export class StaffAttendanceComponent implements OnInit {
               const enddate = Number(todate.split('-')[2]);
 
               for (let i = startdate; i <= enddate; i++) {
-                // console.log(i);
                 if (i <= 9) {
                   const leaveDate = dateArr[0] + '-' + dateArr[1] + '-0' + i;
-
-                  // console.log(leaveDate);
                   this.events.push({
                     title: 'Leave',
                     date: leaveDate,
@@ -96,8 +87,6 @@ export class StaffAttendanceComponent implements OnInit {
                   });
                 } else {
                   const leaveDate = dateArr[0] + '-' + dateArr[1] + '-' + i;
-
-                  // console.log(leaveDate);
                   this.events.push({
                     title: 'Leave',
                     date: leaveDate,
@@ -111,14 +100,11 @@ export class StaffAttendanceComponent implements OnInit {
       },
       (err) => {
         console.log(err);
-        this.spinner.hide();
       }
     );
 
     this.staffService.getAllLeave().subscribe(
       (res) => {
-        // console.log(res);
-
         if (res.length != 0) {
           res = res.filter((data) => {
             return (data.leavedate = moment(data.leavedate).format(
@@ -126,9 +112,6 @@ export class StaffAttendanceComponent implements OnInit {
             ));
           });
 
-          // console.log(res);
-
-          // console.log(res);
           for (let i = 0; i < res.length; i++) {
             this.events.push({
               title: 'O',
@@ -136,13 +119,10 @@ export class StaffAttendanceComponent implements OnInit {
               color: '#ABADAF',
             });
           }
-
-          // this.calendarOptions.events = this.events;
         }
       },
       (err) => {
         console.log(err);
-        this.spinner.hide();
       }
     );
 
@@ -155,22 +135,16 @@ export class StaffAttendanceComponent implements OnInit {
             return data.empid == this.loggedInData.empid;
           });
 
-          // console.log(res);
           for (let i = 0; i < res.length; i++) {
             const date = moment(res[i].checkin).format('YYYY-MM-DD');
             this.events.push({ title: 'P', date: date, color: '#388007' });
-
-            // console.log(this.events);
           }
 
           for (let i of this.events) {
-            // console.log(i.date);
             this.allMonthDay = this.allMonthDay.filter((data) => {
               return data != i.date;
             });
           }
-
-          // console.log(this.allMonthDay);
 
           this.staffService
             .addAbsentData({
@@ -181,21 +155,14 @@ export class StaffAttendanceComponent implements OnInit {
             })
             .subscribe(
               (res) => {
-                console.log(res);
                 this.staffService
                   .getAbsentData(this.loggedInData.empid)
                   .subscribe(
                     (res) => {
-                      // console.log(res);
-
                       for (let i = 0; i < res.length; i++) {
-                        // console.log(res[i].date);
-
                         for (let data of res[i].date) {
                           const date = moment(data).format('YYYY-MM-DD');
-                          // console.log(date);
                           const today = moment(new Date()).format('YYYY-MM-DD');
-
                           if (date < today) {
                             this.events.push({
                               title: 'A',
@@ -206,40 +173,26 @@ export class StaffAttendanceComponent implements OnInit {
                         }
                       }
                       this.calendarOptions.events = this.events;
-                      this.spinner.hide();
                     },
                     (err) => {
                       console.log(err);
-                      this.spinner.hide();
+                    },
+                    () => {
+                      this.spinner.hide(); // Hide spinner after API call completes
                     }
                   );
               },
               (err) => {
                 console.log(err);
-                this.spinner.hide();
               }
             );
-
-          /*
-          for (let date of this.allMonthDay) {
-            const today = moment(new Date()).format('YYYY-MM-DD');
-
-            if (date < today) {
-              this.events.push({
-                title: 'A',
-                date: date,
-                color: '#dc3545',
-              });
-            }
-            this.calendarOptions.events = this.events;
-          }
-          */
         }
       },
       (err) => {
-        this.spinner.hide();
-
-        // Swal.fire('Error!', 'Data not loaded!', 'error');
+        console.log(err);
+      },
+      () => {
+        this.spinner.hide(); // Hide spinner after all API calls complete
       }
     );
   }

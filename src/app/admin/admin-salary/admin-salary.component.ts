@@ -33,6 +33,12 @@ export class AdminSalaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadInitialData();
+  }
+
+  loadInitialData() {
+    this.spinner.show();
+
     this.deptService.getDepartments().subscribe(
       (res) => {
         this.allDeptData = res;
@@ -44,6 +50,7 @@ export class AdminSalaryComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
 
@@ -57,9 +64,11 @@ export class AdminSalaryComponent implements OnInit {
           this.allSalaryDataLength = 0;
           this.allSalaryData = [];
         }
+        this.spinner.hide();
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
 
@@ -70,12 +79,15 @@ export class AdminSalaryComponent implements OnInit {
   }
 
   getStaffData(event) {
+    this.spinner.show();
+
     this.staffName = [];
     this.showSalaryTable = false;
     this.staffNameLength = 0;
     // console.log(event.target.value);
 
     if (event.target.value == '') {
+      this.spinner.hide();
       this.staffName = [];
       this.showSalaryTable = false;
       this.staffNameLength = 0;
@@ -96,18 +108,23 @@ export class AdminSalaryComponent implements OnInit {
         } else {
           this.showSalaryTable = false;
         }
+        this.spinner.hide();
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
   }
 
   filterStaff(event) {
+    this.spinner.show();
+
     this.salaryData.salarydate = new Date().toISOString().split('T')[0];
     // console.log(event.target.value);
     // console.log(this.staffData);
     if (event.target.value == '') {
+      this.spinner.hide();
       this.showSalaryTable = false;
       return;
     }
@@ -118,9 +135,12 @@ export class AdminSalaryComponent implements OnInit {
 
     // console.log(this.staff);
     this.showSalaryTable = true;
+    this.spinner.hide();
   }
 
   calculateSalary(event) {
+    this.spinner.show();
+
     const basicSalary = Number(event.target.value);
 
     this.salaryData.basicSalary = basicSalary;
@@ -141,10 +161,13 @@ export class AdminSalaryComponent implements OnInit {
       this.salaryData.tax;
     this.salaryData.netPay =
       this.salaryData.grossSal - this.salaryData.deduction;
+
+    this.spinner.hide();
   }
 
   salaryFormSubmit() {
-    // this.spinner.show();
+    this.spinner.show();
+
     this.salaryData.empid = this.staff[0].empid;
     this.salaryData.fname = this.staff[0].fname;
     this.salaryData.month = new Date().getMonth() + 1;
@@ -262,7 +285,7 @@ export class AdminSalaryComponent implements OnInit {
                 })
                 .subscribe(
                   (res) => {
-                    // console.log(res);
+                    console.log(res);
                   },
                   (err) => {
                     console.log(err);
@@ -324,18 +347,21 @@ export class AdminSalaryComponent implements OnInit {
   }
 
   deleteSalary(data: any) {
-    // console.log(data);
+    this.spinner.show();
+
     this.staffService.deleteSalary(data).subscribe(
       (res) => {
         console.log(res);
 
         if (res.deleted) {
           Swal.fire('Success!', 'Salary deleted successfully!', 'success');
+          this.spinner.hide();
           this.ngOnInit();
         }
       },
       (err) => {
         console.log(err);
+        this.spinner.hide();
       }
     );
   }
