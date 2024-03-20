@@ -51,7 +51,12 @@ export class AdminDepartmentComponent implements OnInit {
         this.spinner.hide();
       },
       (err) => {
-        Swal.fire('Oops!', 'Unable to add!', 'error');
+        // console.log(err);
+        if(err.status === 409){
+          Swal.fire("Oops!","Department name already exists!","error")
+        }else{
+          Swal.fire('Oops!', 'Unable to add!', 'error');
+        }
         this.spinner.hide();
       }
     );
