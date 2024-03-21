@@ -1,7 +1,8 @@
 <header>
   <div class="header-content">
     <div class="py-3">
-      <small class="text-primary">Home / {{ part }}</small>
+      <small class="text-primary">Home /
+        {{ part }}</small>
     </div>
     <div class="header-menu ms-auto py-3">
       <!-- <div
@@ -22,11 +23,7 @@
         <i class="las la-compress-arrows-alt" style="font-size: 22px"></i>
       </div> -->
 
-      <button
-        type="button"
-        routerLink="/admin/leavedays"
-        class="btn btn-sm btn-outline-primary me-2"
-      >
+      <button type="button" routerLink="/admin/leavedays" class="btn btn-sm btn-outline-primary me-2">
         Add Off Days
       </button>
 
@@ -42,29 +39,18 @@
       </button> -->
 
       <div class="dropdown">
-        <button
-          class="btn btn-sm btn-outline-primary dropdown-toggle"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
+        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fa-solid fa-user"></i> admin
         </button>
         <ul class="dropdown-menu">
           <li>
-            <a
-              class="dropdown-item"
-              style="cursor: pointer"
-              data-bs-toggle="modal"
-              data-bs-target="#updatePasswordModal"
-              >Update Password!</a
-            >
+            <a class="dropdown-item" style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#updatePasswordModal">Update Password!</a>
           </li>
-          <li><hr class="dropdown-divider" /></li>
           <li>
-            <a class="dropdown-item" (click)="logOut()" style="cursor: pointer"
-              >Logout</a
-            >
+            <hr class="dropdown-divider" />
+          </li>
+          <li>
+            <a class="dropdown-item" (click)="logOut()" style="cursor: pointer">Logout</a>
           </li>
         </ul>
       </div>
@@ -78,67 +64,38 @@
 
 <!-- Modal for update password -->
 
-<div
-  class="modal fade"
-  id="updatePasswordModal"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="staticBackdropLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="updatePasswordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">
           Update Password!
         </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form autocomplete="off" #adminUpdatePasswdForm="ngForm">
           <div class="form-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter Password"
-              #passwd="ngModel"
-              [(ngModel)]="updatedPassword"
-              name="passwd"
-              id="passwd"
-              autocomplete="off"
-              required
-            />
+            <input type="text" class="form-control" placeholder="Enter Password" #passwd="ngModel" [(ngModel)]="updatedPassword" name="passwd" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*]).{8,}$" id="passwd" autocomplete="off" required />
           </div>
-          <div
-            class="alert alert-danger my-2"
-            *ngIf="passwd.invalid && passwd.touched"
-          >
-            Please enter valid details!
+          <div class="alert alert-danger my-2" *ngIf="passwd.invalid && passwd.touched">
+            Should contain at least a capital letter.
+            <br>
+            Should contain at least a small letter.
+            <br>
+            Should contain at least a number.
+            <br>
+            Should contain at least a special character.
+            <br>
+            And minimum length 8.
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          data-bs-dismiss="modal"
-          (click)="resetForm()"
-        >
+        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal" (click)="resetForm()">
           Close
         </button>
-        <button
-          type="submit"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-          [disabled]="adminUpdatePasswdForm.invalid"
-          (click)="updatePassword()"
-        >
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" [disabled]="adminUpdatePasswdForm.invalid" (click)="updatePassword()">
           Update
         </button>
       </div>
