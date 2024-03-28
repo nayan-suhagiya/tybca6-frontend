@@ -14,11 +14,19 @@ export class ProfileComponent implements OnInit {
   userdata: any;
   dpart: string = 'Profile';
   imageSrc: string = '';
+  maxBirthDate:string;
 
   constructor(
     private staffService: StaffService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) {
+    const currentDate = new Date();
+    this.maxBirthDate = new Date(
+      currentDate.getFullYear() - 20,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    ).toISOString().split('T')[0];
+  }
 
   ngOnInit(): void {
     this.loggedInData = this.staffService.loggednInData();

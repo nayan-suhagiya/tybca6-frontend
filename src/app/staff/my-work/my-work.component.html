@@ -31,10 +31,11 @@
               <div class="col">
                 <div class="form-group">
                   <label class="form-label" for="hour">Enter total hour</label>
-                  <input type="number" name="hour" id="hour" class="form-control" required #hour="ngModel" min="0" max="12" [(ngModel)]="workData.hour" placeholder="Enter total hour" />
+                  <input type="number" name="hour" id="hour" class="form-control" required #hour="ngModel" min="1" max="10" [(ngModel)]="workData.hour" placeholder="Enter total hour" />
                 </div>
                 <div class="alert alert-danger my-2" *ngIf="hour.invalid && hour.touched">
-                  Please enter total hour!
+                  Please enter valid total hour!
+                  Total hour should be between 1 to 10!
                 </div>
               </div>
             </div>

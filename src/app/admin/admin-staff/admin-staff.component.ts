@@ -22,12 +22,34 @@ export class AdminStaffComponent implements OnInit {
   allDeptName: string[] = [];
   allStaffData: any;
   editableStaff: Staff = new Staff();
+  maxBirthDate: string;
+  minJoinDate: string;
+  maxJoinDate: string
 
   constructor(
     private deptService: DeptService,
     private staffService: StaffService,
     private spinner: NgxSpinnerService
-  ) { }
+  ) {
+    const currentDate = new Date();
+    this.maxBirthDate = new Date(
+      currentDate.getFullYear() - 20,
+      currentDate.getMonth(),
+      currentDate.getDate()
+    ).toISOString().split('T')[0];
+
+    this.minJoinDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() + 1 
+    ).toISOString().split("T")[0]
+
+    this.maxJoinDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 2,
+      currentDate.getDate() + 1 
+    ).toISOString().split("T")[0]
+   }
 
   ngOnInit(): void {
     this.loadInitialData();

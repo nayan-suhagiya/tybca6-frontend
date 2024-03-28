@@ -68,6 +68,9 @@ export class LeavedaysComponent implements OnInit {
         if (res.inserted) {
           Swal.fire('Success!', 'Added!', 'success');
           this.ngOnInit();
+        }else{
+          Swal.fire("Warning!","Off day already exist!","warning")
+          this.ngOnInit()
         }
       },
       (err) => {
