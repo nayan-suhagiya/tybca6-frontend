@@ -21,11 +21,26 @@ export class StaffLeaveComponent implements OnInit {
   approvedOrdRejectedData: any;
   approvedOrdRejectedDatalength: number;
   date: string = new Date().toString();
+  minLeaveApplyDate: string;
+  maxLeaveApplyDate: string;
 
   constructor(
     private staffService: StaffService,
     private spinner: NgxSpinnerService
-  ) {}
+  ) {
+    const currentDate = new Date();
+    this.minLeaveApplyDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() + 1
+    ).toISOString().split('T')[0];
+
+    this.maxLeaveApplyDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() + 60
+    ).toISOString().split('T')[0]
+  }
 
   ngOnInit(): void {
     this.spinner.show();

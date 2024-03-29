@@ -1,22 +1,12 @@
 <app-sidebar-staff></app-sidebar-staff>
 <div class="main-content">
-  <app-header-staff
-    [dpart]="dpart"
-    [loggedInData]="loggedInData"
-  ></app-header-staff>
+  <app-header-staff [dpart]="dpart" [loggedInData]="loggedInData"></app-header-staff>
   <main>
     <div class="page-content">
-      <div
-        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-      >
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Pending Leave</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-secondary"
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
-          >
+          <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Apply Leave
           </button>
         </div>
@@ -38,24 +28,32 @@
           </thead>
           <tbody>
             <tr *ngFor="let data of pendingLeaveData; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ data.reason }}</td>
-              <td>{{ data.fromdate | date : "dd-MM-yyyy" }}</td>
-              <td>{{ data.todate | date : "dd-MM-yyyy" }}</td>
               <td>
-                <span class="bg-primary p-1 text-white">{{ data.status }}</span>
+                {{ i + 1 }}
               </td>
-              <td>{{ data.description }}</td>
-              <td>{{ data.appliedon | date : "dd-MM-yyyy" }}</td>
+              <td>
+                {{ data.reason }}
+              </td>
+              <td>
+                {{ data.fromdate | date : "dd-MM-yyyy" }}
+              </td>
+              <td>
+                {{ data.todate | date : "dd-MM-yyyy" }}
+              </td>
+              <td>
+                <span class="bg-primary p-1 text-white">
+                  {{ data.status }}</span>
+              </td>
+              <td>
+                {{ data.description }}
+              </td>
+              <td>
+                {{ data.appliedon | date : "dd-MM-yyyy" }}
+              </td>
               <td>
                 <span>
-                  <button
-                    class="btn p-0"
-                    (click)="deleteLeave(data.empid, data.fromdate)"
-                  >
-                    <span
-                      class="las la-trash-alt text-danger action-icon"
-                    ></span>
+                  <button class="btn p-0" (click)="deleteLeave(data.empid, data.fromdate)">
+                    <span class="las la-trash-alt text-danger action-icon"></span>
                   </button>
                 </span>
               </td>
@@ -67,9 +65,7 @@
         </p>
       </div>
 
-      <div
-        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-      >
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Leave History</h1>
       </div>
 
@@ -88,31 +84,34 @@
           </thead>
           <tbody>
             <tr *ngFor="let data of approvedOrdRejectedData; let i = index">
-              <td>{{ i + 1 }}</td>
-              <td>{{ data.reason }}</td>
-              <td>{{ data.fromdate | date : "dd-MM-yyyy" }}</td>
-              <td>{{ data.todate | date : "dd-MM-yyyy" }}</td>
               <td>
-                <span
-                  *ngIf="data.status == 'Approved'"
-                  class="bg-success p-1 text-white"
-                  >{{ data.status }}</span
-                >
-                <span
-                  *ngIf="data.status == 'Rejected'"
-                  class="bg-danger p-1 text-white"
-                  >{{ data.status }}</span
-                >
+                {{ i + 1 }}
               </td>
-              <td>{{ data.description }}</td>
-              <td>{{ data.appliedon | date : "dd-MM-yyyy" }}</td>
+              <td>
+                {{ data.reason }}
+              </td>
+              <td>
+                {{ data.fromdate | date : "dd-MM-yyyy" }}
+              </td>
+              <td>
+                {{ data.todate | date : "dd-MM-yyyy" }}
+              </td>
+              <td>
+                <span *ngIf="data.status == 'Approved'" class="bg-success p-1 text-white">
+                  {{ data.status }}</span>
+                <span *ngIf="data.status == 'Rejected'" class="bg-danger p-1 text-white">
+                  {{ data.status }}</span>
+              </td>
+              <td>
+                {{ data.description }}
+              </td>
+              <td>
+                {{ data.appliedon | date : "dd-MM-yyyy" }}
+              </td>
             </tr>
           </tbody>
         </table>
-        <p
-          class="text-danger text-center"
-          *ngIf="approvedOrdRejectedDatalength == 0"
-        >
+        <p class="text-danger text-center" *ngIf="approvedOrdRejectedDatalength == 0">
           No leave history found!
         </p>
       </div>
@@ -121,111 +120,45 @@
 </div>
 
 <!-- Add Leave Modal -->
-<div
-  class="modal fade"
-  id="staticBackdrop"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="staticBackdropLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="staticBackdropLabel">Apply Leave</h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form
-          autocomplete="off"
-          #leaveForm="ngForm"
-          (ngSubmit)="leaveFormSubmit()"
-        >
+        <form autocomplete="off" #leaveForm="ngForm" (ngSubmit)="leaveFormSubmit()">
           <div class="form-group">
             <label for="reason">Reason</label>
-            <input
-              type="text"
-              id="reason"
-              name="reason"
-              [(ngModel)]="leaveData.reason"
-              #reason="ngModel"
-              required
-              class="form-control"
-            />
-            <div
-              class="alert alert-danger mt-2"
-              *ngIf="reason.invalid && reason.touched"
-            >
+            <input type="text" id="reason" name="reason" [(ngModel)]="leaveData.reason" #reason="ngModel" required class="form-control" />
+            <div class="alert alert-danger mt-2" *ngIf="reason.invalid && reason.touched">
               Please enter valid reason!
             </div>
           </div>
           <div class="form-group">
             <label for="fromdate">Leave From</label>
-            <input
-              type="date"
-              id="fromdate"
-              name="fromdate"
-              [(ngModel)]="leaveData.fromdate"
-              #fromdatedate="ngModel"
-              required
-              class="form-control"
-            />
-            <div
-              class="alert alert-danger mt-2"
-              *ngIf="fromdatedate.invalid && fromdatedate.touched"
-            >
+            <input type="date" id="fromdate" name="fromdate" [(ngModel)]="leaveData.fromdate" #fromdatedate="ngModel" required class="form-control" [min]="minLeaveApplyDate" [max]="maxLeaveApplyDate" />
+            <div class="alert alert-danger mt-2" *ngIf="fromdatedate.invalid && fromdatedate.touched">
               Please select from date!
             </div>
           </div>
           <div class="form-group">
             <label for="todate" class="form-label">Leave To</label>
-            <input
-              type="date"
-              id="todate"
-              name="todate"
-              [(ngModel)]="leaveData.todate"
-              #todate="ngModel"
-              required
-              class="form-control"
-            />
-            <div
-              class="alert alert-danger mt-2"
-              *ngIf="todate.invalid && todate.touched"
-            >
+            <input type="date" id="todate" name="todate" [(ngModel)]="leaveData.todate" #todate="ngModel" required class="form-control" [min]="minLeaveApplyDate" [max]="maxLeaveApplyDate" />
+            <div class="alert alert-danger mt-2" *ngIf="todate.invalid && todate.touched">
               Please select to date!
             </div>
           </div>
           <div class="form-group">
             <label for="description">Description</label>
-            <input
-              type="text"
-              id="description"
-              name="description"
-              [(ngModel)]="leaveData.description"
-              #description="ngModel"
-              class="form-control"
-            />
+            <input type="text" id="description" name="description" [(ngModel)]="leaveData.description" #description="ngModel" class="form-control" />
           </div>
           <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-outline-danger"
-              data-bs-dismiss="modal"
-            >
+            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
               Close
             </button>
-            <button
-              type="submit"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-              [disabled]="!leaveForm.valid"
-            >
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" [disabled]="!leaveForm.valid">
               Apply
             </button>
           </div>
