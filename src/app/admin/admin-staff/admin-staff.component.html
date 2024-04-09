@@ -185,7 +185,8 @@
                 <div class="col">
                   <div class="form-group">
                     <label for="mobile">Mobile </label>
-                    <input type="text" class="form-control" id="mobile" placeholder="99***87*31" name="mobile" pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$" [(ngModel)]="staffData.mobile" #mobile="ngModel" required />
+                    <input type="text" class="form-control" id="mobile" placeholder="99***87*31" name="mobile"
+       pattern="^\d{10}$" [(ngModel)]="staffData.mobile" #mobile="ngModel" required />
                     <div class="alert mt-2 alert-danger" *ngIf="mobile.invalid && mobile.touched">
                       Please enter valid mobile number!
                     </div>
